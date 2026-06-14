@@ -39,6 +39,7 @@ bubble-build --style square
 | [Syntax reference](markdown-syntax-extensions.md) | All Peanutbook Markdown extensions |
 | [Chapter format](chapter-format.md) | Standard chapter front matter |
 | [Configuration](configuration.md) | `peanut.config` keys |
+| [Theme](theme.md) | Colors, chapter opener, quote style (no LaTeX) |
 | [Multi-language](multi-language.md) | `--lang`, file suffixes, fonts |
 | [Covers & templates](covers-templates.md) | Page sizes, cover folders |
 | [Command reference](commands/overview.md) | All `bubble-*` CLI tools |

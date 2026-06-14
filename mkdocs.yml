@@ -49,6 +49,7 @@ nav:
   - Quick start: quickstart.md
   - Project layout: project-structure.md
   - Configuration: configuration.md
+  - Theme: theme.md
   - Multi-language: multi-language.md
   - Covers & templates: covers-templates.md
   - Command reference:

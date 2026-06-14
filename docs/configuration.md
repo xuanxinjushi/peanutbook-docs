@@ -1,6 +1,8 @@
 # Configuration
 
-Bubble reads **`peanut.config`** (JSON) from the project root and merges it with the package default **`peanut.config.default`**. Project values override defaults; unset keys keep default behavior.
+Peanutbook reads **`peanut.config`** (JSON) from the project root and merges it with the package default **`peanut.config.default`**. Optional **[Theme](theme.md)** (`peanut.theme.json` or a `theme` block) controls colors and chapter opener styling without LaTeX.
+
+Project values override defaults; unset keys keep default behavior.
 
 ## Minimal example
 
@@ -32,6 +34,10 @@ Bubble reads **`peanut.config`** (JSON) from the project root and merges it with
 | `page_number_side` | e.g. `even-left` | Running page number placement |
 | `main_font` | font name | Body font (Latin locales); CLI `--main-font` overrides |
 | `body_font_pt` | number | Body size in pt; CLI `--body-font-pt` overrides |
+
+## Theme
+
+See **[Theme](theme.md)** for `peanut.theme.json`, colors, `chapter_opener`, and `quote_style`.
 
 ## Print layout switches
 
