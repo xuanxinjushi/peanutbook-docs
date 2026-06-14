@@ -1,6 +1,6 @@
-# Chapter Format Standard
+# Chapter format (Peanutbook)
 
-This document defines the standard format for all chapters in this book.
+Each Peanutbook chapter file should follow this structure at the beginning. The build toolchain uses it to generate chapter title pages and running headers.
 
 ## Required Structure
 

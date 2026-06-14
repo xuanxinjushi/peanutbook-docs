@@ -1,6 +1,6 @@
 # Project layout
 
-Bubble discovers the **project root** by walking up from the current directory until it finds chapter folders and/or `peanut.config`. All build commands should be run from that root (or a subdirectory beneath it).
+A **Peanutbook** project is a directory of chapter Markdown files, optional localized variants, covers, and `peanut.config`. The build toolchain discovers the **project root** by walking up until it finds chapter folders and/or `peanut.config`.
 
 ## Directory tree
 

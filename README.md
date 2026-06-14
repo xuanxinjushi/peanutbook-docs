@@ -1,15 +1,15 @@
 # Peanutbook documentation
 
-Public documentation for **Peanutbook** (PyPI package `bubble-book`).
+Public documentation for **Peanutbook** — a Markdown-based format for writing books.
 
-- Online: https://peanutbook.readthedocs.io/
-- Install: `pip install bubble-book`
+- Format spec & guides: https://peanutbook.readthedocs.io/
+- Build toolchain: `pip install bubble-book`
 
-This repository contains **Markdown docs only** — no Python source. Product source is distributed as encrypted wheels on PyPI.
+This repository contains **Markdown docs only** — no Python source. The toolchain source is distributed as encrypted wheels on PyPI.
 
 ## Edit workflow
 
-Documentation is authored in the private `peanutbook` development tree, then synced here:
+Docs are authored in the private `peanutbook` development tree, then synced here:
 
 ```bash
 /path/to/peanutbook/docs/sync-public-docs.sh /path/to/peanutbook-docs

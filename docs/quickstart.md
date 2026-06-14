@@ -1,6 +1,6 @@
 # Quick start
 
-This guide assumes you already have a bubble-compatible book repository (or you ran `bubble-scaffold`). See [Project layout](project-structure.md) for the expected structure.
+This guide assumes you have a **Peanutbook** project (Markdown chapters + `peanut.config`), or you ran `bubble-scaffold` to create one. See [Project layout](project-structure.md).
 
 ## 1. Configure the project
 

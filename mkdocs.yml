@@ -1,5 +1,5 @@
 site_name: Peanutbook
-site_description: Build print-ready books from Markdown chapters (PDF, EPUB, DOCX)
+site_description: Peanutbook — a Markdown-based format for writing books; built with bubble-book
 site_url: https://peanutbook.readthedocs.io/
 # Intentionally no repo_url / edit_uri — public docs repo has no Python source to link.
 
@@ -44,6 +44,7 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - What is Peanutbook?: what-is-peanutbook.md
   - Installation: installation.md
   - Quick start: quickstart.md
   - Project layout: project-structure.md
@@ -58,7 +59,7 @@ nav:
   - Python API: python-api.md
   - System requirements: system-requirements.md
   - Authoring:
-      - Markdown extensions: markdown-syntax-extensions.md
+      - Syntax reference: markdown-syntax-extensions.md
       - Chapter format: chapter-format.md
   - PDF post-processing:
       - Watermarks: watermark.md

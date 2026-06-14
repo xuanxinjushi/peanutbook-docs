@@ -1,4 +1,8 @@
-# Markdown Syntax Extensions
+# Peanutbook syntax reference
+
+This page documents **Peanutbook** — the Markdown-based book format. Standard CommonMark applies unless noted below. The build toolchain (`bubble-book`) applies these rules via Pandoc and Lua filters when you run `bubble-convert` or `bubble-build`.
+
+See also [What is Peanutbook?](what-is-peanutbook.md) and [Chapter format](chapter-format.md).
 
 ## Syntax for NOTE Sections: NOTES-NOTEE format
 
