@@ -57,5 +57,13 @@ nav:
       - Editorial tools: commands/editorial-tools.md
   - Python API: python-api.md
   - System requirements: system-requirements.md
+  - Authoring:
+      - Markdown extensions: markdown-syntax-extensions.md
+      - Chapter format: chapter-format.md
+  - PDF post-processing:
+      - Watermarks: watermark.md
+      - PDF protection: pdf-protection.md
+  - Troubleshooting:
+      - Cross-references: cross-references-troubleshooting.md
 
 # No GitHub "edit this page" or repo icon — avoids pointing readers at a source tree.

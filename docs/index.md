@@ -1,6 +1,6 @@
-# Bubble Book
+# Peanutbook
 
-**Bubble** is a Python toolkit for turning Markdown chapters into print-ready books. It wraps Pandoc, LaTeX, and a set of Lua filters and helper scripts into a cohesive build pipeline used by the [Math4AI](https://github.com/juncongmoo/linalg) project and similar multi-chapter book repos.
+**Peanutbook** is a Python toolkit for turning Markdown chapters into print-ready books. It wraps Pandoc, LaTeX, and a set of Lua filters and helper scripts into a cohesive build pipeline used by the [Math4AI](https://github.com/juncongmoo/linalg) project and similar multi-chapter book repos.
 
 ## What it does
 
@@ -42,6 +42,11 @@ bubble-batch
 | [Command reference](commands/overview.md) | All `bubble-*` CLI tools |
 | [Python API](python-api.md) | `Converter`, `BookBuilder` |
 | [System requirements](system-requirements.md) | Pandoc, LaTeX, Ghostscript, qpdf |
+| [Markdown syntax extensions](markdown-syntax-extensions.md) | NOTES, figures, code blocks, includes |
+| [Chapter format](chapter-format.md) | Standard chapter front matter |
+| [Watermarks](watermark.md) | Text and image watermarks on PDFs |
+| [PDF protection](pdf-protection.md) | Anti-copy / anti-OCR options |
+| [Cross-references troubleshooting](cross-references-troubleshooting.md) | Fix `??` refs in PDF |
 
 ## Package names
 
