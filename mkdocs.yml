@@ -1,0 +1,61 @@
+site_name: Peanutbook
+site_description: Build print-ready books from Markdown chapters (PDF, EPUB, DOCX)
+site_url: https://peanutbook.readthedocs.io/
+# Intentionally no repo_url / edit_uri — public docs repo has no Python source to link.
+
+docs_dir: docs
+strict: false
+
+theme:
+  name: material
+  language: en
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Quick start: quickstart.md
+  - Project layout: project-structure.md
+  - Configuration: configuration.md
+  - Multi-language: multi-language.md
+  - Covers & templates: covers-templates.md
+  - Command reference:
+      - Overview: commands/overview.md
+      - Build & convert: commands/build-convert.md
+      - Batch release: commands/batch-release.md
+      - Editorial tools: commands/editorial-tools.md
+  - Python API: python-api.md
+  - System requirements: system-requirements.md
+
+# No GitHub "edit this page" or repo icon — avoids pointing readers at a source tree.
