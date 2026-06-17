@@ -20,6 +20,18 @@ The script runs `makeindex` when `\printindex` and a `.idx` file exist, then run
 
 It also writes **`wrong_reference.txt`** in the same directory as the `.tex` file, containing `LaTeX Warning: Reference …`, the “There were undefined references” summary line, and multiply-defined label warnings (override with `--warnings-out /path/to/file.txt`).
 
+## Quick PDF scan (after build)
+
+From the book repo root (needs **poppler-utils** / `pdftotext`):
+
+```bash
+bubble-pdfcheck
+bubble-pdfcheck book_square.pdf
+bubble-pdfcheck --labels-only    # labeleq / WFHLABEL only
+```
+
+Reports line numbers for leaked equation labels (`labeleq`, `WFHLABEL`) and unresolved references (`??`) in the extracted PDF text. Exit code 1 when any issue is found.
+
 ## Finding broken keys
 
 Search the same directory’s `book_merged.log` for:

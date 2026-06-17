@@ -37,6 +37,7 @@ After `pip install -e .` (or `pip install bubble-book`), every tool is available
 | `bubble-single-star` | Find/fix whole-line `*emphasis*` (→ `_underscore_`) |
 | `bubble-bold-headings` | Check headings for spurious bold |
 | `bubble-check` | Colon-list consistency check |
+| `bubble-pdfcheck` | PDF text scan for `labeleq` / `WFHLABEL` / `??` |
 | `bubble-count-chars` | Character counts per chapter |
 | `bubble-index` | Add index terms |
 | `bubble-extract-chapter-title` | Extract chapter title quote |
@@ -72,7 +73,7 @@ Each `bubble-*` command maps to `bubble/scripts/<name>.py` or a top-level module
 
 ```bash
 python -m bubble.build_book --help
-python3 shared/bubble/scripts/count_chars.py
+python -m bubble.scripts.count_chars
 ```
 
 ## See also

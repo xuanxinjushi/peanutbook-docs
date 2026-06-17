@@ -37,6 +37,7 @@ Debian/Ubuntu: `fonts-noto-cjk`
 | **Ghostscript** (`gs`) | `--optimize-pdf` for English/Spanish |
 | **qpdf** | `--optimize-pdf` for CJK; `bubble-split-pdf` |
 | **PyPDF2** or **pdfinfo** (poppler) | Page count for split PDF |
+| **pdftotext** (poppler-utils) | `bubble-pdfcheck` — scan built PDFs for `??` and leaked labels |
 | **matplotlib**, **numpy** | `bubble-gen-cover-bg` |
 | Conda env named in config | Running figure scripts in `chapter*/img/` |
 

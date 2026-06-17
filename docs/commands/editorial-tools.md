@@ -27,6 +27,11 @@ bubble-bold-headings
 
 # Colon-separated list consistency
 bubble-check
+
+# Built PDF: leaked equation labels and unresolved cross-references
+bubble-pdfcheck
+bubble-pdfcheck book_square.pdf
+bubble-pdfcheck --labels-only
 ```
 
 ## Index and structure
