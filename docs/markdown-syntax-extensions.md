@@ -457,13 +457,13 @@ Some text after the formula.
   $$
   This text follows immediately.
   ```
-- ❌ **Comma before label:** Do not put a comma before `\label`
+- ⚠️ **Comma before label (style):** This is usually valid LaTeX, but not recommended in Peanutbook style. Prefer no punctuation before `\label` for cleaner reading.
   ```markdown
   $$
   A = U_k \Sigma_k V_k^\top, \label{eq:svd-thin}
   $$
   ```
-- ✅ **Correct format (empty lines required, no comma before label):**
+- ✅ **Preferred format (empty lines required, no comma before label):**
   ```markdown
   Some text before.
 
@@ -545,7 +545,7 @@ NOTE: If the equation is not labeled and it use `$$`, there must be no empty lin
 1. **Label names must start with `eq:`** (e.g., `eq:svd-full`, `eq:norm`)
 2. **Label names can only contain** letters, numbers, underscores, and hyphens
 3. **Empty lines are mandatory** before and after `$$...$$` blocks - this is the only requirement
-4. **No comma before label** - do not put a comma before `\label{eq:name}` or `\\WFHLABEL:eq:name`
+4. **Style recommendation: no comma before label** - a comma before `\label{eq:name}` or `\\WFHLABEL:eq:name` is usually valid, but Peanutbook recommends omitting it for cleaner formula typography
 5. **Two label formats are supported**:
    - `\label{eq:name}` - can be placed anywhere in the formula
    - `\\WFHLABEL:eq:name` - placed at the end of the equation line
