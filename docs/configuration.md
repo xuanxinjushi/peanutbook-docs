@@ -55,7 +55,27 @@ Defaults in `peanut.config.default` favor **legacy / piggy-like** Amazon 7×10 b
 
 ### Font size keys (when `enable_peanut_font_settings` is true)
 
-Examples: `chapter_title_font_size_pt`, `cover_main_title_font_size_pt`, `spot_section_title_font_size_pt`, `chapter_number_on_title_font_size_pt`, … — see `peanut.config.default` for the full list.
+When `"enable_peanut_font_settings": true` is configured, you can fine-tune individual element font sizes:
+
+#### Section Heading Settings
+- `spot_section_number_font_size_pt` (default `13`): Font size of section numbers (e.g. **2.1**).
+- `spot_section_number_font_baselineskip_pt` (default `18`): Line height/baseline skip of section numbers.
+- `spot_section_title_font_size_pt` (default `20`): Font size of section titles (e.g. **Computational Power**).
+- `spot_section_title_font_baselineskip_pt` (default `24`): Line height/baseline skip of section titles.
+- `spot_heading_min_lines` (default `4`): The minimum number of lines of text (baselineskip) that must fit at the bottom of the page before printing a section heading. Under the hood, this uses the LaTeX `needspace` package and is automatically enforced in all `.tpl` templates for both standard `titlesec` formats and custom `\spotheading` / `\spotheadingunnumbered` macros (which are active when `enable_styled_subsection_lua` is `true`). If less space is available, it automatically moves the heading to the next page, preventing orphaned headings at the bottom of pages.
+
+#### Code Block and Table Settings
+- `code_block_font_size` (default `"normalsize"`): Sets the font size of code blocks globally. Supported values are standard LaTeX font sizing commands (without backslash), e.g. `"normalsize"`, `"small"`, `"footnotesize"`, `"scriptsize"`.
+- `table_font_size` (default `"normalsize"`): Sets the font size of tables globally. Supported values are standard LaTeX font sizing commands (without backslash), e.g. `"normalsize"`, `"small"`, `"footnotesize"`, `"scriptsize"`.
+- `code_annotation_style` (default `null`): Sets the global style for code line number annotations and explanations. Supported values:
+  - `"circle"`: Force circled annotations.
+  - `"bar"` or `"box"`: Force boxed/bar annotations.
+  - `null`: Determine style dynamically per-code-block (uses circle style unless `#LINEBAR` is specified in the code block).
+- `code_line_numbers` (default `null`): Sets the global line number behavior for code blocks:
+  - `true`: Globally enable line numbers for all code blocks (can be disabled locally via `NOLINENUM`).
+  - `false` / `null`: Keep default behavior (line numbers are only enabled when followed by `CODE_EXPLAIN_START` or when `#LINENUM` is specified locally).
+#### Other Font Keys
+See `peanut.config.default` for the full list of other keys (such as `chapter_title_font_size_pt`, `cover_main_title_font_size_pt`, `chapter_number_on_title_font_size_pt`, `chapter_quote_font_size_pt`, etc.).
 
 ## Appendix titles
 

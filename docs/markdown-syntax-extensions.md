@@ -352,7 +352,7 @@ CODE_EXPLAIN_END
 
 **Explicitly Enable Line Numbers:**
 
-To explicitly enable line numbers for a code block, add `#LINENUM` at the beginning:
+1. **Locally (per code block)**: Add `#LINENUM` at the beginning of the code block:
 
 ````markdown
 ```python
@@ -361,6 +361,14 @@ print("Hello")
 print("World")
 ```
 ````
+
+2. **Globally (for all code blocks)**: Add `"code_line_numbers": true` to `peanut.config`:
+
+```json
+"code_line_numbers": true
+```
+
+When enabled globally, line numbers are added to all Python code blocks by default. You can still disable line numbers locally on specific blocks by writing `#NOLINENUM` at the start of the block.
 
 You can also combine it with background color specification:
 
@@ -393,7 +401,9 @@ CODE_EXPLAIN_END
 
 **Line Number Style (Bar Style):**
 
-By default, line numbers are displayed as circled numbers (①, ②, ③, etc.). To use a box style (e.g., `13` or ` 1` in a box), add `#LINEBAR` in the first line comment:
+By default, line numbers and explanations are displayed as circled numbers (①, ②, ③, etc.). To use a box style (e.g., `13` or ` 1` in a box), you can configure it:
+
+1. **Locally (per code block)**: Add `#LINEBAR` in the first line comment:
 
 ````markdown
 ```python
@@ -403,7 +413,16 @@ print("World")
 ```
 ````
 
-The box style shows line numbers as right-aligned numbers in a box, which is useful for code blocks with many lines.
+2. **Globally (for the entire book)**: Set the `"code_annotation_style"` key in `peanut.config` to `"bar"` (or `"box"`):
+
+```json
+"code_annotation_style": "bar"
+```
+
+Supported global values in `peanut.config`:
+- `"circle"`: Force circled annotations.
+- `"bar"` or `"box"`: Force boxed/bar annotations.
+- `null` (default): Determine style dynamically per-code-block (uses circle style unless `#LINEBAR` is specified in the code block).
 
 ## Equation Numbering
 
