@@ -63,6 +63,8 @@ When `"enable_peanut_font_settings": true` is configured, you can fine-tune indi
 - `spot_section_title_font_size_pt` (default `20`): Font size of section titles (e.g. **Computational Power**).
 - `spot_section_title_font_baselineskip_pt` (default `24`): Line height/baseline skip of section titles.
 - `spot_heading_min_lines` (default `4`): The minimum number of lines of text (baselineskip) that must fit at the bottom of the page before printing a section heading. Under the hood, this uses the LaTeX `needspace` package and is automatically enforced in all `.tpl` templates for both standard `titlesec` formats and custom `\spotheading` / `\spotheadingunnumbered` macros (which are active when `enable_styled_subsection_lua` is `true`). If less space is available, it automatically moves the heading to the next page, preventing orphaned headings at the bottom of pages.
+- `spot_heading_vspace` (default `"0.25em"` for `a4_8.5x11.tpl`, `"1.85em"` for others): The vertical space inserted before each `##` heading.
+- `spot_first_section_extra_above` (default `"-0.5em"` for `a4_8.5x11.tpl`, `"-2.85em"` for others): The extra vertical space inserted before the first `##` heading of each chapter. Typically configured as a negative value to pull the heading up and cancel out the `spot_heading_vspace` at the top of a page.
 
 #### Code Block and Table Settings
 - `code_block_font_size` (default `"normalsize"`): Sets the font size of code blocks globally. Supported values are standard LaTeX font sizing commands (without backslash), e.g. `"normalsize"`, `"small"`, `"footnotesize"`, `"scriptsize"`.

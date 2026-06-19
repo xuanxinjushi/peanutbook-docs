@@ -87,3 +87,68 @@ bubble-build --optimize-pdf --optimize-pdf-quality prepress   # English: less ag
 ```bash
 bubble-proposal querytracker/proposal.md --lang en --optimize-pdf
 ```
+
+## Business plan narrative layout (bubble-bizplan)
+
+The `bubble-bizplan` workflow compiles a structured business plan Markdown file into an AI4Biz-compliant PDF utilizing Pandoc and LuaLaTeX. It automatically validates the document's structure, enforces academic/corporate formatting, and supports prepending a dynamically-generated cover sheet.
+
+### Required Structure & Validation Rules
+To satisfy AI4Biz criteria, the Markdown document must contain specific headings. When running `bubble-bizplan`, it scans the Markdown headings for matches (case-insensitive regex patterns). The required sections and matching keywords are:
+
+1. **`1. The Problem`** (matches `\bproblem\b`)
+2. **`2. The AI Solution`** (matches `\bsolution\b`)
+3. **`3. AI Technical Feasibility`** (matches `\bfeasibility\b` or `\btechnical feasibility\b`)
+    - **`Data Strategy`** (matches `\bdata strategy\b`)
+    - **`AI Architecture`** (matches `\barchitecture\b` or `\bai architecture\b`)
+    - **`AI Ethics & Safety`** (matches `\bethics\b` or `\bsafety\b`)
+4. **`4. Competitive Differentiation`** (matches `\bdifferentiation\b` or `\bcompetitive differentiation\b`)
+    - **`Value Proposition Matrix`** (matches `\bmatrix\b` or `\bvalue proposition\b`)
+    - **`The "Unfair Advantage"`** (matches `\bunfair advantage\b`)
+5. **`5. Business Model`** (matches `\bbusiness model\b` or `\bmodel\b`)
+
+If any of these sections are missing:
+* A warning listing the missing sections will be printed.
+* If `--strict` is enabled (or `"strict": true` is configured in `peanut-biz.config`), the build will immediately fail with exit code 1.
+
+### Dynamic Cover Page Generation
+You can prepend a cover page to your business plan. Under the hood, `bubble-bizplan` checks for a cover sheet in three ways:
+1. An explicit PDF path passed via `--cover <path>` (or `"cover_pdf"` in config).
+2. A local `cover.pdf` or `cover_front.pdf` in the Markdown directory or working directory.
+3. Automatically generating a professional, themed cover sheet using the Python script `generate_bizplan_covers.py` (which uses `matplotlib` to render publication-quality layouts). 
+
+To generate a themed cover on the fly, use `--cover-name <style>`. Available styles:
+* **`tech-dark`**: Midnight blue gradient with abstract AI neural network nodes and cyan/violet accents.
+* **`minimal-light`**: Clean executive design with off-white paper background and elegant gold/charcoal details.
+* **`corporate-blue`**: Corporate navy color-blocking, teal highlights, and a left-aligned grid layout.
+
+Alternatively, you can customize or run `generate_bizplan_covers.py` directly:
+```bash
+python generate_bizplan_covers.py --title "My Title" --subtitle "My Subtitle" --author "Author Name" --style tech-dark --output cover.pdf
+```
+
+### Scaffolding and Templates
+You can quickly scaffold a starter business plan markdown template (`bizplan.md`) using either:
+```bash
+# Via bubble-scaffold
+bubble-scaffold --bizplan
+
+# Or via bubble-bizplan initialization
+bubble-bizplan --init bizplan.md
+```
+This generates a skeleton template containing the exact required headings, a starter value proposition matrix table, and prompts for each section.
+
+### Business Plan Configuration (`peanut-biz.config`)
+Styling and compilation options can be customized via a `peanut-biz.config` JSON file placed in your project root. The keys and their defaults are:
+
+* `double_spaced` (default: `true`): Enforce double-spacing for body text (tables and footnotes are automatically single-spaced).
+* `font_size` (default: `"12pt"`): Set document font size.
+* `margin` (default: `"1in"`): Document margins.
+* `main_font` (default: `"Times New Roman"`): Main body font. Falls back to *TeX Gyre Termes* or *Nimbus Roman* if not found.
+* `lang` (default: `"en"`): Document language.
+* `papersize` (default: `"letter"`): Paper size (`letter` or `a4`).
+* `optimize_pdf` (default: `false`): Enable PDF size optimization.
+* `optimize_pdf_quality` (default: `"printer"`): Ghostscript quality level (`screen`, `ebook`, `printer`, `prepress`).
+* `strict` (default: `false`): If `true`, fails compilation if any required narrative sections are missing.
+* `cover_pdf` (default: `null`): Path to a pre-built cover PDF.
+* `cover_name` (default: `null`): Style name for dynamic cover generation (`tech-dark`, `minimal-light`, `corporate-blue`).
+

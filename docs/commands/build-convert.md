@@ -94,6 +94,22 @@ bubble-proposal notes/sample.md --lang cn --optimize-pdf
 
 YAML front matter (`title`, `author`, `runtitle`, …) enables full U.S. proposal title page layout. Without `title`, output uses compact article style.
 
+## `bubble-bizplan`
+
+Single Markdown → AI4Biz Business Plan PDF (Pandoc + LuaLaTeX):
+
+```bash
+bubble-bizplan bizplan.md --cover-name tech-dark
+bubble-bizplan bizplan.md --strict
+bubble-bizplan bizplan.md --check-only
+```
+
+Validates required narrative structure, enforces double-spacing, 12pt Times font, and 1-inch margins. Scaffolds a business plan template via `--init`:
+
+```bash
+bubble-bizplan --init bizplan.md
+```
+
 ## `bubble-monitor`
 
 Watch files and rebuild on save:
@@ -113,9 +129,10 @@ Interactive project bootstrap:
 bubble-scaffold
 bubble-scaffold --chapters 10 --lang both --yes
 bubble-scaffold --lang zh --yes
+bubble-scaffold --bizplan
 ```
 
-Creates chapter stubs, `peanut.config`, and `cover/7x10/` placeholders.
+Creates chapter stubs, `peanut.config`, and `cover/7x10/` placeholders. If `--bizplan` is specified, scaffolds a business plan template (`bizplan.md`) instead.
 
 ## `bubble-split-pdf`
 
