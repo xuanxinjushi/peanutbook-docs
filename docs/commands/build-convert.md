@@ -99,7 +99,8 @@ YAML front matter (`title`, `author`, `runtitle`, …) enables full U.S. proposa
 Single Markdown → AI4Biz Business Plan PDF (Pandoc + LuaLaTeX):
 
 ```bash
-bubble-bizplan bizplan.md --cover-name tech-dark
+bubble-bizplan                 # Defaults to compiling local bizplan.md if no input is specified
+bubble-bizplan bizplan.md --cover-name tech-white
 bubble-bizplan bizplan.md --strict
 bubble-bizplan bizplan.md --check-only
 ```

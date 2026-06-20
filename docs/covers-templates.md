@@ -92,6 +92,8 @@ bubble-proposal querytracker/proposal.md --lang en --optimize-pdf
 
 The `bubble-bizplan` workflow compiles a structured business plan Markdown file into an AI4Biz-compliant PDF utilizing Pandoc and LuaLaTeX. It automatically validates the document's structure, enforces academic/corporate formatting, and supports prepending a dynamically-generated cover sheet.
 
+If run without arguments, `bubble-bizplan` automatically defaults to compiling a local `bizplan.md` in the current working directory.
+
 ### Required Structure & Validation Rules
 To satisfy AI4Biz criteria, the Markdown document must contain specific headings. When running `bubble-bizplan`, it scans the Markdown headings for matches (case-insensitive regex patterns). The required sections and matching keywords are:
 
@@ -114,16 +116,23 @@ If any of these sections are missing:
 You can prepend a cover page to your business plan. Under the hood, `bubble-bizplan` checks for a cover sheet in three ways:
 1. An explicit PDF path passed via `--cover <path>` (or `"cover_pdf"` in config).
 2. A local `cover.pdf` or `cover_front.pdf` in the Markdown directory or working directory.
-3. Automatically generating a professional, themed cover sheet using the Python script `generate_bizplan_covers.py` (which uses `matplotlib` to render publication-quality layouts). 
+3. Automatically generating a professional, themed cover sheet using the Python script `generate_bizplan_covers.py` packaged inside the `peanutbook` codebase directory. 
 
 To generate a themed cover on the fly, use `--cover-name <style>`. Available styles:
-* **`tech-dark`**: Midnight blue gradient with abstract AI neural network nodes and cyan/violet accents.
-* **`minimal-light`**: Clean executive design with off-white paper background and elegant gold/charcoal details.
-* **`corporate-blue`**: Corporate navy color-blocking, teal highlights, and a left-aligned grid layout.
+* **`tech-dark`**: Midnight blue gradient with abstract waves, soft glowing accents, and elegant clean typography.
+* **`tech-white`**: Light-mode off-white/light gray gradient with abstract waves, soft cyan/violet accents, and clean typography.
+* **`minimal-light`**: Clean executive design with off-white paper background, elegant gold/bronze fluid waves, and a double-border frame.
+* **`corporate-blue`**: Corporate navy and teal vertical accent stripes, subtle full-page geometric grid layout, and fluid waves.
 
-Alternatively, you can customize or run `generate_bizplan_covers.py` directly:
+#### Layout and Rendering Details
+* **Visual Cleanup**: The `tech-dark` and `tech-white` templates have been simplified by removing the neural network constellation nodes, connecting lines, and big overlay circles/rings, establishing a clean visual layout.
+* **BUSINESS PLAN Category Label**: All templates feature an uppercase `BUSINESS PLAN` category label above the document title. This allows keeping the title clean (e.g. `MockSphere`) while maintaining clear corporate branding on the cover page.
+* **Smooth Gradient Rendering**: Background gradients are rendered as a single smooth image using `imshow` with `LinearSegmentedColormap` to eliminate thin vector stitching lines or seams in PDF readers.
+* **Dynamic Page Backgrounds**: The figure canvas color is configured dynamically per style to match the background color (`#f8fafc` / `#fafaf9` for light covers, `#020617` for dark covers) preventing a dark canvas border from leaking behind light layouts.
+
+Alternatively, you can run the cover generator script directly from its package path:
 ```bash
-python generate_bizplan_covers.py --title "My Title" --subtitle "My Subtitle" --author "Author Name" --style tech-dark --output cover.pdf
+python /path/to/peanutbook/generate_bizplan_covers.py --title "My Title" --subtitle "My Subtitle" --author "Author Name" --style tech-white --output cover.pdf
 ```
 
 ### Scaffolding and Templates
@@ -150,5 +159,4 @@ Styling and compilation options can be customized via a `peanut-biz.config` JSON
 * `optimize_pdf_quality` (default: `"printer"`): Ghostscript quality level (`screen`, `ebook`, `printer`, `prepress`).
 * `strict` (default: `false`): If `true`, fails compilation if any required narrative sections are missing.
 * `cover_pdf` (default: `null`): Path to a pre-built cover PDF.
-* `cover_name` (default: `null`): Style name for dynamic cover generation (`tech-dark`, `minimal-light`, `corporate-blue`).
-
+* `cover_name` (default: `null`): Style name for dynamic cover generation (`tech-dark`, `tech-white`, `minimal-light`, `corporate-blue`).
