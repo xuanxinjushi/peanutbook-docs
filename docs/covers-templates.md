@@ -160,3 +160,4 @@ Styling and compilation options can be customized via a `peanut-biz.config` JSON
 * `strict` (default: `false`): If `true`, fails compilation if any required narrative sections are missing.
 * `cover_pdf` (default: `null`): Path to a pre-built cover PDF.
 * `cover_name` (default: `null`): Style name for dynamic cover generation (`tech-dark`, `tech-white`, `minimal-light`, `corporate-blue`).
+* `spot_heading_min_lines` (default: `4`): Minimum number of lines required on a page after a section or subsection heading to prevent heading orphans.
