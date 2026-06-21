@@ -35,7 +35,9 @@ project_root/
 │   └── 8.5x11/
 ├── img/                          # shared images (optional)
 ├── reference.docx                # optional DOCX style reference
-└── epub.css                      # optional EPUB stylesheet override
+├── epub.css                      # optional EPUB stylesheet override
+├── book_html/                    # HTML book site (from bubble-render-html)
+└── book_html_zh/                 # localized HTML output
 ```
 
 ## Chapter naming
@@ -62,6 +64,8 @@ If a localized file is missing for a chapter, the build **falls back** to the En
 | `bubble-build` | `book_{style}.pdf` or `book_{tag}_{style}.pdf` |
 | `bubble-build --no-cover` | `book_{style}_interior.pdf` |
 | `bubble-build --format epub` | `book.epub`, `book_zh.epub`, … |
+| `bubble-build --format html` | `book_html/`, `book_html_zh/`, … |
+| `bubble-render-html` | Same as `--format html` |
 | `bubble-batch` | collected copies under `books/` (configurable) |
 
 Temporary files go under `.build/` in the project root during conversion.

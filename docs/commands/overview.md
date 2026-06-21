@@ -6,7 +6,8 @@ After `pip install -e .` (or `pip install bubble-book`), every tool is available
 
 | Command | Module | Purpose |
 |---------|--------|---------|
-| `bubble-build` | `build_book.py` | Merge chapters → full book PDF/EPUB/DOCX |
+| `bubble-build` | `build_book.py` | Merge chapters → full book PDF/EPUB/DOCX/HTML |
+| `bubble-render-html` | `render_html.py` | Full book → static HTML site (`book_html/`) |
 | `bubble-convert` | `convert.py` | Single chapter (or all) → PDF/EPUB/DOCX |
 | `bubble-batch` | `batch_build.py` | Multi-lang release orchestration → `books/` |
 | `bubble-merge` | `merge_books.py` | Concatenate chapters → `book.md`, `book_zh.md`, … |
@@ -80,5 +81,6 @@ python -m bubble.scripts.count_chars
 ## See also
 
 - [Build & convert](build-convert.md)
+- [HTML generation](../html-generation.md)
 - [Batch release](batch-release.md)
 - [Editorial tools](editorial-tools.md)

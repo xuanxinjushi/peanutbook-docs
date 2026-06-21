@@ -100,6 +100,31 @@ Per-locale appendix divider strings (optional):
 
 Place **`reference.docx`** in the project root (or `margins/reference_submission.docx`) for Word styling. Place **`epub.css`** in the project root to override the bundled EPUB stylesheet. EPUB cover: `cover_front.png` or `cover_front.jpg` in the active cover folder.
 
+## HTML book site
+
+| Key | Role |
+|-----|------|
+| `html_output_dir` | Custom output directory (default `book_html/` or `book_html_{tag}/`) |
+| `html_theme` | `default`, `dark`, or `minimal` |
+| `html_custom_css` | Path to extra CSS copied to `assets/custom.css` |
+| `html_mathjax` | Set `false` to disable MathJax (default `true`) |
+| `html_site_logo` | Logo URL or path for site header |
+| `html_purchase_url` | Purchase link (e.g. Amazon product page) |
+| `html_purchase_label` | Header button text (default `Buy on Amazon`) |
+| `html_cover_image` | Override home-page cover image |
+
+See **[HTML generation](html-generation.md)** for the full guide (`bubble-render-html`, `bubble-build --format html`, output layout, themes).
+
+Example:
+
+```json
+{
+  "html_site_logo": "https://example.org/static/logo.png",
+  "html_purchase_url": "https://www.amazon.com/dp/XXXXXXXXXX",
+  "html_purchase_label": "Buy on Amazon"
+}
+```
+
 ## Batch release keys (`bubble-batch`)
 
 | Key | Role |

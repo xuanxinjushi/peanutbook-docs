@@ -52,6 +52,7 @@ nav:
   - Theme: theme.md
   - Multi-language: multi-language.md
   - Covers & templates: covers-templates.md
+  - HTML generation: html-generation.md
   - Command reference:
       - Overview: commands/overview.md
       - Build & convert: commands/build-convert.md

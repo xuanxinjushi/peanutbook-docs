@@ -4,7 +4,7 @@
 
 It extends ordinary Markdown with chapter conventions, semantic blocks (`>NOTES:` … `>NOTEE`), figures, math, cross-references, multi-language editions, and print metadata. See [What is Peanutbook?](what-is-peanutbook.md) for the full definition.
 
-The **build toolchain** (`pip install bubble-book`) turns Peanutbook source files into PDF, EPUB, and DOCX via Pandoc, LaTeX, and Lua filters.
+The **build toolchain** (`pip install bubble-book`) turns Peanutbook source files into PDF, EPUB, DOCX, and **static HTML book sites** via Pandoc, LaTeX, Lua filters, and the built-in HTML renderer.
 
 ## Format vs toolchain
 
@@ -26,6 +26,7 @@ bubble-build --style square
 - Semantic note / important / warning blocks and custom layouts
 - Figures, code listings, math, indexes, and cross-references
 - Print-on-demand covers and trim sizes (KDP, Lulu, Ingram, …)
+- Static HTML book sites (`book_html/`) for online reading
 - Optional watermarks and PDF protection on output
 
 ## Documentation map
@@ -42,6 +43,7 @@ bubble-build --style square
 | [Theme](theme.md) | Colors, chapter opener, quote style (no LaTeX) |
 | [Multi-language](multi-language.md) | `--lang`, file suffixes, fonts |
 | [Covers & templates](covers-templates.md) | Page sizes, cover folders |
+| [HTML generation](html-generation.md) | Static book site (`bubble-render-html`) |
 | [Command reference](commands/overview.md) | All `bubble-*` CLI tools |
 | [Python API](python-api.md) | `Converter`, `BookBuilder` |
 | [System requirements](system-requirements.md) | Pandoc, LaTeX, Ghostscript, qpdf |
@@ -55,7 +57,7 @@ bubble-build --style square
 | Format | **Peanutbook** |
 | PyPI | `bubble-book` (`pip install bubble-book`) |
 | Python import | `bubble` |
-| CLI | `bubble-build`, `bubble-convert`, `bubble-batch`, … |
+| CLI | `bubble-build`, `bubble-convert`, `bubble-render-html`, `bubble-batch`, … |
 
 ## License
 

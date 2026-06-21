@@ -18,7 +18,7 @@ Authors write **Peanutbook source** as plain `.md` files in a standard project l
 | Name | What it is |
 |------|------------|
 | **Peanutbook** | The **format** — Markdown files, syntax markers, folder layout, `peanut.config` |
-| **`bubble-book`** (PyPI) | The **toolchain** — `bubble-build`, `bubble-convert`, Lua filters, LaTeX templates |
+| **`bubble-book`** (PyPI) | The **toolchain** — `bubble-build`, `bubble-convert`, `bubble-render-html`, Lua filters, LaTeX templates, HTML renderer |
 
 You do not “run Peanutbook” as a program. You **write** Peanutbook and **build** it with the toolchain:
 
@@ -26,6 +26,7 @@ You do not “run Peanutbook” as a program. You **write** Peanutbook and **bui
 pip install bubble-book
 bubble-convert 1          # one chapter → PDF
 bubble-build --style square   # full book → PDF
+bubble-render-html            # full book → HTML site
 ```
 
 The Python package import name remains `bubble` for historical reasons; the public name for the format is **Peanutbook**.

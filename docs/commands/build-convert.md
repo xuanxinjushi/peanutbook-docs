@@ -50,12 +50,15 @@ bubble-build --cover 7x10-packt
 bubble-build --no-cover --style none
 bubble-build --format epub
 bubble-build --format docx --lang cn    # book_zh.epub
+bubble-build --format html              # book_html/
+bubble-build --format html --lang cn    # book_html_zh/
 ```
 
 ### Notable flags
 
 | Flag | Effect |
 |------|--------|
+| `--format html` | Static HTML site instead of PDF (see below) |
 | `--no-cover` | Interior-only; output name gets `_interior` suffix |
 | `--optimize-pdf` | Shrink PDF (GS for en/sp, qpdf for CJK) |
 | `--protect` | Anti-copy rasterization (large files) |
@@ -69,6 +72,33 @@ bubble-build --format docx --lang cn    # book_zh.epub
 | `en` | square | `book_square.pdf` |
 | `cn` | square | `book_zh_square.pdf` |
 | `en` | none, no cover | `book_none_interior.pdf` |
+
+## `bubble-render-html`
+
+Build a static HTML book site (same sources as PDF, no LaTeX):
+
+```bash
+bubble-render-html
+bubble-render-html --lang cn
+bubble-render-html -o dist/html
+bubble-render-html --theme dark --no-mathjax
+bubble-render-html --max-chapters 21
+bubble-render-html --cover 7x10
+```
+
+| Flag | Effect |
+|------|--------|
+| `--lang` | Locale (`en`, `cn`, `tc`, `jp`, `sp`) |
+| `-o`, `--output` | Output directory |
+| `-t`, `--title` | Site title (default: `book_title` from config) |
+| `--theme` | `default`, `dark`, or `minimal` |
+| `--css` | Custom CSS → `assets/custom.css` |
+| `--no-mathjax` | Disable MathJax |
+| `--max-chapters` | Limit chapter count |
+| `--include-appendix` | `true`, `false`, or `auto` |
+| `--cover` | Cover folder under `cover/` |
+
+Default output: `book_html/` or `book_html_{tag}/`. Full details: **[HTML generation](../html-generation.md)**.
 
 ## `bubble-merge`
 
