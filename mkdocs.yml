@@ -52,6 +52,7 @@ nav:
   - Theme: theme.md
   - Multi-language: multi-language.md
   - Covers & templates: covers-templates.md
+  - Business plans: bizplan.md
   - HTML generation: html-generation.md
   - Command reference:
       - Overview: commands/overview.md

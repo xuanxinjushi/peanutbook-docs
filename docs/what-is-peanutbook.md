@@ -27,6 +27,7 @@ pip install bubble-book
 bubble-convert 1          # one chapter → PDF
 bubble-build --style square   # full book → PDF
 bubble-render-html            # full book → HTML site
+bubble-bizplan bizplan.md     # AI4Biz business plan → PDF
 ```
 
 The Python package import name remains `bubble` for historical reasons; the public name for the format is **Peanutbook**.

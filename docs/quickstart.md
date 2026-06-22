@@ -29,6 +29,7 @@ Options:
 
 ```bash
 bubble-convert 1 --style square --template lulu_7x10
+bubble-convert 1 --chapter-opener-size 5
 bubble-convert 3 --lang cn
 bubble-convert margins/poem.md --format docx
 ```
@@ -45,6 +46,7 @@ Common flags:
 
 ```bash
 bubble-build --style square
+bubble-build --chapter-opener-size 5
 bubble-build --max-chapters 21
 bubble-build --no-cover --style none          # KDP interior-only
 bubble-build --lang cn --optimize-pdf
@@ -95,8 +97,20 @@ bubble-monitor 1 2 3
 bubble-monitor --lang cn 1
 ```
 
+## 8. Business plan (optional)
+
+For a single-file AI4Biz submission (not a multi-chapter book):
+
+```bash
+bubble-bizplan --init bizplan.md
+bubble-bizplan bizplan.md --cover-name tech-white
+```
+
+See **[Business plans](bizplan.md)** for required sections, `peanut-biz.config`, and cover styles.
+
 ## Next steps
 
+- [Business plans](bizplan.md) — AI4Biz `bubble-bizplan`
 - [Multi-language](multi-language.md) — `_zh`, `_tc`, `_jp`, `_sp` files
 - [Covers & templates](covers-templates.md) — `--cover`, trim sizes
 - [HTML generation](html-generation.md) — static book site

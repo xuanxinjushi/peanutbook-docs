@@ -11,6 +11,7 @@ bubble-convert              # all chapters
 
 # Options
 bubble-convert 1 --style square --template lulu_7x10
+bubble-convert 1 --style circle --chapter-opener-size 5
 bubble-convert 1 --lang cn
 bubble-convert 1 --main-font "EB Garamond" --body-font-pt 11
 bubble-convert 1 --optimize-pdf --optimize-pdf-quality ebook
@@ -26,6 +27,15 @@ bubble-convert margins/poem.md --format docx
 | `circle` | Quarter-circle chapter number |
 | `square` | Blue square |
 | `none` | Plain chapter opening |
+
+### Chapter opener size
+
+`--chapter-opener-size CM` sets the opener badge size (square side or circle radius) and scales the chapter numeral font. Default: `chapter_opener_size_cm` in `peanut.config` (4 cm).
+
+```bash
+bubble-build --style square --chapter-opener-size 5
+bubble-convert 1 --chapter-opener-size 4.5
+```
 
 ### Output formats
 
@@ -58,6 +68,7 @@ bubble-build --format html --lang cn    # book_html_zh/
 
 | Flag | Effect |
 |------|--------|
+| `--chapter-opener-size` | Opener badge size in cm (square/circle geometry + chapter numeral font); overrides `chapter_opener_size_cm` |
 | `--format html` | Static HTML site instead of PDF (see below) |
 | `--no-cover` | Interior-only; output name gets `_interior` suffix |
 | `--optimize-pdf` | Shrink PDF (GS for en/sp, qpdf for CJK) |
@@ -126,20 +137,15 @@ YAML front matter (`title`, `author`, `runtitle`, …) enables full U.S. proposa
 
 ## `bubble-bizplan`
 
-Single Markdown → AI4Biz Business Plan PDF (Pandoc + LuaLaTeX):
-
-```bash
-bubble-bizplan                 # Defaults to compiling local bizplan.md if no input is specified
-bubble-bizplan bizplan.md --cover-name tech-white
-bubble-bizplan bizplan.md --strict
-bubble-bizplan bizplan.md --check-only
-```
-
-Validates required narrative structure, enforces double-spacing, 12pt Times font, and 1-inch margins. Scaffolds a business plan template via `--init`:
+Single Markdown → AI4Biz business plan PDF (Pandoc + LuaLaTeX). Uses **`peanut-biz.config`**, not `peanut.config`.
 
 ```bash
 bubble-bizplan --init bizplan.md
+bubble-bizplan bizplan.md --cover-name tech-white --strict
+bubble-bizplan bizplan.md --check-only
 ```
+
+Full guide: **[Business plans](../bizplan.md)** (required sections, cover styles, config keys, Python API).
 
 ## `bubble-monitor`
 

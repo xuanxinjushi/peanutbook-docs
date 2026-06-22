@@ -12,6 +12,7 @@ converter = Converter(
     project_root=Path.cwd(),
     chapter_style=ChapterStyle.CIRCLE,
     mode=BuildMode.DEV,
+    # chapter_opener_size_cm=5.0,
     # main_font="EB Garamond",
     # body_font_pt="11",
 )
@@ -42,6 +43,7 @@ builder = BookBuilder(
     project_root=Path.cwd(),
     chapter_style=ChapterStyle.CIRCLE,
     max_chapters=21,
+    # chapter_opener_size_cm=5.0,
     # output_format="epub",  # or "docx"; default "pdf"
 )
 
@@ -49,6 +51,25 @@ builder.build()
 ```
 
 CLI equivalent: `bubble-build`.
+
+## Business plans — `build_bizplan_pdf`
+
+```python
+from pathlib import Path
+from bubble.bizplan import build_bizplan_pdf, validate_markdown_sections, load_peanut_biz_config
+
+missing = validate_markdown_sections(Path("bizplan.md"))
+cfg = load_peanut_biz_config(Path.cwd())
+
+build_bizplan_pdf(
+    Path("bizplan.md"),
+    Path("bizplan.pdf"),
+    cover_name=cfg.get("cover_name"),
+    strict=cfg.get("strict", False),
+)
+```
+
+CLI equivalent: `bubble-bizplan`. See **[Business plans](bizplan.md)**.
 
 ## Utilities
 

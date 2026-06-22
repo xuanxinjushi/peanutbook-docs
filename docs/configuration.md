@@ -10,6 +10,7 @@ Project values override defaults; unset keys keep default behavior.
 {
   "lang": "en",
   "chapter_style": "circle",
+  "chapter_opener_size_cm": 4,
   "template": "amazon_7x10.tpl",
   "book_title": "Your Book Title",
   "conda_env": "your_env_name",
@@ -25,6 +26,7 @@ Project values override defaults; unset keys keep default behavior.
 |-----|--------|------|
 | `lang` | `en`, `cn`, `tc`, `jp`, `sp` | Default locale when CLI omits `--lang` |
 | `chapter_style` / `style` | `circle`, `square`, `none` | Chapter decoration; CLI `--style` overrides |
+| `chapter_opener_size_cm` | number (cm) | Opener badge size: square side or circle radius; chapter numeral font scales with it (default `4`). CLI `--chapter-opener-size` overrides. Legacy key: `square_size_cm` |
 | `template` | e.g. `amazon_7x10.tpl` | Pandoc/LaTeX page template |
 | `book_title` | string | Title in headers, TOC, covers |
 | `conda_env` | string | Conda env for running `img/*.py` scripts |
@@ -37,7 +39,7 @@ Project values override defaults; unset keys keep default behavior.
 
 ## Theme
 
-See **[Theme](theme.md)** for `peanut.theme.json`, colors, `chapter_opener`, and `quote_style`.
+See **[Theme](theme.md)** for `peanut.theme.json`, colors, `chapter_opener`, `chapter_opener_size_cm`, and `quote_style`.
 
 ## Print layout switches
 
@@ -149,4 +151,4 @@ Example:
 
 ## CLI vs config
 
-Command-line flags always override `peanut.config` for the same setting (e.g. `--lang`, `--style`, `--template`, `--main-font`).
+Command-line flags always override `peanut.config` for the same setting (e.g. `--lang`, `--style`, `--template`, `--main-font`, `--chapter-opener-size`).

@@ -14,7 +14,7 @@ After `pip install -e .` (or `pip install bubble-book`), every tool is available
 | `bubble-scaffold` | `scaffold.py` | Create new bubble-compatible repo |
 | `bubble-monitor` | `monitor.py` | Watch Markdown and auto-rebuild |
 | `bubble-proposal` | `proposal.py` | One-off proposal / query letter PDF |
-| `bubble-bizplan` | `bizplan.py` | Build structured AI4Biz Business Plan PDF |
+| `bubble-bizplan` | `bizplan.py` | Build structured AI4Biz business plan PDF — see [Business plans](../bizplan.md) |
 
 ## Build pipeline helpers
 
@@ -81,6 +81,7 @@ python -m bubble.scripts.count_chars
 ## See also
 
 - [Build & convert](build-convert.md)
+- [Business plans](../bizplan.md)
 - [HTML generation](../html-generation.md)
 - [Batch release](batch-release.md)
 - [Editorial tools](editorial-tools.md)
