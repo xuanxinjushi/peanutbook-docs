@@ -1,6 +1,8 @@
 site_name: Peanutbook
 site_description: Peanutbook — a Markdown-based format for writing books; built with peanutbook
-site_url: https://peanutbook.com/
+site_url: !ENV [READTHEDOCS_CANONICAL_URL, 'https://peanutbook.com/']
+# RTD sets READTHEDOCS_CANONICAL_URL on build → readthedocs.io URLs.
+# Local ./build-site.sh uses the default → peanutbook.com URLs.
 # Intentionally no repo_url / edit_uri — public docs repo has no Python source to link.
 
 docs_dir: docs

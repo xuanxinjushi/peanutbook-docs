@@ -2,17 +2,15 @@
 
 Public documentation for **Peanutbook** — a Markdown-based format for writing books.
 
-- Format spec & guides: https://peanutbook.readthedocs.io/
-- Build toolchain: `pip install peanutbook`
+**Read the docs:**
 
-This repository contains **Markdown docs only** — no Python source. The toolchain source is distributed as encrypted wheels on PyPI.
+- https://peanutbook.com/
+- https://peanutbook.readthedocs.io/en/latest/
 
-## Edit workflow
-
-Docs are authored in the private `peanutbook` development tree, then synced here:
+**Install the build toolchain:**
 
 ```bash
-/path/to/peanutbook/docs/sync-public-docs.sh /path/to/peanutbook-docs
+pip install peanutbook
 ```
 
-Do not add `.py` files to this repository.
+This repository contains user-facing Markdown documentation only. The Peanutbook toolchain is distributed on PyPI as encrypted wheels; source code is not published here.
