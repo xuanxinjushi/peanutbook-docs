@@ -1,8 +1,32 @@
-# Academic papers
+# Academic papers (`bubble-paper`)
 
 Peanutbook includes a workflow for **research and academic papers**: one Markdown file → PDF with article layout, title block, abstract, keywords, and optional bibliography.
 
 This path uses the **`bubble-paper`** command. It does not use chapter folders, `peanut.config`, or book print templates.
+
+## PDF previews
+
+The screenshots below come from the sample fixture `tests/fixtures/sample_paper.md` in the **peanutbook** source repository (author **Xuan Xin**). Regenerate them with `./scripts/test_sample_paper.sh`.
+
+=== "Single column (default)"
+
+    ![Single-column paper — title, abstract, and introduction](img/paper-preview-single.png)
+
+    Page 1: centered title block, abstract with keywords, numbered sections.
+
+    ![Single-column paper — algorithm, math, and code with line numbers](img/paper-preview-single-method.png)
+
+    Page 2: display math, `algorithm` block, Python listing with line numbers, table, and references.
+
+=== "Two column (`--two-column`)"
+
+    ![Two-column paper — title and abstract span full width; body in two columns](img/paper-preview-twocol.png)
+
+    Page 1: same metadata as single-column; introduction and related work in two columns.
+
+    ![Two-column paper — method section with wrapped math and code](img/paper-preview-twocol-method.png)
+
+    Page 2: equations scaled or split for column width, floating table, numbered code blocks.
 
 ## Quick start
 
@@ -16,6 +40,12 @@ Alternative scaffold:
 
 ```bash
 bubble-scaffold --paper
+```
+
+Two-column layout:
+
+```bash
+bubble-paper paper.md --two-column
 ```
 
 ## Command reference
@@ -55,6 +85,7 @@ abstract: |
   Summarize the problem, approach, and main results.
 keywords: "machine learning, NLP, evaluation"
 bibliography: references.bib
+layout: two-column   # optional; same as --two-column
 ---
 ```
 
@@ -64,11 +95,10 @@ bibliography: references.bib
 | `author` | Author name(s) |
 | `affiliation` | Institution or department (shown under author) |
 | `date` | Publication date (LaTeX `\\today` or a fixed string) |
-| `abstract` | Abstract paragraph (rendered in an **Abstract** block) |
+| `abstract` | Abstract paragraph (use `\|` block scalar for multiple lines) |
 | `keywords` | Keyword line printed after the abstract |
 | `bibliography` | Path to a `.bib` file (enables Pandoc `--citeproc`) |
-
-For two-column layout you can also set `layout: two-column` in YAML instead of `--two-column`.
+| `layout` | `two-column` / `twocolumn` instead of `--two-column` flag |
 
 ## Suggested structure
 
@@ -94,14 +124,55 @@ Prior work [@smith2020] showed ...
 
 ## PDF styling
 
-`bubble-paper` includes `templates/paper_style.tex` via Pandoc `-H`:
+`bubble-paper` includes `templates/paper_style.tex` and `templates/paper_code_style.tex` via Pandoc `-H`:
 
-- Serif body (TeX Gyre Termes or Latin Modern Roman)
-- Blue title and section headings
-- Abstract block with **Keywords** line when `keywords` is set
-- 11pt article, **1-inch** margins single-column / **0.75-inch** margins two-column (default **A4**)
+| Feature | Single column | Two column |
+|---------|---------------|------------|
+| Body font | Serif (TeX Gyre Termes or Latin Modern Roman) | Same |
+| Headings | Blue title and section headings | Same |
+| Margins | 1 inch | 0.75 inch |
+| Column gutter | — | 0.3 inch (`\columnsep`) |
+| Code blocks | Listings + line numbers | Smaller type; math/tables auto-fit column width |
+| Abstract | **Abstract** block + **Keywords** line | Title/abstract full width; body twocolumn |
 
-For book proposals, use [`bubble-proposal`](commands/build-convert.md#bubble-proposal) instead. For business plans, see **[Business plans](bizplan.md)**.
+For book proposals, use [`bubble-proposal`](commands/build-convert.md#bubble-proposal). For business plans, see **[Business plans](bizplan.md)**.
+
+## Algorithms and math
+
+Display equations, multi-line align, and formal algorithm blocks are supported:
+
+````markdown
+$$
+\mathrm{Attention}(Q, K, V) = \mathrm{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V .
+$$
+
+```{.algorithm caption="Scaled Dot-Product Attention" label="alg:attention"}
+\Require Matrices $Q, K, V$ with compatible inner dimension $d_k$
+\Ensure Attention output $A$
+\State $S \gets Q K^\top / \sqrt{d_k}$
+\State $P \gets \mathrm{softmax}(S)$ \Comment{row-wise}
+\State $A \gets P V$
+\State \Return $A$
+```
+````
+
+- `scripts/algorithm_blocks.lua` converts `{.algorithm …}` fences to LaTeX `algorithm` environments.
+- Cross-references: `Algorithm~\ref{alg:attention}` (raw LaTeX).
+- Two-column builds use `scripts/paper_twocolumn_math.lua` to split wide equations and shrink overflow.
+- Two-column tables use `scripts/paper_floating_tables.lua` (floating `table` instead of `longtable`).
+
+## Code listings
+
+Fenced code blocks render with syntax highlighting, a light border, and **left line numbers** by default:
+
+```python
+def scaled_dot_product(q, k, v):
+    scale = math.sqrt(k.size(-1))
+    weights = F.softmax(q @ k.transpose(-2, -1) / scale, dim=-1)
+    return weights @ v
+```
+
+Per-block opt-out: put `#NOLINENUM` on the first line inside the fence (same as books).
 
 ## Python API
 
@@ -121,61 +192,28 @@ build_paper_pdf(
 
 `build_paper_pdf` returns `0` on success, non-zero on failure. CLI equivalent: `bubble-paper`.
 
-## Layout previews
-
-The sample fixture is built in **single-column** (default) and **two-column** (`--two-column`) layouts. Regenerate previews with `./scripts/test_sample_paper.sh` in the peanutbook repository.
-
-### Single column
-
-![Single-column academic paper preview — title block, abstract, math, algorithm, and references](img/paper-preview-single.png)
-
-### Two column
-
-![Two-column academic paper preview — same content in twocolumn article layout](img/paper-preview-twocol.png)
-
 ## Sample fixture
-
-A minimal end-to-end example lives in the **peanutbook** source repository:
 
 | File | Purpose |
 |------|---------|
-| `tests/fixtures/sample_paper.md` | Sample paper by **Xuan Xin** with abstract, display math, algorithm block, code, table, and citations |
-| `tests/fixtures/sample_paper.bib` | BibTeX references for `--citeproc` |
-| `scripts/test_sample_paper.sh` | Builds single- and two-column PDFs plus preview PNGs |
+| `tests/fixtures/sample_paper.md` | End-to-end sample (math, algorithm, code, table, citations) |
+| `tests/fixtures/sample_paper.bib` | BibTeX for `--citeproc` |
+| `scripts/test_sample_paper.sh` | Builds PDFs and documentation PNGs |
 
 ```bash
+# In the peanutbook repo
 ./scripts/test_sample_paper.sh
+
+# Also copy PNGs to peanutbook-docs (optional)
+PEANUTBOOK_DOCS=/path/to/peanutbook-docs ./scripts/test_sample_paper.sh
 ```
 
-Outputs:
-
-| Artifact | Description |
-|----------|-------------|
-| `tests/output/sample_paper.pdf` | Single-column preview |
-| `tests/output/sample_paper_twocol.pdf` | Two-column preview |
-| `docs/img/paper-preview-single.png` | Documentation screenshot (single column) |
-| `docs/img/paper-preview-twocol.png` | Documentation screenshot (two column) |
-
-### Algorithms and math
-
-The sample paper includes display equations (attention, multi-head, layer norm) and a fenced algorithm block:
-
-````markdown
-```{.algorithm caption="Scaled Dot-Product Attention" label="alg:attention"}
-\Require Matrices $Q, K, V$ with compatible inner dimension $d_k$
-\Ensure Attention output $A$
-\State $S \gets Q K^\top / \sqrt{d_k}$
-...
-```
-````
-
-`bubble-paper` applies `scripts/algorithm_blocks.lua` automatically. Cross-references use raw LaTeX, e.g. `Algorithm~\ref{alg:attention}`.
-
-Two-column builds also enable `scripts/paper_floating_tables.lua` so tables use floating `table` environments instead of `longtable` (which fails in `twocolumn` mode).
-
-### Code line numbers
-
-`bubble-paper` enables **left-aligned line numbers** on fenced code blocks by default (listings `numbers=left`). Disable for a single block with a `#NOLINENUM` marker at the top of the block (same as books). Re-enable an individual block with `#LINENUM` when line numbers are off.
+| PNG (in `docs/img/`) | Contents |
+|----------------------|----------|
+| `paper-preview-single.png` | Single-column page 1 |
+| `paper-preview-single-method.png` | Single-column page 2 (method) |
+| `paper-preview-twocol.png` | Two-column page 1 |
+| `paper-preview-twocol-method.png` | Two-column page 2 (method) |
 
 ## See also
 

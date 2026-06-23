@@ -117,7 +117,7 @@ bubble-paper --init
 bubble-paper paper.md --papersize a4
 ```
 
-See **[Academic papers](paper.md)** for YAML front matter, bibliography, and two-column layout.
+See **[Academic papers (bubble-paper)](paper.md)** for YAML front matter, bibliography, two-column layout, and PDF previews.
 
 ## Next steps
 

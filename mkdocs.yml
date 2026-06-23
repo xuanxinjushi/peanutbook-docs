@@ -55,7 +55,7 @@ nav:
   - Multi-language: multi-language.md
   - Covers & templates: covers-templates.md
   - Business plans: bizplan.md
-  - Academic papers: paper.md
+  - Academic papers (bubble-paper): paper.md
   - HTML generation: html-generation.md
   - Command reference:
       - Overview: commands/overview.md

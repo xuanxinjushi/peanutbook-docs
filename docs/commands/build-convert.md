@@ -147,7 +147,9 @@ bubble-paper paper.md --two-column --optimize-pdf
 
 YAML front matter: `title`, `author`, `affiliation`, `abstract`, `keywords`, `bibliography` (path to `.bib` for `--citeproc`). Uses `templates/paper_style.tex`.
 
-Full guide: **[Academic papers](../paper.md)**.
+![Two-column sample paper PDF preview](../img/paper-preview-twocol.png)
+
+Full guide with layout screenshots: **[Academic papers (bubble-paper)](../paper.md)**.
 
 ## `bubble-bizplan`
 
