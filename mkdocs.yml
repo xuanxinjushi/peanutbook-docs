@@ -1,5 +1,5 @@
 site_name: Peanutbook
-site_description: Peanutbook — a Markdown-based format for writing books; built with peanutbook
+site_description: Peanutbook — a Markdown-based format for books, papers, business plans, and static websites; built with peanutbook
 site_url: !ENV [READTHEDOCS_CANONICAL_URL, 'https://peanutbook.com/']
 # RTD sets READTHEDOCS_CANONICAL_URL on build → readthedocs.io URLs.
 # Local ./build-site.sh uses the default → peanutbook.com URLs.

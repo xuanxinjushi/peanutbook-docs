@@ -1,6 +1,6 @@
 # Peanutbook
 
-**Peanutbook** is a **Markdown-based format for writing books** — a structured syntax and project layout for long-form, print-ready manuscripts (textbooks, technical books, memoirs, and similar works).
+**Peanutbook** is a **Markdown-based format for writing books, papers, business plans, and static websites** — a structured syntax and project layout for long-form, print-ready documents (textbooks, technical books, memoirs, research papers, business plans, and similar works).
 
 ![Peanut the dog and Bubble the rabbit](peanut_bubble.jpg)
 

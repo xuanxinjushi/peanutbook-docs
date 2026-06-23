@@ -1,6 +1,6 @@
 # Peanutbook documentation
 
-Public documentation for **Peanutbook** — a Markdown-based format for writing books.
+Public documentation for **Peanutbook** — a Markdown-based format for writing books, papers, business plans, and static websites.
 
 **Read the docs:**
 
