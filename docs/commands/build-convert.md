@@ -135,6 +135,20 @@ bubble-proposal notes/sample.md --lang cn --optimize-pdf
 
 YAML front matter (`title`, `author`, `runtitle`, …) enables full U.S. proposal title page layout. Without `title`, output uses compact article style.
 
+## `bubble-paper`
+
+Single Markdown → academic paper PDF (Pandoc + LuaLaTeX):
+
+```bash
+bubble-paper --init
+bubble-paper paper.md --papersize a4
+bubble-paper paper.md --two-column --optimize-pdf
+```
+
+YAML front matter: `title`, `author`, `affiliation`, `abstract`, `keywords`, `bibliography` (path to `.bib` for `--citeproc`). Uses `templates/paper_style.tex`.
+
+Full guide: **[Academic papers](../paper.md)**.
+
 ## `bubble-bizplan`
 
 Single Markdown → business plan PDF (Pandoc + LuaLaTeX). Uses **`peanut-biz.config`**, not `peanut.config`.
@@ -167,9 +181,10 @@ bubble-scaffold
 bubble-scaffold --chapters 10 --lang both --yes
 bubble-scaffold --lang zh --yes
 bubble-scaffold --bizplan
+bubble-scaffold --paper
 ```
 
-Creates chapter stubs, `peanut.config`, and `cover/7x10/` placeholders. If `--bizplan` is specified, scaffolds a business plan template (`bizplan.md`) instead.
+Creates chapter stubs, `peanut.config`, and `cover/7x10/` placeholders. With `--bizplan`, scaffolds `bizplan.md`. With `--paper`, scaffolds `paper.md`.
 
 ## `bubble-split-pdf`
 

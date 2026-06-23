@@ -92,3 +92,5 @@ bubble-proposal querytracker/proposal.md --lang en --optimize-pdf
 ```
 
 For business plans (`bubble-bizplan`, `peanut-biz.config`), see **[Business plans](bizplan.md)**.
+
+For academic papers (`bubble-paper`, `templates/paper_style.tex`), see **[Academic papers](paper.md)**.

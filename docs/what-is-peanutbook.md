@@ -28,6 +28,7 @@ bubble-convert 1          # one chapter → PDF
 bubble-build --style square   # full book → PDF
 bubble-render-html            # full book → HTML site
 bubble-bizplan bizplan.md     # business plan → PDF
+bubble-paper paper.md         # academic paper → PDF
 ```
 
 The Python package import name remains `bubble` for historical reasons; the public name for the format is **Peanutbook**.

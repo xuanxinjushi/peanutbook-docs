@@ -108,8 +108,20 @@ bubble-bizplan bizplan.md --cover-name tech-white
 
 See **[Business plans](bizplan.md)** for required sections, `peanut-biz.config`, and cover styles.
 
+## 9. Academic paper (optional)
+
+For a single-file research paper (not a multi-chapter book):
+
+```bash
+bubble-paper --init
+bubble-paper paper.md --papersize a4
+```
+
+See **[Academic papers](paper.md)** for YAML front matter, bibliography, and two-column layout.
+
 ## Next steps
 
+- [Academic papers](paper.md) — `bubble-paper`
 - [Business plans](bizplan.md) — `bubble-bizplan`
 - [Multi-language](multi-language.md) — `_zh`, `_tc`, `_jp`, `_sp` files
 - [Covers & templates](covers-templates.md) — `--cover`, trim sizes

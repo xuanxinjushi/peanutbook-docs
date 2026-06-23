@@ -71,6 +71,17 @@ build_bizplan_pdf(
 
 CLI equivalent: `bubble-bizplan`. See **[Business plans](bizplan.md)**.
 
+### `bubble.paper`
+
+```python
+from pathlib import Path
+from bubble.paper import build_paper_pdf
+
+build_paper_pdf(Path("paper.md"), Path("paper.pdf"), papersize="a4", two_column=False)
+```
+
+CLI equivalent: `bubble-paper`. See **[Academic papers](paper.md)**.
+
 ## Utilities
 
 Common helpers in `bubble.utils`:

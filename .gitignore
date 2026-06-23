@@ -1,0 +1,16 @@
+# MkDocs build output
+site/
+site-rtd/
+
+# Local Python venv (build-site.sh)
+.venv/
+
+# MkDocs / pip cache
+.cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode

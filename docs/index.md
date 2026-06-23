@@ -32,6 +32,7 @@ bubble-build --style square
 - Print-on-demand covers and trim sizes (KDP, Lulu, Ingram, …)
 - Static HTML book sites (`book_html/`) for online reading
 - Business plans (`bubble-bizplan`, `peanut-biz.config`) — see [Business plans](bizplan.md)
+- Academic papers (`bubble-paper`) — see [Academic papers](paper.md)
 - Optional watermarks and PDF protection on output
 
 ## Documentation map
@@ -49,6 +50,7 @@ bubble-build --style square
 | [Multi-language](multi-language.md) | `--lang`, file suffixes, fonts |
 | [Covers & templates](covers-templates.md) | Page sizes, cover folders |
 | [Business plans](bizplan.md) | Business-plan workflow (`bubble-bizplan`, `peanut-biz.config`) |
+| [Academic papers](paper.md) | Research-paper workflow (`bubble-paper`) |
 | [HTML generation](html-generation.md) | Static book site (`bubble-render-html`) |
 | [Command reference](commands/overview.md) | All `bubble-*` CLI tools |
 | [Python API](python-api.md) | `Converter`, `BookBuilder` |
