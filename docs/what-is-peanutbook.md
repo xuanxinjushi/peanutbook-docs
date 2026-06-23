@@ -1,6 +1,6 @@
 # What is Peanutbook?
 
-**Peanutbook** is a **book-writing format** built on Markdown. It is not a generic Markdown dialect for web pages or notes — it is a structured way to author **long-form, print-ready books** (technical manuals, textbooks, memoirs, and similar projects).
+**Peanutbook** is a **writing format** built on Markdown — for **books, papers, business plans, and static websites**, not casual notes or one-off web pages. It is a structured way to author **long-form, print-ready documents** (technical manuals, textbooks, memoirs, research papers, business plans, and similar projects).
 
 Peanutbook extends CommonMark-style Markdown with conventions and markers for:
 
