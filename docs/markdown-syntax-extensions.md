@@ -321,6 +321,69 @@ More text after the divider.
 Text after red divider with Python icon.
 ```
 
+## Code Block Styles
+
+Peanutbook applies different code box styles by language and optional first-line markers inside the fence. PDF output is shown below; HTML uses matching light/dark classes for bash and terminal blocks.
+
+![Code block styles in PDF: Python default, bash green tint, custom #BKG, and terminal style](img/codeblock-styles-preview.png)
+
+### Default by language
+
+| Language fence | PDF style |
+|----------------|-----------|
+| `python` | Gray box, blue border (default) |
+| `bash`, `sh`, `shell` | Light green tint (`green!8`) |
+
+````markdown
+```python
+def greet(name: str) -> None:
+    print(f"Hello, {name}!")
+```
+
+```bash
+conda activate usao
+python -m cibuildwheel --output-dir dist
+```
+````
+
+### Custom background (`#BKG:`)
+
+Add `#BKG:` as the **first line** inside the fence. Colors use LaTeX/xcolor names (e.g. `yellow!20`, `gray!10`).
+
+````markdown
+```bash
+#BKG:yellow!20
+echo "Custom yellow background"
+```
+````
+
+Combine with line-number markers: `#BKG:yellow!20;#LINENUM` or `#BKG:yellow!20;#LINENUM;#LINEBAR`.
+
+### Terminal style (`#STYLE:terminal`)
+
+Dark background with a left accent bar — useful for shell sessions, cluster commands, or log snippets.
+
+````markdown
+```bash
+#STYLE:terminal
+# List InfiniBand devices
+ibdev2netdev
+ib_write_bw <other_node_ip>
+```
+````
+
+Works with any fenced language, not only bash.
+
+### Preview fixture
+
+To regenerate the preview PDF locally (from the peanutbook source repo):
+
+```bash
+./scripts/test_codeblock_styles.sh
+```
+
+Output: `test_codeblock_styles.pdf` and `tests/output/codeblock_styles-*.png`.
+
 ## Code Line Annotations
 
 By default, code blocks **do not** display line numbers. Line numbers are automatically enabled when:
