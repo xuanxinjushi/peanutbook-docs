@@ -91,4 +91,4 @@ bubble-build --optimize-pdf --optimize-pdf-quality prepress   # English: less ag
 bubble-proposal querytracker/proposal.md --lang en --optimize-pdf
 ```
 
-For AI4Biz business plans (`bubble-bizplan`, `peanut-biz.config`), see **[Business plans](bizplan.md)**.
+For business plans (`bubble-bizplan`, `peanut-biz.config`), see **[Business plans](bizplan.md)**.

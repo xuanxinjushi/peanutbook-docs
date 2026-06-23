@@ -14,7 +14,7 @@ After `pip install -e .` (or `pip install peanutbook`), every tool is available 
 | `bubble-scaffold` | `scaffold.py` | Create new bubble-compatible repo |
 | `bubble-monitor` | `monitor.py` | Watch Markdown and auto-rebuild |
 | `bubble-proposal` | `proposal.py` | One-off proposal / query letter PDF |
-| `bubble-bizplan` | `bizplan.py` | Build structured AI4Biz business plan PDF — see [Business plans](../bizplan.md) |
+| `bubble-bizplan` | `bizplan.py` | Build structured business plan PDF — see [Business plans](../bizplan.md) |
 
 ## Build pipeline helpers
 

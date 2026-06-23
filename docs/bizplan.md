@@ -1,6 +1,6 @@
-# Business plans (AI4Biz)
+# Business plans
 
-Peanutbook includes a separate workflow for **structured AI4Biz business plans**: one Markdown file → PDF with academic/corporate formatting, section validation, and optional cover pages.
+Peanutbook includes a separate workflow for **structured business plans**: one Markdown file → PDF with academic/corporate formatting, section validation, and optional cover pages.
 
 This path uses **`peanut-biz.config`** (not `peanut.config`) and the **`bubble-bizplan`** command. It does not use chapter folders, print templates, or book covers.
 
@@ -48,7 +48,7 @@ CLI flags override matching keys in `peanut-biz.config`.
 
 ## Required structure
 
-`bubble-bizplan` scans Markdown headings for AI4Biz narrative sections (case-insensitive regex on heading text). Required sections:
+`bubble-bizplan` scans Markdown headings for business-plan narrative sections (case-insensitive regex on heading text). Required sections:
 
 | Section | Heading must match |
 |---------|-------------------|
@@ -68,7 +68,7 @@ If sections are missing:
 - A warning lists what is missing (default).
 - With `--strict` or `"strict": true` in config, the build exits with code 1.
 
-After a successful build, a **page-count warning** is printed if the PDF exceeds **5 pages** (AI4Biz submission limit).
+After a successful build, a **page-count warning** is printed if the PDF exceeds **5 pages** (submission limit).
 
 ## YAML front matter
 
@@ -80,7 +80,7 @@ title: MockSphere
 subtitle: AI-Powered Analytics for SMBs
 author: Jane Doe
 date: March 2026
-institution: AI for Business (AI4Biz) Submission
+institution: Business Plan Submission
 ---
 ```
 

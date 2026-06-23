@@ -99,7 +99,7 @@ bubble-monitor --lang cn 1
 
 ## 8. Business plan (optional)
 
-For a single-file AI4Biz submission (not a multi-chapter book):
+For a single-file business plan (not a multi-chapter book):
 
 ```bash
 bubble-bizplan --init bizplan.md
@@ -110,7 +110,7 @@ See **[Business plans](bizplan.md)** for required sections, `peanut-biz.config`,
 
 ## Next steps
 
-- [Business plans](bizplan.md) — AI4Biz `bubble-bizplan`
+- [Business plans](bizplan.md) — `bubble-bizplan`
 - [Multi-language](multi-language.md) — `_zh`, `_tc`, `_jp`, `_sp` files
 - [Covers & templates](covers-templates.md) — `--cover`, trim sizes
 - [HTML generation](html-generation.md) — static book site

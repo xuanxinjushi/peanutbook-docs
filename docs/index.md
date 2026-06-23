@@ -31,7 +31,7 @@ bubble-build --style square
 - Figures, code listings, math, indexes, and cross-references
 - Print-on-demand covers and trim sizes (KDP, Lulu, Ingram, …)
 - Static HTML book sites (`book_html/`) for online reading
-- AI4Biz business plans (`bubble-bizplan`, `peanut-biz.config`) — see [Business plans](bizplan.md)
+- Business plans (`bubble-bizplan`, `peanut-biz.config`) — see [Business plans](bizplan.md)
 - Optional watermarks and PDF protection on output
 
 ## Documentation map
@@ -48,7 +48,7 @@ bubble-build --style square
 | [Theme](theme.md) | Colors, chapter opener, quote style (no LaTeX) |
 | [Multi-language](multi-language.md) | `--lang`, file suffixes, fonts |
 | [Covers & templates](covers-templates.md) | Page sizes, cover folders |
-| [Business plans](bizplan.md) | AI4Biz `bubble-bizplan`, `peanut-biz.config` |
+| [Business plans](bizplan.md) | Business-plan workflow (`bubble-bizplan`, `peanut-biz.config`) |
 | [HTML generation](html-generation.md) | Static book site (`bubble-render-html`) |
 | [Command reference](commands/overview.md) | All `bubble-*` CLI tools |
 | [Python API](python-api.md) | `Converter`, `BookBuilder` |

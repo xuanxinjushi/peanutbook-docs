@@ -137,7 +137,7 @@ YAML front matter (`title`, `author`, `runtitle`, …) enables full U.S. proposa
 
 ## `bubble-bizplan`
 
-Single Markdown → AI4Biz business plan PDF (Pandoc + LuaLaTeX). Uses **`peanut-biz.config`**, not `peanut.config`.
+Single Markdown → business plan PDF (Pandoc + LuaLaTeX). Uses **`peanut-biz.config`**, not `peanut.config`.
 
 ```bash
 bubble-bizplan --init bizplan.md
