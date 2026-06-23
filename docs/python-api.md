@@ -1,6 +1,6 @@
 # Python API
 
-Bubble exposes two main orchestrators for programmatic use. Install the package first (`pip install bubble-book`).
+Bubble exposes two main orchestrators for programmatic use. Install the package first (`pip install peanutbook`).
 
 ## Convert a chapter — `Converter`
 

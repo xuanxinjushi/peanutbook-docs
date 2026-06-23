@@ -4,10 +4,10 @@ Bubble requires **Python 3.9+** (3.12 recommended). External tools (Pandoc, LaTe
 
 ## Install from PyPI (recommended)
 
-Wheels are published as **`bubble-book`** (PyPI name `bubble` is taken):
+Wheels are published as **`peanutbook`** (PyPI name `bubble` is taken):
 
 ```bash
-pip install bubble-book
+pip install peanutbook
 ```
 
 Import name remains `bubble`; all `bubble-*` entry points are installed on your `PATH`.
@@ -30,7 +30,7 @@ If `pip install -e .` succeeds but no `bubble-*` commands appear, reinstall from
 ```bash
 conda create -n bubble python=3.12
 conda activate bubble
-pip install bubble-book
+pip install peanutbook
 ```
 
 Many book projects use a conda env for chapter figure scripts; set `"conda_env"` in `peanut.config` if your `img/*.py` generators need it.
@@ -40,7 +40,7 @@ Many book projects use a conda env for chapter figure scripts; set `"conda_env"`
 If you see **externally-managed-environment**, either use a virtualenv/conda env, or:
 
 ```bash
-pip install bubble-book --user --break-system-packages
+pip install peanutbook --user --break-system-packages
 ```
 
 Permanent pip user install (optional), in `~/.pip/pip.conf` or `~/.config/pip/pip.conf`:

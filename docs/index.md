@@ -2,19 +2,23 @@
 
 **Peanutbook** is a **Markdown-based format for writing books** — a structured syntax and project layout for long-form, print-ready manuscripts (textbooks, technical books, memoirs, and similar works).
 
+![Peanut the dog and Bubble the rabbit](peanut_bubble.jpg)
+
 It extends ordinary Markdown with chapter conventions, semantic blocks (`>NOTES:` … `>NOTEE`), figures, math, cross-references, multi-language editions, and print metadata. See [What is Peanutbook?](what-is-peanutbook.md) for the full definition.
 
-The **build toolchain** (`pip install bubble-book`) turns Peanutbook source files into PDF, EPUB, DOCX, and **static HTML book sites** via Pandoc, LaTeX, Lua filters, and the built-in HTML renderer.
+The **build toolchain** (`pip install peanutbook`) turns Peanutbook source files into PDF, EPUB, DOCX, and **static HTML book sites** via Pandoc, LaTeX, Lua filters, and the built-in HTML renderer.
+
+Peanutbook uses bubble-build.
 
 ## Format vs toolchain
 
-| | Peanutbook | `bubble-book` (PyPI) |
+| | Peanutbook | `peanutbook` (PyPI) |
 |---|------------|----------------------|
 | **Role** | Authoring format (`.md` + `peanut.config`) | Build tools (`bubble-build`, …) |
 | **You** | Write and organize chapters | Install once, run to export |
 
 ```bash
-pip install bubble-book
+pip install peanutbook
 bubble-convert 1
 bubble-build --style square
 ```
@@ -35,7 +39,7 @@ bubble-build --style square
 | Section | Contents |
 |---------|----------|
 | [What is Peanutbook?](what-is-peanutbook.md) | Format definition and naming |
-| [Installation](installation.md) | Install `bubble-book` |
+| [Installation](installation.md) | Install `peanutbook` |
 | [Quick start](quickstart.md) | First build in five minutes |
 | [Project layout](project-structure.md) | Peanutbook source tree |
 | [Syntax reference](markdown-syntax-extensions.md) | All Peanutbook Markdown extensions |
@@ -57,7 +61,7 @@ bubble-build --style square
 | Context | Name |
 |---------|------|
 | Format | **Peanutbook** |
-| PyPI | `bubble-book` (`pip install bubble-book`) |
+| PyPI | `peanutbook` (`pip install peanutbook`) |
 | Python import | `bubble` |
 | CLI | `bubble-build`, `bubble-convert`, `bubble-render-html`, `bubble-batch`, … |
 

@@ -1,5 +1,5 @@
 site_name: Peanutbook
-site_description: Peanutbook — a Markdown-based format for writing books; built with bubble-book
+site_description: Peanutbook — a Markdown-based format for writing books; built with peanutbook
 site_url: https://peanutbook.readthedocs.io/
 # Intentionally no repo_url / edit_uri — public docs repo has no Python source to link.
 

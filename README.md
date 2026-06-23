@@ -3,7 +3,7 @@
 Public documentation for **Peanutbook** — a Markdown-based format for writing books.
 
 - Format spec & guides: https://peanutbook.readthedocs.io/
-- Build toolchain: `pip install bubble-book`
+- Build toolchain: `pip install peanutbook`
 
 This repository contains **Markdown docs only** — no Python source. The toolchain source is distributed as encrypted wheels on PyPI.
 

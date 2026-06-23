@@ -47,4 +47,4 @@ EPUB and DOCX exports use Pandoc only (no print Lua filter chain). Math and layo
 
 ## Documentation site
 
-User documentation is published at [peanutbook.readthedocs.io](https://peanutbook.readthedocs.io/). It is built from the public [peanutbook-docs](https://github.com/xuanxinjushi/peanutbook-docs) repository (Markdown + MkDocs config only, no Python source). Install the product via `pip install bubble-book`, not from a public Git clone.
+User documentation is published at [peanutbook.readthedocs.io](https://peanutbook.readthedocs.io/). It is built from the public [peanutbook-docs](https://github.com/xuanxinjushi/peanutbook-docs) repository (Markdown + MkDocs config only, no Python source). Install the product via `pip install peanutbook`, not from a public Git clone.

@@ -1,6 +1,6 @@
 # Command overview
 
-After `pip install -e .` (or `pip install bubble-book`), every tool is available as a **`bubble-*` console script**. Run any command with `--help` where supported.
+After `pip install -e .` (or `pip install peanutbook`), every tool is available as a **`bubble-*` console script**. Run any command with `--help` where supported.
 
 ## Primary workflows
 
