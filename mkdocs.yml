@@ -1,6 +1,6 @@
 site_name: Peanutbook
 site_description: Peanutbook — a Markdown-based format for writing books; built with peanutbook
-site_url: https://peanutbook.readthedocs.io/
+site_url: https://peanutbook.com/
 # Intentionally no repo_url / edit_uri — public docs repo has no Python source to link.
 
 docs_dir: docs
@@ -69,5 +69,10 @@ nav:
       - PDF protection: pdf-protection.md
   - Troubleshooting:
       - Cross-references: cross-references-troubleshooting.md
+
+extra:
+  analytics:
+    provider: google
+    property: G-NPTR4NLLEQ
 
 # No GitHub "edit this page" or repo icon — avoids pointing readers at a source tree.

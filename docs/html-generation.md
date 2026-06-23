@@ -146,6 +146,6 @@ Use PDF for print; use HTML for online reading, review, and companion websites.
 ## See also
 
 - [Build & convert](commands/build-convert.md) — all build commands
-- [Configuration](../configuration.md) — full `peanut.config` reference
-- [Multi-language](../multi-language.md) — localized chapter files
-- [Covers & templates](../covers-templates.md) — cover folders shared with print builds
+- [Configuration](configuration.md) — full `peanut.config` reference
+- [Multi-language](multi-language.md) — localized chapter files
+- [Covers & templates](covers-templates.md) — cover folders shared with print builds
