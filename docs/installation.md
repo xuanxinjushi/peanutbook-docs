@@ -12,19 +12,6 @@ pip install peanutbook
 
 Import name remains `bubble`; all `bubble-*` entry points are installed on your `PATH`.
 
-## Editable install (toolchain development)
-
-If you have the private **peanutbook** source tree (not the public docs repo):
-
-```bash
-cd /path/to/peanutbook
-pip install -e .
-```
-
-Use the **same Python environment** for installs and builds (e.g. `conda activate your-env`). After install, `which bubble-build` should point at that env’s `bin/` directory.
-
-If `pip install -e .` succeeds but no `bubble-*` commands appear, reinstall from a recent tree — console scripts are declared in `setup.py` and must be listed as `dynamic = ["scripts"]` in `pyproject.toml` so current setuptools installs them.
-
 ## Conda environment
 
 ```bash

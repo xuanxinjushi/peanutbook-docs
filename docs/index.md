@@ -67,4 +67,8 @@ bubble-build --style square
 
 ## License
 
-See the main repository license.
+This project is licensed under the Apache License, Version 2.0.
+
+## Contact
+
+Xuan Xin — xuanxinjushi [at] gmail [dot] com
