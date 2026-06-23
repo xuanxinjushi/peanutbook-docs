@@ -325,7 +325,7 @@ Text after red divider with Python icon.
 
 Peanutbook applies different code box styles by language and optional first-line markers inside the fence. PDF output is shown below; HTML uses matching light/dark classes for bash and terminal blocks.
 
-![Code block styles in PDF: Python default, bash green tint, custom #BKG, and terminal style](img/codeblock-styles-preview.png)
+![Code block styles in PDF: Python, bash, C++, Java, overrides, and terminal](img/codeblock-styles-preview.png)
 
 ### Default by language
 
@@ -333,6 +333,14 @@ Peanutbook applies different code box styles by language and optional first-line
 |----------------|-----------|
 | `python` | Gray box, blue border (default) |
 | `bash`, `sh`, `shell` | Light green tint (`green!8`) |
+| `c`, `cpp`, `c++`, `cuda` | Light pink tint (`pink!8`) — shared C-family style |
+| `java` | Light purple tint (`purple!8`) |
+| `javascript`, `js`, `typescript`, `ts` | Light orange tint (`orange!8`) |
+| `go` | Light cyan tint (`cyan!8`) |
+| `rust` | Light brown tint (`brown!8`) |
+| `csharp`, `cs` | Light blue tint (`blue!8`) |
+| `sql` | Light teal tint (`teal!8`) |
+| *(none)* | Gray box, blue border (same as `python` default) |
 
 ````markdown
 ```python
@@ -343,6 +351,51 @@ def greet(name: str) -> None:
 ```bash
 conda activate usao
 python -m cibuildwheel --output-dir dist
+```
+
+```c
+#include <stdio.h>
+int main(void) { puts("hi"); return 0; }
+```
+
+```cpp
+#include <iostream>
+int main() { std::cout << "hi\n"; }
+```
+
+```cuda
+__global__ void hello() { printf("hi\n"); }
+```
+
+```java
+public class Main {
+    public static void main(String[] args) { }
+}
+```
+
+```typescript
+const greet = (name: string): void => console.log(name);
+```
+
+```go
+package main
+func main() { fmt.Println("hi") }
+```
+
+```rust
+fn main() { println!("hi"); }
+```
+
+```csharp
+Console.WriteLine("hi");
+```
+
+```sql
+SELECT 'hi' AS greeting;
+```
+
+```
+plain text or unknown language
 ```
 ````
 
@@ -373,6 +426,28 @@ ib_write_bw <other_node_ip>
 ````
 
 Works with any fenced language, not only bash.
+
+### No border radius (`#STYLE:no-border-radius`)
+
+Square corners on the code box (overrides the default rounded border). Language background tints still apply.
+
+````markdown
+```python
+#STYLE:no-border-radius
+print("Hello!")
+```
+````
+
+### No border line (`#STYLE:no-border-line`)
+
+Removes the colored border line around the code box. Language background tints still apply.
+
+````markdown
+```python
+#STYLE:no-border-line
+print("Hello!")
+```
+````
 
 ### Preview fixture
 
