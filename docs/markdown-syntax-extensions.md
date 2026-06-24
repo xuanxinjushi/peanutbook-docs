@@ -601,6 +601,7 @@ Some text after the formula.
 ```
 
 **Common Mistakes:**
+
 - ❌ **No empty line before:** Formula won't be detected
   ```markdown
   The formula is:
@@ -1440,6 +1441,7 @@ where:
 ```
 
 **Common Mistakes:**
+
 - ❌ **No empty line after colon:** List may not be properly formatted
   ```markdown
   where:
