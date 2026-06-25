@@ -6,7 +6,7 @@
 
 It extends ordinary Markdown with chapter conventions, semantic blocks (`>NOTES:` … `>NOTEE`), figures, math, cross-references, multi-language editions, and print metadata. See [What is Peanutbook?](what-is-peanutbook.md) for the full definition.
 
-The **build toolchain** (`pip install peanutbook`) turns Peanutbook source files into PDF, EPUB, DOCX, and **static HTML book sites** via Pandoc, LaTeX, Lua filters, and the built-in HTML renderer.
+The **build toolchain** (`pip install peanutbook`) turns Peanutbook source files into PDF, EPUB, DOCX, and **static HTML book sites** via Pandoc, LaTeX, Lua filters (including [Mermaid diagram rendering](markdown-syntax-extensions.md#mermaid-diagrams)), and the built-in HTML renderer.
 
 Peanutbook uses bubble-build.
 

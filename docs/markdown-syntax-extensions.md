@@ -517,6 +517,126 @@ To regenerate the preview PDF locally (from the peanutbook source repo):
 
 Output: `test_codeblock_styles.pdf` and `tests/output/codeblock_styles-*.png`.
 
+## Mermaid diagrams
+
+` ```mermaid ` fences are **rendered to PNG figures** during `bubble-convert`, `bubble-build`, and **`bubble-render-html`** — not shown as code listings. PDF/EPUB use the Lua filter `mermaid_blocks.lua`; HTML uses `htmlbook/mermaid_blocks.py`. Both call `render_mermaid_block.py` (**mermaid-cli**: `mmdc` or `npx @mermaid-js/mermaid-cli`).
+
+### Basic usage
+
+````markdown
+```mermaid
+flowchart LR
+  A[Master] --> B[Worker]
+```
+
+```{.mermaid width=50%}
+flowchart TB
+  subgraph cluster["SLURM cluster"]
+    M["MASTER_ADDR / MASTER_PORT"]
+    W1["Node 0"]
+    W2["Node 1"]
+    M --> W1
+    M --> W2
+  end
+  W1 --> T["torchrun train_fsdp2.py"]
+  W2 --> T
+```
+````
+
+- Language tag: `mermaid` (or class `.{.mermaid}`).
+- Optional attributes on the fence: `width=50%`, `width=5cm`, `align=center` (same as [image attributes](#image-attributes)).
+- Default width when omitted: **90%** of line width.
+
+### How it works
+
+1. Pandoc parses the fenced block as a `CodeBlock` with class `mermaid`.
+2. `mermaid_blocks.lua` (early in the filter chain, before `code_line_numbers.lua`) writes the diagram source to a temp file and runs:
+
+   ```bash
+   python3 scripts/render_mermaid_block.py --content-file … --out-dir img/.mermaid
+   ```
+
+3. Output is cached as `img/.mermaid/<sha16>.png` (hash of diagram text). Unchanged diagrams are not re-rendered.
+4. The block is replaced with a normal image (`\includegraphics` in PDF).
+
+**Requirements:** `mmdc` on `PATH`, or **Node.js** with `npx` (first run may download `@mermaid-js/mermaid-cli`). See [System requirements — Mermaid](system-requirements.md#mermaid-diagrams-optional).
+
+**Supported builds:** chapter PDF (`bubble-convert`), full book PDF and EPUB (`bubble-build`), and static HTML (`bubble-render-html`, `bubble-build --format html`). Standalone `bubble-convert --format docx` does **not** include the print Lua filter chain; use PDF or pre-rendered `![](img/…)` for Word.
+
+**HTML:** `htmlbook/mermaid_blocks.py` runs before Markdown conversion and uses the same `render_mermaid_block.py` cache as PDF. Image paths are rewritten for the flat `book_html/` layout (`../chapterN/img/.mermaid/…`).
+
+### Optional: batch export from `img/*.mmd`
+
+For diagrams maintained as standalone files (not only in Markdown fences):
+
+```bash
+python3 scripts/render_mermaid_fixture.py
+```
+
+Chapter `img/*.py` scripts can call the same renderer (see `tests/fixtures/img/fsdp_flow.py` in the source repo).
+
+### Fixture and preview
+
+![Mermaid flowchart rendered in PDF](img/mermaid-diagram-preview.png)
+
+From a **peanutbook source checkout** (see [System requirements — Mermaid](system-requirements.md#mermaid-diagrams-optional) for `mmdc` / Node.js install).
+
+#### PDF preview
+
+```bash
+bubble-convert tests/fixtures/mermaid.md
+./scripts/test_mermaid_fixture.sh
+```
+
+| Output | Description |
+|--------|-------------|
+| `tests/fixtures/mermaid.pdf` | Chapter PDF beside the fixture |
+| `test_mermaid_fixture.pdf` | Copy at repo root |
+| `tests/output/mermaid_fixture-1.png` | Page-1 raster preview |
+
+Requires **Pandoc**, **LaTeX**, and **mmdc** (or `npx`).
+
+Copy `tests/output/mermaid_fixture-1.png` to `peanutbook-docs/docs/img/mermaid-diagram-preview.png` when updating the docs site.
+
+#### HTML preview
+
+```bash
+./scripts/test_mermaid_html_fixture.sh
+```
+
+Requires **`pip install peanutbook`** (or editable install from the repo) and **mmdc** or **npx** only — no Pandoc or LaTeX.
+
+| Output | Description |
+|--------|-------------|
+| `tests/output/mermaid_fixture_html/` | Mini `book_html` site (`index.html`, `chapter01.html`, `assets/`) |
+| `tests/output/mermaid_fixture_html/chapter01.html` | **Open this** for full theme + diagram |
+| `tests/output/mermaid_fixture.html` | Flat chapter copy (diagram only) |
+| `tests/output/chapter1-demo/img/.mermaid/` | Content-hash PNG cache |
+
+```bash
+xdg-open tests/output/mermaid_fixture_html/chapter01.html   # Linux
+open tests/output/mermaid_fixture_html/chapter01.html       # macOS
+```
+
+In a real book, `bubble-render-html` uses the same `htmlbook/mermaid_blocks.py` path; diagram images live under each chapter’s `img/.mermaid/` and are linked as `../chapterN/img/.mermaid/…` from flat `book_html/` pages.
+
+### SVG (manual)
+
+Templates support `\includesvg` for `![](img/diagram.svg)`. Export with `mmdc -o diagram.svg`; if PDF text misaligns, run `bubble-convert-svg-text` on the SVG.
+
+### Implementation
+
+| Component | Role |
+|-----------|------|
+| `mermaid_blocks.lua` | Pandoc filter: `CodeBlock` → `Image` (PDF/EPUB) |
+| `htmlbook/mermaid_blocks.py` | Same PNG cache for HTML book builds |
+| `render_mermaid_block.py` | Single-diagram render + content-hash cache |
+| `render_mermaid_fixture.py` | Batch `img/*.mmd` → `img/*.png` |
+| `scripts/test_mermaid_fixture.sh` | PDF fixture → `tests/output/mermaid_fixture-1.png` |
+| `scripts/test_mermaid_html_fixture.sh` | HTML fixture → `tests/output/mermaid_fixture_html/` |
+
+Cache directory `img/.mermaid/` is gitignored; commit PNGs only if you need CI without Node.
+
 ## Code Line Annotations
 
 By default, code blocks **do not** display line numbers. Line numbers are automatically enabled when:

@@ -46,7 +46,7 @@ bubble-convert 1 --format epub
 bubble-convert 1 --format docx
 ```
 
-EPUB/DOCX use Pandoc without the full print Lua pipeline — layout may differ from PDF.
+EPUB/DOCX use Pandoc. Full-book **`bubble-build --format epub`** runs the same Lua filters as PDF (including [Mermaid diagrams](../markdown-syntax-extensions.md#mermaid-diagrams)). Standalone **`bubble-convert file.md --format docx`** does not — layout may differ from PDF.
 
 ## `bubble-build`
 

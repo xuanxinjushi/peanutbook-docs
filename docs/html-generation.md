@@ -106,6 +106,7 @@ The active cover folder follows `cover` in config or the print `template` (e.g. 
 - **MathJax** — inline and display math from `$…$` / `$$…$$`
 - **Cross-references** — `@fig:…`, `@eq:…`, `\eqref{eq:…}`, `Chapter~\ref{chap:…}`, index markers `{.idx}`
 - **Semantic blocks** — `>NOTES:`, `>IMPORS:`, `>WARNS:`, `>CENTERS:` / `>CENTERE`, algorithm blocks, fancy dividers, galleries
+- **Mermaid diagrams** — ` ```mermaid ` fences rendered to PNG (same cache as PDF; requires `mmdc` or `npx`)
 - **Section sidebar** — foldable in-chapter H2 navigation; collapsed/expanded state persists across chapters (via `localStorage`)
 - **Front matter** — preface pagination (cover art, copyright, dedication on its own page, about the author, preface body) without editing source `\newpage` before Dedication (inserted at HTML build time)
 
@@ -120,6 +121,46 @@ Built-in themes live in the package under `htmlbook/static/themes/`:
 | `minimal` | Reduced chrome |
 
 Select with `--theme` or `html_theme` in config.
+
+## Mermaid diagrams in HTML
+
+Fenced `mermaid` blocks in chapter Markdown are converted to **PNG figures** before HTML is generated (`htmlbook/mermaid_blocks.py`), using the same `img/.mermaid/<hash>.png` cache as PDF. You need **mermaid-cli** at build time — see [System requirements — Mermaid](system-requirements.md#mermaid-diagrams-optional).
+
+```bash
+# In your book project (chapter folders as usual)
+bubble-render-html
+bubble-build --format html
+```
+
+### Dependencies (HTML only)
+
+| Required | Notes |
+|----------|-------|
+| `pip install peanutbook` | HTML processor is included in the package |
+| **mmdc** or **Node.js + npx** | Renders diagrams to PNG; see install steps in [System requirements](system-requirements.md#mermaid-diagrams-optional) |
+
+Pandoc and LaTeX are **not** required for HTML output.
+
+### Try the fixture (source repo)
+
+```bash
+cd peanutbook
+./scripts/test_mermaid_html_fixture.sh
+xdg-open tests/output/mermaid_fixture_html/chapter01.html
+```
+
+Output layout under `tests/output/`:
+
+```
+tests/output/
+├── mermaid_fixture_html/
+│   ├── index.html
+│   ├── chapter01.html      ← open this
+│   └── assets/
+├── mermaid_fixture.html    ← flat copy (diagram only)
+└── chapter1-demo/
+    └── img/.mermaid/       ← rendered PNG cache
+```
 
 ## Viewing locally
 
@@ -136,6 +177,7 @@ For full pagination and chapter-to-chapter navigation, use a browser with JavaSc
 | Feature | PDF | HTML |
 |---------|-----|------|
 | Engine | Pandoc + LuaLaTeX + Lua filters | Markdown → HTML processor |
+| Mermaid ` ```mermaid ` | `mermaid_blocks.lua` → PNG | `htmlbook/mermaid_blocks.py` → PNG (same cache) |
 | Page size / margins | Template-driven | Responsive CSS |
 | Index | LaTeX index generation | Not generated in HTML v1 |
 | Cover | PDF cover pages | Home page image only |
@@ -145,6 +187,8 @@ Use PDF for print; use HTML for online reading, review, and companion websites.
 
 ## See also
 
+- [Mermaid diagrams](markdown-syntax-extensions.md#mermaid-diagrams) — syntax, PDF/EPUB/HTML pipeline, fixture scripts
+- [System requirements — Mermaid](system-requirements.md#mermaid-diagrams-optional) — install `mmdc` / Node.js
 - [Build & convert](commands/build-convert.md) — all build commands
 - [Configuration](configuration.md) — full `peanut.config` reference
 - [Multi-language](multi-language.md) — localized chapter files
