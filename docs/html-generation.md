@@ -166,8 +166,7 @@ tests/output/
 
 ```bash
 bubble-render-html --lang en
-xdg-open book_html/index.html    # Linux
-open book_html/index.html        # macOS
+xdg-open book_html/index.html
 ```
 
 For full pagination and chapter-to-chapter navigation, use a browser with JavaScript enabled. Math rendering requires network access (MathJax CDN) unless you customize the template.

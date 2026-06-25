@@ -102,11 +102,7 @@ PDF保护功能需要以下依赖：
 pip install pdf2image pillow reportlab numpy
 
 # 系统依赖（poppler-utils）
-# Ubuntu/Debian:
 sudo apt-get install poppler-utils
-
-# macOS:
-brew install poppler
 ```
 
 ## 工作原理

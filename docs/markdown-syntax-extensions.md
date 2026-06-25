@@ -614,8 +614,7 @@ Requires **`pip install peanutbook`** (or editable install from the repo) and **
 | `tests/output/chapter1-demo/img/.mermaid/` | Content-hash PNG cache |
 
 ```bash
-xdg-open tests/output/mermaid_fixture_html/chapter01.html   # Linux
-open tests/output/mermaid_fixture_html/chapter01.html       # macOS
+xdg-open tests/output/mermaid_fixture_html/chapter01.html
 ```
 
 In a real book, `bubble-render-html` uses the same `htmlbook/mermaid_blocks.py` path; diagram images live under each chapter’s `img/.mermaid/` and are linked as `../chapterN/img/.mermaid/…` from flat `book_html/` pages.

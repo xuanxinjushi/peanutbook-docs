@@ -1,5 +1,9 @@
 # System requirements
 
+## Platform
+
+The **`peanutbook` toolchain is supported on Linux only** (Debian/Ubuntu and similar distributions). Examples below use `apt`; adapt package names for your distro.
+
 ## Python
 
 - **Python 3.9+** (3.12 recommended)
@@ -14,10 +18,12 @@
 | **XeLaTeX** | Chinese, Traditional Chinese, Japanese PDF |
 | **makeindex** | Keyword index (`bubble-index`) |
 
-Install a full TeX distribution:
+Install TeX on Debian/Ubuntu:
 
-- Debian/Ubuntu: `texlive-full` or minimal `texlive-luatex`, `texlive-xetex`, `texlive-latex-extra`
-- macOS: MacTeX
+```bash
+sudo apt install texlive-full
+# or a smaller set: texlive-luatex texlive-xetex texlive-latex-extra
+```
 
 ## Fonts
 
@@ -48,16 +54,13 @@ Mermaid is **optional** — only needed when your book uses ` ```mermaid ` fence
 
 #### Install Node.js (if you do not have `mmdc`)
 
-| Platform | Command |
-|----------|---------|
-| Debian/Ubuntu | `sudo apt install nodejs npm` (or [NodeSource](https://github.com/nodesource/distributions) for Node 18+) |
-| macOS | `brew install node` |
-| Windows | [nodejs.org](https://nodejs.org/) installer |
-
-Check:
+Debian/Ubuntu:
 
 ```bash
-node --version   # 18+ recommended
+sudo apt install nodejs npm
+# Node 18+ recommended; use NodeSource if the distro package is too old:
+# https://github.com/nodesource/distributions
+node --version
 ```
 
 #### Option A — global `mmdc` (recommended for frequent builds)
