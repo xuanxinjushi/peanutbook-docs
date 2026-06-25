@@ -323,7 +323,7 @@ Text after red divider with Python icon.
 
 ## Code Block Styles
 
-Peanutbook applies different code box styles by language and optional first-line markers inside the fence. PDF output is shown below; HTML uses matching light/dark classes for bash and terminal blocks.
+Peanutbook applies different code box styles by language and optional first-line markers inside the fence. PDF output is shown below; HTML uses matching CSS classes for bash and terminal blocks (light gray background, black text, black border).
 
 ![Code block styles in PDF: Python, bash, C++, Java, overrides, and terminal](img/codeblock-styles-preview.png)
 
@@ -332,7 +332,7 @@ Peanutbook applies different code box styles by language and optional first-line
 | Language fence | PDF style |
 |----------------|-----------|
 | `python` | Gray box, blue border (default) |
-| `bash`, `sh`, `shell` | Light green tint (`green!8`) |
+| `bash`, `sh`, `shell` | Terminal style (light gray box, black text, black border, left accent bar) |
 | `c`, `cpp`, `c++`, `cuda` | Light pink tint (`pink!8`) — shared C-family style |
 | `java` | Light purple tint (`purple!8`) |
 | `javascript`, `js`, `typescript`, `ts` | Light orange tint (`orange!8`) |
@@ -401,20 +401,78 @@ plain text or unknown language
 
 ### Custom background (`#BKG:`)
 
-Add `#BKG:` as the **first line** inside the fence. Colors use LaTeX/xcolor names (e.g. `yellow!20`, `gray!10`).
+Add `#BKG:` as the **first line** inside the fence. Colors use LaTeX/xcolor names (e.g. `red!20`, `yellow!20`, `gray!10`).
 
 ````markdown
 ```bash
-#BKG:yellow!20
-echo "Custom yellow background"
+#BKG:red!20
+#STYLE:bash
+echo "Custom red background"
 ```
 ````
 
-Combine with line-number markers: `#BKG:yellow!20;#LINENUM` or `#BKG:yellow!20;#LINENUM;#LINEBAR`.
+`bash` / `sh` / `shell` default to **terminal** style (light gray background, black text, black border, left accent bar). A custom `#BKG:` tint keeps terminal highlighting. Add `#STYLE:bash` or `#STYLE:green` on the **next line** for the green-tinted shell look with bash syntax highlighting.
+
+Combine with line-number markers: `#BKG:red!20;#LINENUM` or `#BKG:red!20;#LINENUM;#LINEBAR`.
+
+### Terminal style (default for `bash`, `sh`, `shell`)
+
+`bash`, `sh`, and `shell` fences use the terminal look by default — light gray background with black text, a black border, and a left accent bar. Text is uniform (no bash syntax lexer, so digits, hyphens, and flags stay readable on the light background).
+
+#### Bash line wrapping
+
+Long lines are auto-wrapped **only at spaces** with a trailing `\` on continued lines when `bash_wrap_columns` is set in merged `peanut.config` (default `76` in `peanut.config.default`; set `null` or `0` to disable). Continuation lines are indented two spaces.
+
+| Case | Behavior |
+|------|----------|
+| Single long command | Wrapped at spaces with `\` |
+| Multi-line script (`#SBATCH`, `export`, …) | Each long non-`#` line wrapped independently; `#` comment lines unchanged; separate commands are **not** joined with `\` |
+| Lines already continued with `\` | Treated as one logical command, then wrapped if still too long |
+
+Add `#NOWRAP` as the **first line** inside the fence to skip auto-wrap for that block.
+
+````markdown
+```bash
+torchrun --nnodes=2 --nproc_per_node=8 --node_rank=0 \
+  --master_addr=<master_ip> --master_port=29500 train.py
+```
+
+```bash
+#!/bin/bash
+#SBATCH --nodes=4
+srun torchrun --nnodes=$SLURM_NNODES --nproc_per_node=8 \
+  --node_rank=$SLURM_NODEID --master_addr=$MASTER_ADDR train.py
+```
+
+```bash
+#NOWRAP
+torchrun --nnodes=2 --very-long-flags ...
+```
+````
+
+Useful for shell sessions, cluster commands, SLURM scripts, or log snippets.
+
+````markdown
+```bash
+conda activate usao
+python -m cibuildwheel --output-dir dist
+```
+````
+
+### Green bash tint (`#STYLE:green` or `#STYLE:bash`)
+
+For the older light-green shell box, add a style marker as the **first line** inside the fence:
+
+````markdown
+```bash
+#STYLE:green
+echo "Light green background"
+```
+````
 
 ### Terminal style (`#STYLE:terminal`)
 
-Dark background with a left accent bar — useful for shell sessions, cluster commands, or log snippets.
+Explicit terminal marker (same as the default for `bash` / `sh` / `shell`):
 
 ````markdown
 ```bash

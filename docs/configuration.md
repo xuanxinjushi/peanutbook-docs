@@ -35,7 +35,44 @@ Project values override defaults; unset keys keep default behavior.
 | `include_torch` | bool | PyTorch icon in code blocks |
 | `page_number_side` | e.g. `even-left` | Running page number placement |
 | `main_font` | font name | Body font (Latin locales); CLI `--main-font` overrides |
+| `chapter_title_font` | font name | Chapter opener title only; body stays on `main_font` |
 | `body_font_pt` | number | Body size in pt; CLI `--body-font-pt` overrides |
+
+### English body font comparison
+
+The packaged default is **Latin Modern Roman** (Computer Modern–style). It is fine for pure LaTeX math books, but `0`/`O` and `1`/`I` can look alike in body text. Set `main_font` in `peanut.config` or pass `--main-font` on the CLI.
+
+| Font | Industry use | 0/O, 1/I clarity | Notes |
+|------|----------------|------------------|--------|
+| **STIX Two Text** | STEM journals, textbooks | Good | Strong choice for math / AI books |
+| **TeX Gyre Termes** | General books, KDP | OK–good | Classic Times-like book face |
+| **IBM Plex Serif** | Tech / corporate | Strong | Modern, very readable |
+| **Source Serif 4** | Long-form reading | Strong | Adobe open font |
+| EB Garamond | Literary / elegant | Moderate | Attractive; less ideal for dense math |
+
+Example (body font + chapter opener title):
+
+```json
+{
+  "enable_peanut_font_settings": true,
+  "main_font": "STIX Two Text",
+  "chapter_title_font": "Impact",
+  "chapter_title_font_size_pt": 24,
+  "chapter_title_font_baselineskip_pt": 30
+}
+```
+
+`chapter_title_font` works without `enable_peanut_font_settings`. **Size** keys (`chapter_title_font_size_pt`, `chapter_title_font_baselineskip_pt`) apply only when `enable_peanut_font_settings` is `true`; otherwise templates use built-in defaults (`20` / `26` pt).
+
+In **`peanut.theme.json`**, the same sizes use shorter names: `chapter_title_size_pt` and `chapter_title_leading_pt` (mapped to the `chapter_title_font_*` keys above). See **[Theme](theme.md)**.
+
+| Key | Default | Role |
+|-----|---------|------|
+| `enable_peanut_font_settings` | `false` | When `true`, numeric font size keys below override template defaults |
+| `chapter_title_font_size_pt` | `20` | Chapter opener title font size (pt) |
+| `chapter_title_font_baselineskip_pt` | `26` | Chapter opener title line spacing (pt) |
+
+For code blocks, body `main_font` does not change monospace. Use **`code_font`** and **`code_font_size`** in `peanut.config` (see [Code blocks](#code-blocks) below). When `code_font` is `null`, LaTeX uses `\ttfamily` (standard monospace). Set `code_font` to an installed mono font name (e.g. `"JetBrains Mono"`) for a custom face.
 
 ## Theme
 
@@ -69,7 +106,10 @@ When `"enable_peanut_font_settings": true` is configured, you can fine-tune indi
 - `spot_first_section_extra_above` (default `"-0.5em"` for `a4_8.5x11.tpl`, `"-2.85em"` for others): The extra vertical space inserted before the first `##` heading of each chapter. Typically configured as a negative value to pull the heading up and cancel out the `spot_heading_vspace` at the top of a page.
 
 #### Code Block and Table Settings
-- `code_block_font_size` (default `"normalsize"`): Sets the font size of code blocks globally. Supported values are standard LaTeX font sizing commands (without backslash), e.g. `"normalsize"`, `"small"`, `"footnotesize"`, `"scriptsize"`.
+- `code_font` (default `null`): Optional font family for code blocks (e.g. `"JetBrains Mono"`, `"Fira Code"`). `null` uses LaTeX `\ttfamily` (standard monospace). The font must be installed for the PDF engine (LuaLaTeX/XeLaTeX).
+- `code_font_size` (default `"small"`): LaTeX size command for code blocks — without the backslash, e.g. `"small"`, `"footnotesize"`, `"normalsize"`, `"scriptsize"`.
+- `code_block_font_size` (default `"small"`): Deprecated alias for `code_font_size`.
+- `bash_wrap_columns` (default `76`): For default terminal `bash` / `sh` / `shell` blocks, wrap long lines at spaces with a trailing `\`; continuation lines are indented two spaces. Applies to single-line commands and to individual long lines inside multi-line scripts (`#` comment lines are not wrapped). Set `null` or `0` to disable. See [Terminal style](markdown-syntax-extensions.md#terminal-style-default-for-bash-sh-shell).
 - `table_font_size` (default `"normalsize"`): Sets the font size of tables globally. Supported values are standard LaTeX font sizing commands (without backslash), e.g. `"normalsize"`, `"small"`, `"footnotesize"`, `"scriptsize"`.
 - `code_annotation_style` (default `null`): Sets the global style for code line number annotations and explanations. Supported values:
   - `"circle"`: Force circled annotations.
@@ -90,6 +130,39 @@ Per-locale appendix divider strings (optional):
 - `appendix_divider_title_tc`
 - `appendix_divider_title_jp`
 - `appendix_divider_title_sp`
+
+## Code blocks
+
+These keys apply to PDF builds without requiring `enable_peanut_font_settings`.
+
+| Key | Default | Role |
+|-----|---------|------|
+| `bash_wrap_columns` | `76` | Terminal `bash` / `sh` / `shell`: wrap long lines at spaces with `\`; `null` or `0` disables |
+| `code_font` | `null` | Optional font family for code blocks (e.g. `"JetBrains Mono"`); `null` uses `\ttfamily` |
+| `code_font_size` | `small` | LaTeX size command for code blocks (`\small`, `\footnotesize`, `normalsize`, etc.) |
+| `code_block_font_size` | `small` | Deprecated alias for `code_font_size` |
+| `code_line_numbers` | `null` | When `true`, enable code line numbers (see `peanut.config.default`) |
+
+`bubble-convert` / `bubble-build` pass merged values to Lua filters via `BUBBLE_BASH_WRAP_COLUMNS`, `BUBBLE_CODE_FONT_USE`, and `BUBBLE_CODE_FONT_SIZE`.
+
+Example — smaller code with JetBrains Mono:
+
+```json
+{
+  "code_font": "JetBrains Mono",
+  "code_font_size": "footnotesize",
+  "bash_wrap_columns": 76
+}
+```
+
+Example — default monospace, only change size:
+
+```json
+{
+  "code_font": null,
+  "code_font_size": "footnotesize"
+}
+```
 
 ## DOCX / EPUB
 
