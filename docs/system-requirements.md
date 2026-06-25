@@ -46,11 +46,11 @@ Debian/Ubuntu: `fonts-noto-cjk`
 | **pdftotext** (poppler-utils) | `bubble-pdfcheck` — scan built PDFs for `??` and leaked labels |
 | **matplotlib**, **numpy** | `bubble-gen-cover-bg` |
 | Conda env named in config | Running figure scripts in `chapter*/img/` |
-| **mmdc** or **Node.js** (`npx`) | [Mermaid diagrams](markdown-syntax-extensions.md#mermaid-diagrams) in PDF, EPUB, and HTML |
+| **mmdc** or **Node.js** (`npx`) | [Mermaid diagrams](markdown-syntax-extensions.md#mermaid-diagrams) in PDF, DOCX, EPUB, and HTML |
 
 ### Mermaid diagrams (optional)
 
-Mermaid is **optional** — only needed when your book uses ` ```mermaid ` fenced blocks. PDF, EPUB, and HTML all render diagrams to PNG at build time via **mermaid-cli** (`mmdc`).
+Mermaid is **optional** — only needed when your book uses ` ```mermaid ` fenced blocks. PDF, DOCX, EPUB, and HTML render diagrams to PNG at build time via **mermaid-cli** (`mmdc`).
 
 #### Install Node.js (if you do not have `mmdc`)
 
@@ -86,23 +86,17 @@ The first diagram render may download the CLI package (network required).
 | Output | Peanutbook | Mermaid CLI | Pandoc / LaTeX |
 |--------|------------|-------------|----------------|
 | HTML (`bubble-render-html`) | `pip install peanutbook` | **Yes** (`mmdc` or `npx`) | No |
-| PDF / EPUB | `pip install peanutbook` | **Yes** | Yes (PDF); EPUB uses Pandoc only |
+| DOCX (`bubble-convert --format docx`, `bubble-build --format docx`) | `pip install peanutbook` | **Yes** | Pandoc only |
+| EPUB (`bubble-build --format epub`) | `pip install peanutbook` | **Yes** | Pandoc only |
+| PDF | `pip install peanutbook` | **Yes** | Yes |
 
 Rendered PNGs are cached under `img/.mermaid/` next to each chapter (content-hash filenames). No extra `peanut.config` keys are required.
 
-#### Verify from the source repo
-
-```bash
-cd peanutbook
-./scripts/test_mermaid_html_fixture.sh    # HTML only — needs mmdc or npx
-./scripts/test_mermaid_fixture.sh         # PDF — also needs Pandoc + LaTeX
-```
-
-If Mermaid is missing, builds leave the fence as a code block (PDF) or skip the image replacement (HTML logs to stderr).
+If Mermaid is not installed, builds may leave the fence as a code block instead of a figure.
 
 ## EPUB / DOCX
 
-EPUB and DOCX exports use Pandoc. Full-book **EPUB** (`bubble-build --format epub`) runs the same Lua filters as PDF, including Mermaid rendering. Standalone **DOCX** (`bubble-convert file.md --format docx`) does not run the print Lua filter chain. Math and layout may differ from PDF. For Word, optionally provide `reference.docx` in the project root.
+EPUB and DOCX exports use Pandoc (no LaTeX). ` ```mermaid ` fences are rendered to embedded PNG figures, same as PDF. Math and layout may differ from print PDF. For Word, optionally provide `reference.docx` in the project root.
 
 ## Documentation site
 
