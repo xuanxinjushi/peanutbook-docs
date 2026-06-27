@@ -54,6 +54,8 @@ bubble-batch all --cover-provider ingram/hardcover --cover-version v2
 
 Aliases include `kdp_paperback`, `ingram_hardcover`, `lulu_paperback`, `lulu_hardcover`.
 
+Print dimensions and Python helpers (`bubble.cover_print`, `bubble.cover_draw`, …) are documented in **[Cover rendering API](cover-api.md)**.
+
 ## Chapter styles
 
 | Style | Appearance |

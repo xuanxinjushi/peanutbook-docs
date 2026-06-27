@@ -82,6 +82,20 @@ build_paper_pdf(Path("paper.md"), Path("paper.pdf"), papersize="a4", two_column=
 
 CLI equivalent: `bubble-paper`. See **[Academic papers](paper.md)**.
 
+## Print covers — `bubble.cover_*`
+
+Helpers for full-wrap cover scripts (PIL typography, bullets, vendor print sizes, spine layout). See **[Cover rendering API](cover-api.md)**.
+
+```python
+from bubble.cover_print import get_cover_spec, spread_pixels
+from bubble.cover_fonts import get_cover_font_path, load_font
+from bubble.cover_draw import draw_wrapped_bullets_pil
+from bubble.cover_export import save_small_jpeg
+
+spec = get_cover_spec("en", provider="kdp/paperback")
+px = spread_pixels(spec)
+```
+
 ## Utilities
 
 Common helpers in `bubble.utils`:

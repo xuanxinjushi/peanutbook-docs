@@ -53,6 +53,7 @@ nav:
   - Theme: theme.md
   - Multi-language: multi-language.md
   - Covers & templates: covers-templates.md
+  - Cover rendering API: cover-api.md
   - Business plans: bizplan.md
   - Academic papers (bubble-paper): paper.md
   - HTML generation: html-generation.md
