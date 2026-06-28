@@ -65,7 +65,7 @@ bubble-build --style square
 | Format | **Peanutbook** |
 | PyPI | `peanutbook` (`pip install peanutbook`) |
 | Python import | `bubble` |
-| CLI | `bubble-build`, `bubble-convert`, `bubble-render-html`, `bubble-batch`, … |
+| CLI | `bubble-build`, `bubble-convert`, `bubble-convert-parts`, `bubble-render-html`, `bubble-batch`, … |
 
 ## License
 

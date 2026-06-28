@@ -47,6 +47,17 @@ Files are copied or linked into `books/` (or `batch_output_dir`).
 
 Cover scripts in the active folder run before PDF assembly (see [Covers & templates](../covers-templates.md)).
 
+## Part divider pages
+
+Full-book PDF builds (`bubble-batch` without `--format` override) call **`bubble-convert-parts`** before merging chapters, so `partN.pdf` stays in sync with `partN.md`. To refresh part pages without a full book build:
+
+```bash
+bubble-convert-parts
+bubble-convert-parts 1
+```
+
+See [Build & convert — `bubble-convert-parts`](build-convert.md#bubble-convert-parts).
+
 ## Optimization
 
 PDF optimization follows locale rules (Ghostscript vs qpdf). Controlled by:

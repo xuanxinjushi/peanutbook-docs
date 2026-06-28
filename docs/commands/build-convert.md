@@ -48,9 +48,46 @@ bubble-convert 1 --format docx
 
 EPUB and DOCX use Pandoc (no LaTeX). Mermaid diagrams are rendered to PNG in all export formats, including EPUB and DOCX. Layout may differ from PDF.
 
+## `bubble-convert-parts`
+
+Build **part divider pages** (Part I, II, …) as standalone PDFs from `partN.md`. These are separate from chapter title pages and use a dedicated LaTeX/TikZ layout.
+
+```bash
+bubble-convert-parts              # all part*.md under the project
+bubble-convert-parts 1            # Part I only (finds chapter*/part1.md)
+bubble-convert-parts part2
+```
+
+Place each `partN.md` in the **first chapter folder** of that part (for example `chapter1-topic/part1.md`). Output is written beside it as `part1.pdf`.
+
+### Part markdown format
+
+```markdown
+# Part I: Linear Spaces and Representations
+
+**Chapters 1–10**
+
+*Optional subtitle (italic lines)*
+
+> Featured quote
+
+Body paragraphs after the quote.
+```
+
+### When it runs
+
+| Command | Part PDFs |
+|---------|-----------|
+| `bubble-convert-parts` | Generates only (manual refresh) |
+| `bubble-build` (PDF) | Runs `bubble-convert-parts` automatically, then merges via `\includepdf` |
+| `bubble-batch` (PDF) | Same as `bubble-build` for each full-book variant |
+| `bubble-build --format epub/docx/html` | Skipped (print PDF only) |
+
+Typical workflow: edit `partN.md` → `bubble-convert-parts` (optional; full PDF builds do this for you) → `bubble-build`.
+
 ## `bubble-build`
 
-Assemble the full book from all chapters, preface, appendix, covers, and TOC.
+Assemble the full book from all chapters, preface, appendix, covers, and TOC. For PDF output, **part divider PDFs** are regenerated from `partN.md` via `bubble-convert-parts` before chapters are merged (see above).
 
 ```bash
 bubble-build

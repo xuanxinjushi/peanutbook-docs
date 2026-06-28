@@ -26,6 +26,7 @@ After `pip install -e .` (or `pip install peanutbook`), every tool is available 
 | `bubble-latex-multi-pass` | Multi-pass LaTeX (index, references) |
 | `bubble-process-includes` | Expand `{% include %}` in Markdown |
 | `bubble-reorder-cover-preface` | Reorder cover/preface pages in PDF |
+| `bubble-convert-parts` | `convert_parts_to_pdf.py` | Part opener PDFs from `partN.md` |
 | `bubble-split-pdf` | Split large PDF for upload (needs qpdf) |
 | `bubble-protect-pdf` | Copy/print protection (rasterizes pages) |
 | `bubble-add-watermark` | Text or image watermark |

@@ -10,6 +10,8 @@ project_root/
 ├── book.md                       # merged English (from bubble-merge)
 ├── book_zh.md                    # merged cn, etc.
 ├── chapter1-topic/
+│   ├── part1.md                  # optional Part I opener (first chapter of part)
+│   ├── part1.pdf                 # from bubble-convert-parts
 │   ├── chapter1.md               # English source
 │   ├── chapter1_zh.md            # optional localized chapters
 │   ├── chapter1_tc.md
@@ -51,6 +53,8 @@ project_root/
 | `chapterN_sp.md` | Spanish |
 | `chapterx/chapterx.md` | Appendix (English) |
 | `chapterx/preface.md` | Preface |
+| `chapter*/partN.md` | Part divider source (e.g. Part I in `chapter1-…/part1.md`) |
+| `chapter*/partN.pdf` | Generated part opener (see `bubble-convert-parts`) |
 
 Chapter folders are typically named `chapter1-something/`, `chapter2-something/`, … Bubble matches by chapter number inside the Markdown filename.
 
@@ -61,6 +65,7 @@ If a localized file is missing for a chapter, the build **falls back** to the En
 | Command | Typical outputs |
 |---------|-----------------|
 | `bubble-convert N` | `chapterN…/chapterN.pdf` (or `_zh`, etc.) |
+| `bubble-convert-parts` | `chapter*/partN.pdf` next to each `partN.md` |
 | `bubble-build` | `book_{style}.pdf` or `book_{tag}_{style}.pdf` |
 | `bubble-build --no-cover` | `book_{style}_interior.pdf` |
 | `bubble-build --format epub` | `book.epub`, `book_zh.epub`, … |

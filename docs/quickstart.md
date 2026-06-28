@@ -40,7 +40,7 @@ bubble-convert margins/poem.md --format docx
 bubble-build
 ```
 
-Produces `book_circle.pdf` (or `book_square.pdf` / `book_none.pdf` depending on `--style`).
+Produces `book_circle.pdf` (or `book_square.pdf` / `book_none.pdf` depending on `--style`). PDF builds also regenerate **part opener** files (`part1.pdf`, …) from `partN.md` in the first chapter folder of each part.
 
 Common flags:
 

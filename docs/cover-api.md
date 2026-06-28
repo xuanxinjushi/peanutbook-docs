@@ -21,6 +21,7 @@ from bubble.cover_print import get_cover_spec, spread_pixels
 | `bubble.cover_image` | Lower-band dimming (`dim_image_lower`) for background PNGs |
 | `bubble.cover_spread` | Panel paste into bleed slots, spine photos, background recompose |
 | `bubble.cover_spine` | Spine bridge/fog masks, rotated spine typography |
+| `bubble.cover_background` | Low-poly Delaunay panel backgrounds + math watermarks |
 
 Book-specific layout (copy, colors, positions) stays in `cover/{size}/` scripts. Shared geometry and drawing primitives live in `bubble`.
 
@@ -176,7 +177,7 @@ rs = pil_resample_lanczos()
 paste_panels_into_bleed_slots(canvas, back_panel, front_panel, spread_pixels(spec), rs)
 
 # Resize a KDP spread PNG to Ingram hardcover geometry
-img = load_bkg_for_spec(Path("out/full_cover_from_bkg_en.png"), target_spec, "en", resample=rs)
+img = load_bkg_for_spec(Path("out/_bkg/spread_kdp_paperback_en.png"), target_spec, "en", resample=rs)
 ```
 
 ---
@@ -203,6 +204,46 @@ y = draw_spine_title_lines(canvas, title_lines, spine_cx, title_y, title_font, r
 
 ---
 
+## `bubble.cover_background`
+
+Low-poly Delaunay triangulation backgrounds (matplotlib → PIL). Two fill modes:
+
+- **`LowPolyGradientStyle`** — horizontal two-color blend + jitter (v2 dark covers)
+- **`LowPolyColormapStyle`** — radial matplotlib colormap (legacy light covers, e.g. `viridis_r`)
+
+Optional **`MathWatermarkStyle`** scatters faint `$…$` labels (uses `math4ai.configure_math_fonts` when available).
+
+```python
+from bubble.cover_background import (
+    LowPolyGradientStyle,
+    MathWatermarkStyle,
+    LowPolyColormapStyle,
+    render_low_poly_panel,
+)
+
+img = render_low_poly_panel(
+    7.0, 10.0, 300,
+    gradient=LowPolyGradientStyle(
+        grad_left=(0.04, 0.20, 0.17),
+        grad_right=(0.16, 0.07, 0.18),
+    ),
+    watermark=MathWatermarkStyle(symbols=(r"$A = QR$", r"$\nabla f$")),
+    seed=42,
+    mirror_x=False,  # True for back panel (gradient toward spine)
+)
+
+# Legacy viridis radial style (cover_front.py)
+img_light = render_low_poly_panel(
+    7.0, 10.0, 300,
+    colormap=LowPolyColormapStyle(colormap="viridis_r"),
+    seed=42,
+)
+```
+
+`cover/7x10/cover_front_v2_draw.py` passes book-specific `LOW_POLY_STYLE` and `MATH_WATERMARK` into this API.
+
+---
+
 ## Typical project layout
 
 ```
@@ -212,7 +253,8 @@ cover/7x10/
   cover_back_v2_draw.py     # back panel layout (imports bubble.*)
   cover_front_v2_draw.py    # front panel + low-poly background
   full_cover_from_front_back_en.py  # spread background + spine
-  gen_fullcover.py          # overlay text on spread PNG
+  gen_fullcover.py          # overlay text on spread cache
+  out/_bkg/spread_*_en.png  # intermediate spread cache (not a deliverable)
   cover_print_config.py     # thin re-export → bubble.cover_print (local JSON default)
   cover_export.py           # thin re-export → bubble.cover_export
 ```

@@ -50,7 +50,19 @@ builder = BookBuilder(
 builder.build()
 ```
 
-CLI equivalent: `bubble-build`.
+CLI equivalent: `bubble-build`. PDF builds call `bubble.scripts.convert_parts_to_pdf.convert_parts()` before merge (same as `bubble-convert-parts`).
+
+## Part divider PDFs — `convert_parts`
+
+```python
+from pathlib import Path
+from bubble.scripts.convert_parts_to_pdf import convert_parts
+
+convert_parts(Path.cwd())       # all part*.md
+convert_parts(Path.cwd(), "1")  # Part I only
+```
+
+CLI equivalent: `bubble-convert-parts`.
 
 ## Business plans — `build_bizplan_pdf`
 
@@ -91,6 +103,7 @@ from bubble.cover_print import get_cover_spec, spread_pixels
 from bubble.cover_fonts import get_cover_font_path, load_font
 from bubble.cover_draw import draw_wrapped_bullets_pil
 from bubble.cover_export import save_small_jpeg
+from bubble.cover_background import render_low_poly_panel
 
 spec = get_cover_spec("en", provider="kdp/paperback")
 px = spread_pixels(spec)
