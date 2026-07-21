@@ -8,9 +8,9 @@ Orchestrates a **release build**: full book variants per language (cover + squar
 bubble-batch
 bubble-batch --chapters
 bubble-batch en --cover 7x10 --cover-provider kdp/paperback
+bubble-batch en,cn,tc --style square --chapter-opener-size 2
 bubble-batch all --cover 7x10 --cover-provider ingram/hardcover --cover-version v2
 bubble-batch all --no-optimize-pdf
-bubble-batch --chapter-opener-size 5
 ```
 
 Many book repos expose a thin wrapper:
@@ -25,6 +25,7 @@ Many book repos expose a thin wrapper:
 |----------|----------|
 | (none) | Uses `batch_default_langs` from config, or single `lang`, or all scanned langs |
 | `en`, `cn`, … | Build only that locale |
+| `en cn tc` or `en,cn,tc` | Build multiple locales (space- or comma-separated) |
 | `all` | Every language with source files |
 
 ## Typical outputs per language
@@ -64,10 +65,6 @@ PDF optimization follows locale rules (Ghostscript vs qpdf). Controlled by:
 
 - `batch_optimize_pdf` / `batch_optimize_pdf_quality` in `peanut.config`
 - CLI: `--optimize-pdf`, `--no-optimize-pdf`, `--optimize-pdf-quality`
-
-## Chapter opener size
-
-`--chapter-opener-size CM` applies to all full-book and per-chapter PDFs in the batch (same as `bubble-build` / `bubble-convert`). Set a project default with `chapter_opener_size_cm` in `peanut.config`.
 
 ## Protected chapter PDFs
 

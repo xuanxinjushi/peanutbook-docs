@@ -109,6 +109,11 @@ When `"enable_peanut_font_settings": true` is configured, you can fine-tune indi
 - `code_font` (default `null`): Optional font family for code blocks (e.g. `"JetBrains Mono"`, `"Fira Code"`). `null` uses LaTeX `\ttfamily` (standard monospace). The font must be installed for the PDF engine (LuaLaTeX/XeLaTeX).
 - `code_font_size` (default `"small"`): LaTeX size command for code blocks — without the backslash, e.g. `"small"`, `"footnotesize"`, `"normalsize"`, `"scriptsize"`.
 - `code_block_font_size` (default `"small"`): Deprecated alias for `code_font_size`.
+- `caption_font_size` (default `"small"`): Caption font for figures and tables. Named sizes (`tiny`, `scriptsize`, `footnotesize`, `small`, `normalsize`, …) or absolute point sizes (`9`, `9pt`, `9.5`). Absolute sizes are applied via `\DeclareCaptionFont` + `\fontsize`.
+- `caption_font_baselineskip_pt` (default `null`): Line leading when `caption_font_size` is absolute; default is `1.2 ×` the size.
+- `wrap_figure_float` (default `true`): Prefer floating wrapfig placement (`R`/`L` instead of exact `r`/`l`) so wrap figures can move rather than hang into the bottom margin. Override per image with `{float=false}` or `{.nofloat}`.
+- `wrap_needspace_lines` (default `12`): Before each wrapfigure, emit `\Needspace*{N\baselineskip}` so LaTeX starts a new page when too little room remains. Set `0` or `null` to disable.
+- Wrap + display math: Wrap + display math (`wrap_preflight.lua`): if `lines` is unset, estimate it from following prose; insert `\WFclear` before a nearby display equation so it does not overlap the figure. Opt out of clear with `{.no-wfclear}`. Does **not** auto-change `{.wrap}` to `{.block}`.
 - `bash_wrap_columns` (default `76`): For default terminal `bash` / `sh` / `shell` blocks, wrap long lines at spaces with a trailing `\`; continuation lines are indented two spaces. Applies to single-line commands and to individual long lines inside multi-line scripts (`#` comment lines are not wrapped). Set `null` or `0` to disable. See [Terminal style](markdown-syntax-extensions.md#terminal-style-default-for-bash-sh-shell).
 - `table_font_size` (default `"normalsize"`): Sets the font size of tables globally. Supported values are standard LaTeX font sizing commands (without backslash), e.g. `"normalsize"`, `"small"`, `"footnotesize"`, `"scriptsize"`.
 - `code_annotation_style` (default `null`): Sets the global style for code line number annotations and explanations. Supported values:
@@ -141,6 +146,10 @@ These keys apply to PDF builds without requiring `enable_peanut_font_settings`.
 | `code_font` | `null` | Optional font family for code blocks (e.g. `"JetBrains Mono"`); `null` uses `\ttfamily` |
 | `code_font_size` | `small` | LaTeX size command for code blocks (`\small`, `\footnotesize`, `normalsize`, etc.) |
 | `code_block_font_size` | `small` | Deprecated alias for `code_font_size` |
+| `caption_font_size` | `small` | Named size or absolute pt (`9`, `9pt`) for figure/table captions |
+| `caption_font_baselineskip_pt` | `null` | Leading for absolute caption size (default `1.2 ×` size) |
+| `wrap_figure_float` | `true` | Floating wrapfig (`R`/`L`); per-image `{float=false}` / `{.nofloat}` |
+| `wrap_needspace_lines` | `12` | `\Needspace*` lines before wrapfigure; `0` disables |
 | `code_line_numbers` | `null` | When `true`, enable code line numbers (see `peanut.config.default`) |
 
 `bubble-convert` / `bubble-build` pass merged values to Lua filters via `BUBBLE_BASH_WRAP_COLUMNS`, `BUBBLE_CODE_FONT_USE`, and `BUBBLE_CODE_FONT_SIZE`.
