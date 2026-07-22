@@ -218,7 +218,7 @@ Example:
 | `batch_output_dir` | Collect directory (default `books`) |
 | `batch_cover_style` | Cover build style: `circle`, `square`, `none` |
 | `batch_chapter_style` | Style for `--chapters` per-chapter PDFs |
-| `batch_optimize_pdf` | Default `true`; use `--no-optimize-pdf` to override per run |
+| `batch_optimize_pdf` | Default `false`; use `--optimize-pdf` to enable (or `--no-optimize-pdf` to force off) |
 | `batch_optimize_pdf_quality` | `screen`, `ebook`, `printer`, `prepress` (default `ebook`) |
 
 Example:

@@ -64,7 +64,8 @@ Run automatically during `bubble-convert` / `bubble-build`, but can be invoked s
 ## Images and tables
 
 ```bash
-bubble-image                    # image cleanup
+bubble-image clean              # chapter*/img PNGs with matching .py + cover/*/out images/PDFs
+bubble-image clean --dry-run    # preview deletions
 bubble-set-image-dpi            # DPI metadata
 bubble-convert-svg-text         # SVG foreignObject → text for LaTeX
 bubble-fix-table-width          # wide table fixes

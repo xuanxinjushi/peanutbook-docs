@@ -10,7 +10,7 @@ bubble-batch --chapters
 bubble-batch en --cover 7x10 --cover-provider kdp/paperback
 bubble-batch en,cn,tc --style square --chapter-opener-size 2
 bubble-batch all --cover 7x10 --cover-provider ingram/hardcover --cover-version v2
-bubble-batch all --no-optimize-pdf
+bubble-batch --lang all --optimize-pdf
 ```
 
 Many book repos expose a thin wrapper:
