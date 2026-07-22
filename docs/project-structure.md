@@ -11,13 +11,16 @@ project_root/
 ├── book_zh.md                    # merged cn, etc.
 ├── chapter1-topic/
 │   ├── part1.md                  # optional Part I opener (first chapter of part)
-│   ├── part1.pdf                 # from bubble-convert-parts
+│   ├── part1.pdf                 # from bubble-convert-parts (page 2 = part mindmap if present)
 │   ├── chapter1.md               # English source
 │   ├── chapter1_zh.md            # optional localized chapters
 │   ├── chapter1_tc.md
 │   ├── chapter1_jp.md
 │   ├── chapter1_sp.md
 │   └── img/                      # figures; may contain *.py generators
+│       ├── part1_mindmap.json    # optional part overview mindmap
+│       ├── part1_mindmap.py
+│       └── part1_mindmap.png
 ├── chapter2-topic/
 │   └── chapter2.md
 ├── …

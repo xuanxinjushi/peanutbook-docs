@@ -86,7 +86,7 @@ Defaults in `peanut.config.default` favor **legacy / piggy-like** Amazon 7×10 b
 |-----|---------|------|
 | `enable_spot_heading_layout` | `false` | Section title spot/titlesec block in templates |
 | `enable_styled_subsection_lua` | `false` | Prepend `styled_subsection.lua` (needs spot layout) |
-| `enable_chapter_titlepage_odd_page` | `false` | Force chapter title pages to odd (recto) pages |
+| `enable_chapter_titlepage_odd_page` | `false` | Force chapter title pages and part openers to odd (recto) pages |
 | `enable_pod_safe_margins` | `false` | Wider POD margins vs legacy 7×10 geometry |
 | `enable_peanut_font_settings` | `false` | Use numeric font keys below vs built-in template defaults |
 | `enable_english_body_font_bump` | `false` | Larger English `\normalsize` |
