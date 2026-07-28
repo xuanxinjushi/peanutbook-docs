@@ -287,6 +287,10 @@ Control image size, alignment, and placement using Pandoc attribute syntax.
 
 A standalone marker that inserts a full-width cloud ornament divider. Peanutbook ships a default image (`div_cloud.png`); you can override it by placing your own file at `img/div_cloud.png` in the project.
 
+Demo:
+
+![HBAR1_CLOUD decorative cloud divider](img/hbar1-cloud-preview.png)
+
 **Format (any one):**
 
 ```markdown
@@ -313,6 +317,7 @@ HBAR1_CLOUD
 ```
 
 **Notes:**
+
 - Alias: `HBAR_CLOUD` (same image)
 - Works in PDF, HTML, and other book formats that apply the divider filters
 - Put the marker on its own line (optionally as a blockquote)
