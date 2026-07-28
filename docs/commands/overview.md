@@ -59,7 +59,7 @@ After `pip install -e .` (or `pip install peanutbook`), every tool is available 
 
 | Command | Purpose |
 |---------|---------|
-| `bubble-image` | Clean/normalize images |
+| `bubble-image` | Clean chapter PNGs (with matching `.py`) and `cover/*/out` artifacts |
 | `bubble-set-image-dpi` | Set image DPI metadata |
 | `bubble-convert-svg-text` | SVG foreignObject → text |
 | `bubble-fix-table-width` | Table width fixes |

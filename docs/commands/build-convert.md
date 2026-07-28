@@ -60,6 +60,18 @@ bubble-convert-parts part2
 
 Place each `partN.md` in the **first chapter folder** of that part (for example `chapter1-topic/part1.md`). Output is written beside it as `part1.pdf`.
 
+### Part overview mindmap (page 2)
+
+Optional companion assets in the same chapter’s `img/` folder:
+
+| File | Role |
+|------|------|
+| `img/partN_mindmap.json` | Part-level mindmap layout |
+| `img/partN_mindmap.py` | `render_mindmap(__file__)` |
+| `img/partN_mindmap.png` | Generated overview figure |
+
+When present, `bubble-convert-parts` regenerates the PNG and appends it as **page 2** of `partN.pdf` (mindmap only; no separate overview title).
+
 ### Part markdown format
 
 ```markdown
