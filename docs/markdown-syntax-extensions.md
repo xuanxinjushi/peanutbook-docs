@@ -283,6 +283,40 @@ Control image size, alignment, and placement using Pandoc attribute syntax.
 ![Vector Projection](img/vec_projection.png){.wrap width=50% align=right}
 ```
 
+## Decorative horizontal bar: `HBAR1_CLOUD`
+
+A standalone marker that inserts a full-width cloud ornament divider. Peanutbook ships a default image (`div_cloud.png`); you can override it by placing your own file at `img/div_cloud.png` in the project.
+
+**Format (any one):**
+
+```markdown
+HBAR1_CLOUD
+```
+
+```markdown
+>HBAR1_CLOUD
+```
+
+```markdown
+::: hbar1-cloud
+:::
+```
+
+**Example (after a preface title):**
+
+```markdown
+# 前言 {.center}
+
+HBAR1_CLOUD
+
+我对“我”的最早记忆，
+```
+
+**Notes:**
+- Alias: `HBAR_CLOUD` (same image)
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put the marker on its own line (optionally as a blockquote)
+
 ## Syntax for Fancy Divider
 
 Add horizontal dividers with optional icons and custom styling.
