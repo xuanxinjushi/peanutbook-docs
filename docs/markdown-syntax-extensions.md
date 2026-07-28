@@ -322,6 +322,54 @@ HBAR1_CLOUD
 - Works in PDF, HTML, and other book formats that apply the divider filters
 - Put the marker on its own line (optionally as a blockquote)
 
+## Decorative horizontal bars: `HBAR_TOP` / `HBAR_BOT`
+
+Standalone markers (same idea as `HBAR1_CLOUD`) that insert full-width ornamental dividers for the top or bottom of a section. Peanutbook ships defaults (`HBAR_top.png`, `HBAR_bot.png`); override with the same filenames under project `img/`.
+
+**Demo (`HBAR_TOP`):**
+
+![HBAR_TOP decorative top divider](img/hbar-top-preview.png)
+
+**Demo (`HBAR_BOT`):**
+
+![HBAR_BOT decorative bottom divider](img/hbar-bot-preview.png)
+
+**Format (any one per marker):**
+
+```markdown
+HBAR_TOP
+```
+
+```markdown
+>HBAR_BOT
+```
+
+```markdown
+::: hbar-top
+:::
+
+::: hbar-bot
+:::
+```
+
+**Example:**
+
+```markdown
+HBAR_TOP
+
+# Chapter title {.center}
+
+Body text …
+
+HBAR_BOT
+```
+
+**Notes:**
+
+- `HBAR_TOP` uses `HBAR_top.png`; `HBAR_BOT` uses `HBAR_bot.png`
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put each marker on its own line (optionally as a blockquote)
+
 ## Syntax for Fancy Divider
 
 Add horizontal dividers with optional icons and custom styling.
@@ -585,7 +633,7 @@ flowchart TB
 ````
 
 - Language tag: `mermaid` (or class `.{.mermaid}`).
-- Optional attributes on the fence: `width=50%`, `width=5cm`, `align=center` (same as [image attributes](#image-attributes)).
+- Optional attributes on the fence: `width=50%`, `width=5cm`, `align=center` (same as [image attributes](#syntax-for-image-attributes)).
 - Default width when omitted: **90%** of line width.
 
 ### Building
