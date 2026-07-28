@@ -370,6 +370,174 @@ HBAR_BOT
 - Works in PDF, HTML, and other book formats that apply the divider filters
 - Put each marker on its own line (optionally as a blockquote)
 
+## Decorative horizontal bar: `HBAR_CENTER_CLOUD_RED`
+
+Standalone marker that inserts a full-width red centered-cloud ornament divider. Peanutbook ships `HBAR_CENTER_CLOUD_RED.png`; override with the same filename under project `img/`.
+
+Demo:
+
+![HBAR_CENTER_CLOUD_RED decorative divider](img/hbar-center-cloud-red-preview.png)
+
+**Format (any one):**
+
+```markdown
+HBAR_CENTER_CLOUD_RED
+```
+
+```markdown
+>HBAR_CENTER_CLOUD_RED
+```
+
+```markdown
+::: hbar-center-cloud-red
+:::
+```
+
+**Notes:**
+
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put the marker on its own line (optionally as a blockquote)
+
+## Decorative horizontal bar: `HBAR_CENTER_FLOWER_RED`
+
+Standalone marker that inserts a full-width red centered-flower ornament divider. Peanutbook ships `HBAR_CENTER_FLOWER_RED.png`; override with the same filename under project `img/`.
+
+Demo:
+
+![HBAR_CENTER_FLOWER_RED decorative divider](img/hbar-center-flower-red-preview.png)
+
+**Format (any one):**
+
+```markdown
+HBAR_CENTER_FLOWER_RED
+```
+
+```markdown
+>HBAR_CENTER_FLOWER_RED
+```
+
+```markdown
+::: hbar-center-flower-red
+:::
+```
+
+**Notes:**
+
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put the marker on its own line (optionally as a blockquote)
+
+## Decorative horizontal bar: `HBAR_CENTER_DRAGONFLY_RED`
+
+Standalone marker that inserts a full-width red centered-dragonfly ornament divider. Peanutbook ships `HBAR_CENTER_DRAGONFLY_RED.png`; override with the same filename under project `img/`.
+
+Demo:
+
+![HBAR_CENTER_DRAGONFLY_RED decorative divider](img/hbar-center-dragonfly-red-preview.png)
+
+**Format (any one):**
+
+```markdown
+HBAR_CENTER_DRAGONFLY_RED
+```
+
+```markdown
+>HBAR_CENTER_DRAGONFLY_RED
+```
+
+```markdown
+::: hbar-center-dragonfly-red
+:::
+```
+
+**Notes:**
+
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put the marker on its own line (optionally as a blockquote)
+
+## Decorative horizontal bar: `HBAR_CENTER_LOTUS_RED`
+
+Standalone marker that inserts a full-width red centered-lotus ornament divider. Peanutbook ships `HBAR_CENTER_LOTUS_RED.png`; override with the same filename under project `img/`.
+
+Demo:
+
+![HBAR_CENTER_LOTUS_RED decorative divider](img/hbar-center-lotus-red-preview.png)
+
+**Format (any one):**
+
+```markdown
+HBAR_CENTER_LOTUS_RED
+```
+
+```markdown
+>HBAR_CENTER_LOTUS_RED
+```
+
+```markdown
+::: hbar-center-lotus-red
+:::
+```
+
+**Notes:**
+
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put the marker on its own line (optionally as a blockquote)
+
+## Decorative horizontal bar: `HBAR_RIGHT_CLOUD_RED`
+
+Standalone marker that inserts a full-width red right-cloud ornament divider. Peanutbook ships `HBAR_RIGHT_CLOUD_RED.png`; override with the same filename under project `img/`.
+
+Demo:
+
+![HBAR_RIGHT_CLOUD_RED decorative divider](img/hbar-right-cloud-red-preview.png)
+
+**Format (any one):**
+
+```markdown
+HBAR_RIGHT_CLOUD_RED
+```
+
+```markdown
+>HBAR_RIGHT_CLOUD_RED
+```
+
+```markdown
+::: hbar-right-cloud-red
+:::
+```
+
+**Notes:**
+
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put the marker on its own line (optionally as a blockquote)
+
+## Decorative horizontal bar: `HBAR_RIGHT_CLOUD_BLUE`
+
+Standalone marker that inserts a full-width blue right-cloud ornament divider. Peanutbook ships `HBAR_RIGHT_CLOUD_BLUE.png`; override with the same filename under project `img/`.
+
+Demo:
+
+![HBAR_RIGHT_CLOUD_BLUE decorative divider](img/hbar-right-cloud-blue-preview.png)
+
+**Format (any one):**
+
+```markdown
+HBAR_RIGHT_CLOUD_BLUE
+```
+
+```markdown
+>HBAR_RIGHT_CLOUD_BLUE
+```
+
+```markdown
+::: hbar-right-cloud-blue
+:::
+```
+
+**Notes:**
+
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put the marker on its own line (optionally as a blockquote)
+
 ## Syntax for Fancy Divider
 
 Add horizontal dividers with optional icons and custom styling.
