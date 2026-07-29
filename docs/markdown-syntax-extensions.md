@@ -283,6 +283,41 @@ Control image size, alignment, and placement using Pandoc attribute syntax.
 ![Vector Projection](img/vec_projection.png){.wrap width=50% align=right}
 ```
 
+## No header/footer on this page: `NO_HEAD_FOOT`
+
+Standalone marker that clears running header and footer on the **current** page. Expands to `\thispagestyle{fullpageempty}` (fancyhdr-safe).
+
+**Format (any one):**
+
+```markdown
+NO_HEAD_FOOT
+```
+
+```markdown
+>NO_HEAD_FOOT
+```
+
+```markdown
+::: no-head-foot
+:::
+```
+
+**Example:**
+
+```markdown
+\newpage
+
+NO_HEAD_FOOT
+
+HBAR_TOP
+
+__Math for AI__
+
+HBAR_BOT
+```
+
+Place it near the start of the page (typically right after `\newpage`). It does **not** start a new page by itself.
+
 ## Decorative horizontal bar: `HBAR1_CLOUD`
 
 A standalone marker that inserts a full-width cloud ornament divider. Peanutbook ships a default image (`div_cloud.png`); you can override it by placing your own file at `img/div_cloud.png` in the project.
