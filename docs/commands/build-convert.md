@@ -113,6 +113,15 @@ bubble-build --format html              # book_html/
 bubble-build --format html --lang cn    # book_html_zh/
 ```
 
+### EPUB Pipeline Features
+
+When exporting EPUB (`bubble-build --format epub`):
+- **1-to-1 Chapter File Naming**: Formal chapters map directly to matching file numbers (`ch001.xhtml` for Chapter 1, `ch019.xhtml` for Chapter 19).
+- **Semantic Frontmatter / Backmatter**: Named as `cover.xhtml`, `copyright.xhtml`, `preface.xhtml`, `foreword.xhtml`, `appendix.xhtml`, `about.xhtml`.
+- **Image Attributes**: `{width=...}`, `{height=...}`, `{alpha=...}`, `{rotate=...}`, and alignment classes are converted to clean HTML/CSS inline styles via `epub_image_attributes.lua`.
+- **Cross-References**: Powered by `scripts/epub_crossrefs.lua` and `i18n.json` for multilingual chapter jump links and unlinked figure numbers.
+
+
 ### Notable flags
 
 | Flag | Effect |

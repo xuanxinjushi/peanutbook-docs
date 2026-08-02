@@ -80,6 +80,57 @@ These tools target `*_zh.md` by default:
 
 Extend or duplicate workflows for `_tc.md` / `_jp.md` as needed; Japanese punctuation rules differ from Chinese.
 
+## Internationalization & Cross-References (`i18n.json`)
+
+Peanutbook uses a JSON-driven internationalization system for cross-references (`@fig:...`, `@tbl:...`, `@chap:...`), chapter number formatting, and EPUB file chunk naming.
+
+### Global & Project-Local Overrides
+
+1. **System Defaults**: Located in `scripts/i18n.json`.
+2. **Author Project Overrides**: Place an `i18n.json` or `peanut.i18n.json` file in your book project root directory. Local entries automatically merge with and override system defaults.
+
+### Example `i18n.json`
+
+```json
+{
+  "frontmatter_categories": {
+    "copyright": ["copyright", "credits", "版权", "版權", "致谢"],
+    "preface": ["preface", "前言", "自序"],
+    "foreword": ["foreword", "序言", "序", "推荐序"],
+    "appendix": ["appendix", "附录", "附錄"],
+    "about": ["about author", "关于作者", "關於作者"]
+  },
+  "languages": {
+    "zh-hans": {
+      "prefix_names": {
+        "fig": "图",
+        "tbl": "表",
+        "code": "代码",
+        "sec": "节",
+        "chap": "第"
+      },
+      "chap_num_format": "第 {num} 章",
+      "chapter_patterns": [
+        "^[Cc]hapter%s+(%d+)",
+        "^第%s*([%d一二三四五六七八九十]+)%s*章"
+      ],
+      "prefix_words": {
+        "fig": ["如图", "见图", "图"]
+      },
+      "chapter_words": ["chapter", "第", "章", "参见第"]
+    }
+  }
+}
+```
+
+### EPUB 1-to-1 Chapter File Naming
+
+When building EPUB (`bubble-build --format epub`), Peanutbook uses `i18n.json` to assign clean, 1-to-1 filenames:
+
+- **Frontmatter / Backmatter**: `cover.xhtml`, `copyright.xhtml`, `preface.xhtml`, `foreword.xhtml`, `appendix.xhtml`, `about.xhtml`
+- **Formal Chapters**: `ch001.xhtml` for Chapter 1, `ch002.xhtml` for Chapter 2, ..., `ch019.xhtml` for Chapter 19!
+
 ## Locale metadata
 
 Central definitions live in `bubble/locales.py`: `VALID_LANGS`, fonts, UI strings (TOC title, running headers), and output file stems.
+

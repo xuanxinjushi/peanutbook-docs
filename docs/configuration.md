@@ -234,3 +234,21 @@ Example:
 ## CLI vs config
 
 Command-line flags always override `peanut.config` for the same setting (e.g. `--lang`, `--style`, `--template`, `--main-font`, `--chapter-opener-size`).
+
+## Internationalization Configuration (`i18n.json` / `peanut.i18n.json`)
+
+Authors can customize cross-reference labels, chapter title number formats, and EPUB frontmatter chunking rules per project by placing an `i18n.json` or `peanut.i18n.json` file in their book project root directory.
+
+### Override Cascade
+
+1. **System Defaults**: Built-in default rules (`scripts/i18n.json`).
+2. **Project-Local Overrides**: Project-level `i18n.json` or `peanut.i18n.json` entries are deep-merged over system defaults.
+
+### Configuration Schema
+
+- `frontmatter_categories`: Maps section categories (`copyright`, `preface`, `foreword`, `appendix`, `about`) to keywords for EPUB XHTML chunking (`copyright.xhtml`, `preface.xhtml`, `ch001.xhtml` ... `ch019.xhtml`).
+- `languages`: Language-specific settings for `en`, `zh-hans`, `zh-hant`, etc.
+  - `prefix_names`: Display labels for `@fig:...`, `@tbl:...`, `@code:...`, `@sec:...`.
+  - `chap_num_format`: Template string for chapter references (e.g. `第 {num} 章` or `Chapter {num}`).
+  - `chapter_patterns`: Lua regex patterns for matching chapter headings.
+
