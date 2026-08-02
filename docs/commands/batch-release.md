@@ -7,6 +7,10 @@ Orchestrates a **release build**: full book variants per language (cover + squar
 ```bash
 bubble-batch
 bubble-batch --chapters
+bubble-batch --chapters-only
+bubble-batch --chapters-only --chapter 1
+bubble-batch --chapter 1-3
+bubble-batch --chapter 1,9
 bubble-batch en --cover 7x10 --cover-provider kdp/paperback
 bubble-batch en,cn,tc --style square --chapter-opener-size 2
 bubble-batch all --cover 7x10 --cover-provider ingram/hardcover --cover-version v2
@@ -35,6 +39,11 @@ For each selected language, batch generally produces:
 - Full book with cover (`square` style by default for cover build)
 - Interior PDF (`square` + `none` styles, often with `--no-cover`)
 - Optional: per-chapter PDFs when `--chapters` is set
+- Chapters only (no full book): `--chapters-only`, optionally filtered with `--chapter SPEC`
+  - `--chapter 1` → chapter 1
+  - `--chapter 1-3` → chapters 1, 2, 3
+  - `--chapter 1,9` → chapters 1 and 9
+  - `--chapter` alone (without `--chapters`) also skips the full book
 
 Files are copied or linked into `books/` (or `batch_output_dir`).
 
@@ -68,10 +77,13 @@ PDF optimization follows locale rules (Ghostscript vs qpdf). Controlled by:
 
 ## Protected chapter PDFs
 
-When using `--ads` / `batch_book_ads`, per-chapter PDFs can include a footer advertisement string before protection/watermark steps.
+When building per-chapter PDFs, pages are rasterized (anti-copy/OCR) **by default**.
+`--no-optimize-pdf` also skips that protect/rasterize step (keeps the vector LaTeX PDF),
+unless you pass `--protect`. Use `--no-protect` to skip protect while still allowing
+`--optimize-pdf`. Ads footer text (`--book-ads` / `batch_book_ads`) is independent of protect.
 
 ## Config reference
 
 See [Configuration — Batch release keys](../configuration.md#batch-release-keys-bubble-batch).
 
-Per-chapter builds (`--chapters`) use the highest chapter number found under `chapter*/chapter*.md`.
+Per-chapter builds (`--chapters` / `--chapters-only`) use the highest chapter number found under `chapter*/chapter*.md`, unless `--chapter SPEC` selects a subset.
