@@ -92,6 +92,13 @@ Defaults in `peanut.config.default` favor **legacy / piggy-like** Amazon 7×10 b
 | `enable_english_body_font_bump` | `false` | Larger English `\normalsize` |
 | `enable_chinese_body_font_bump` | `true` | Larger CJK body for `cn`, `tc`, `jp` |
 
+### Chapter Titlepage Options
+
+| Key | Default | Role |
+|-----|---------|------|
+| `chapter_titlepage_hbar` | `"circle"` | Decorative horizontal divider above the chapter opener quote. Set `"circle"` for default line with end circle, or specify an HBAR marker (`"HBAR1_CLOUD"`, `"HBAR_TOP"`, `"HBAR_CENTER_CLOUD_RED"`, `"HBAR_RIGHT_CLOUD_RED"`, etc.) or image filename. |
+| `chapter_titlepage_quote_align` | `"right"` | Text alignment for chapter titlepage epigraph quotes. Supported values: `"right"` (default, right-aligned via `\raggedleft`), `"left"` (left-aligned via `\raggedright`), `"center"` (centered via `\centering`). |
+
 ### Font size keys (when `enable_peanut_font_settings` is true)
 
 When `"enable_peanut_font_settings": true` is configured, you can fine-tune individual element font sizes:

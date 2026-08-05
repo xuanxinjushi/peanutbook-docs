@@ -1,5 +1,16 @@
 # Cross-references: `??` in the PDF and wrong label text
 
+## Per-chapter PDFs (`bubble-batch --chapters`): `??` for refs to *other* chapters
+
+This is a different issue from the full-book case below. `bubble-batch --chapters` compiles
+each chapter **standalone** — a `\ref`/`\eqref` targeting a label defined in another chapter has
+no `.aux` entry to resolve against, so it's always `??`, no amount of rerunning fixes it. Refs
+within the *same* chapter still resolve fine (that compile does its own 3–4 pass loop).
+
+Fix: build with `--chapters-from-book` instead, which slices per-chapter PDFs out of an
+already-compiled full-book PDF (via `qpdf`) rather than recompiling each chapter in isolation —
+see [Batch release — Cross-chapter references](commands/batch-release.md#cross-chapter-references-in-per-chapter-pdfs).
+
 ## `??` in the PDF (unresolved `\ref`)
 
 LaTeX often exits **non-zero** on the first pass when references are still undefined, while still writing a `.pdf`. If follow-up passes are not run, you keep `Figure ??`, `Chapter ??`, etc.
@@ -31,6 +42,19 @@ bubble-pdfcheck --labels-only    # labeleq / WFHLABEL only
 ```
 
 Reports line numbers for leaked equation labels (`labeleq`, `WFHLABEL`) and unresolved references (`??`) in the extracted PDF text. Exit code 1 when any issue is found.
+
+## Source scan (before or after build)
+
+Labeled equations (`\\WFHLABEL:eq:…` or `\label{eq:…}` inside `$$…$$`) need **blank lines before and after** the delimiter block. Without them, `\label{eq:…}` is not wrapped in an `equation` environment and can appear in the PDF as visible text (`labeleq : …`).
+
+From the book repo root:
+
+```bash
+bubble-label-check              # report spacing issues in chapter*/*.md
+bubble-label-check --fix        # insert missing blank lines
+```
+
+Run this before `bubble-build` to catch label leaks early; use `bubble-pdfcheck --labels-only` on the built PDF as a final check.
 
 ## Finding broken keys
 

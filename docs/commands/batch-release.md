@@ -2,14 +2,16 @@
 
 ## `bubble-batch`
 
-Orchestrates a **release build**: full book variants per language (cover + square interior + none interior), optional per-chapter PDFs, and collection into **`books/`** (override with `--output-dir` or `batch_output_dir` in config).
+Orchestrates a **release build**: full book variants per language, optional per-chapter PDFs, and collection into **`books/`** (override with `--output-dir` or `batch_output_dir` in config).
 
 ```bash
 bubble-batch
 bubble-batch --chapters
-bubble-batch en --cover 7x10 --cover-provider kdp/paperback
-bubble-batch en,cn,tc --style square --chapter-opener-size 2
-bubble-batch all --cover 7x10 --cover-provider ingram/hardcover --cover-version v2
+bubble-batch --chapters-only
+bubble-batch --chapter 1-3
+bubble-batch --lang en --cover 7x10 --cover-provider kdp/paperback
+bubble-batch --lang en,cn,tc --style none
+bubble-batch --lang all --cover 7x10 --cover-provider ingram/hardcover --cover-version v2
 bubble-batch --lang all --optimize-pdf
 ```
 
@@ -24,19 +26,66 @@ Many book repos expose a thin wrapper:
 | Argument | Behavior |
 |----------|----------|
 | (none) | Uses `batch_default_langs` from config, or single `lang`, or all scanned langs |
-| `en`, `cn`, … | Build only that locale |
-| `en cn tc` or `en,cn,tc` | Build multiple locales (space- or comma-separated) |
-| `all` | Every language with source files |
+| `--lang en`, `--lang cn`, … | Build only that locale |
+| `--lang en,cn,tc` or `--lang en cn tc` | Build multiple locales |
+| `--lang all` | Every language with source files |
 
 ## Typical outputs per language
 
-For each selected language, batch generally produces:
+Without `--style`, each language gets the release set:
 
-- Full book with cover (`square` style by default for cover build)
-- Interior PDF (`square` + `none` styles, often with `--no-cover`)
-- Optional: per-chapter PDFs when `--chapters` is set
+- Full book with cover (style from `batch_cover_style` / peanut.config)
+- Interior PDF, **square** (`--no-cover`)
+- Interior PDF, **none** (`--no-cover`)
+
+With `--style none` (or `square` / `circle`), only that style is built:
+
+- Full book with cover
+- Matching interior (`*_interior.pdf`)
+
+Optional: per-chapter PDFs when `--chapters` is set (also uses `--style` when given).
+Use `--chapters-only` to skip full-book builds, and `--chapter SPEC` to select chapters
+(`1`, `1-3`, `1,9`).
 
 Files are copied or linked into `books/` (or `batch_output_dir`).
+
+### Cross-chapter references in per-chapter PDFs
+
+By default, each chapter PDF is compiled **standalone** — its own `pandoc` + multi-pass LaTeX
+run, isolated from every other chapter. Any `\ref`/`\eqref` pointing at a label defined in a
+*different* chapter has no `.aux` entry to resolve against, so it renders as `??`, every time.
+This is not a transient "rerun to fix" issue; it's inherent to compiling each chapter in
+isolation.
+
+Pass `--chapters-from-book` to avoid it:
+
+```bash
+bubble-batch --chapters-only --chapters-from-book
+bubble-batch --chapters --chapters-from-book --chapter 1-3
+```
+
+This builds one full-book interior PDF (at the chapter style) and slices each chapter's page
+range out of it with `qpdf`, instead of recompiling per chapter. Because the source PDF already
+went through the full-book multi-pass compile, cross-chapter references resolve correctly.
+
+Page ranges come from the PDF's own bookmarks (one per `\chapter`, written by hyperref), not
+from the `.toc` file's page numbers — those record LaTeX's `\thepage` counter, which resets to
+Arabic `1` at `\mainmatter` and does **not** match the chapter's actual physical page position
+(front matter — cover, copyright, preface, TOC, part dividers — precedes it). Bookmark
+destinations give the real physical page regardless of front-matter length. If the build has no
+bookmarks (or PyPDF2 isn't installed), `--chapters-from-book` refuses to run rather than slice
+from the wrong offset.
+
+Trade-offs vs. the standalone compile:
+
+- Page numbers reflect the book's continuous numbering (not restarted at 1 per chapter).
+- `--book-ads` footer text is **not** applied — it's baked into the LaTeX header at compile
+  time, and these pages are cut from an already-compiled PDF.
+- `--protect` (rasterize) still applies, same as the standalone path.
+- Requires `qpdf` on `PATH`.
+
+See [Cross-references troubleshooting](../cross-references-troubleshooting.md) for the full-book
+(non-per-chapter) case.
 
 ## Cover options
 
@@ -50,7 +99,7 @@ Cover scripts in the active folder run before PDF assembly (see [Covers & templa
 
 ## Part divider pages
 
-Full-book PDF builds (`bubble-batch` without `--format` override) call **`bubble-convert-parts`** before merging chapters, so `partN.pdf` stays in sync with `partN.md`. To refresh part pages without a full book build:
+Full-book PDF builds call **`bubble-convert-parts`** before merging chapters. Manual refresh:
 
 ```bash
 bubble-convert-parts
@@ -68,7 +117,8 @@ PDF optimization follows locale rules (Ghostscript vs qpdf). Controlled by:
 
 ## Protected chapter PDFs
 
-When using `--ads` / `batch_book_ads`, per-chapter PDFs can include a footer advertisement string before protection/watermark steps.
+Per-chapter builds rasterize PDFs by default. `--no-optimize-pdf` also skips protect
+(unless `--protect`); `--no-protect` skips protect only. Ads footer text is independent.
 
 ## Config reference
 

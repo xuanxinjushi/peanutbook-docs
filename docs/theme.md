@@ -113,6 +113,20 @@ Epigraph decoration on the chapter opener (above the quote text):
 | `line_only` | Rule only |
 | `minimal` / `none` | No decoration |
 
+### `chapter_titlepage_hbar` & `chapter_titlepage_quote_align`
+
+Configure the chapter titlepage opener quote divider ornament and text alignment in `peanut.config`:
+
+- **`chapter_titlepage_hbar`**: Replaces the titlepage quote horizontal divider with an HBAR graphic ornament. Defaults to `"circle"` (line with circle at the end). Accepts `"HBAR1_CLOUD"` (`"HBAR_CLOUD"`), `"HBAR_TOP"`, `"HBAR_BOT"`, `"HBAR_CENTER_CLOUD_RED"`, `"HBAR_CENTER_FLOWER_RED"`, `"HBAR_CENTER_DRAGONFLY_RED"`, `"HBAR_CENTER_LOTUS_RED"`, `"HBAR_RIGHT_CLOUD_RED"`, `"HBAR_RIGHT_CLOUD_BLUE"`, or an image filename.
+- **`chapter_titlepage_quote_align`**: Sets the alignment of the opening quote text on chapter titlepages. Defaults to `"right"` (right-aligned). Supported values: `"right"`, `"left"`, or `"center"`.
+
+```json
+{
+  "chapter_titlepage_hbar": "HBAR1_CLOUD",
+  "chapter_titlepage_quote_align": "right"
+}
+```
+
 ## Full example
 
 ```json

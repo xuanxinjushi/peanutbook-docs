@@ -354,6 +354,7 @@ HBAR1_CLOUD
 **Notes:**
 
 - Alias: `HBAR_CLOUD` (same image)
+- **Chapter Opener Titlepages**: You can configure `HBAR1_CLOUD` or any `HBAR_*` ornament as the chapter titlepage quote divider via `"chapter_titlepage_hbar": "HBAR1_CLOUD"` in `peanut.config`. See [Configuration](configuration.md#chapter-titlepage-options).
 - Works in PDF, HTML, and other book formats that apply the divider filters
 - Put the marker on its own line (optionally as a blockquote)
 
