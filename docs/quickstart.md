@@ -115,6 +115,7 @@ For a single-file research paper (not a multi-chapter book):
 ```bash
 bubble-paper --init
 bubble-paper paper.md --papersize a4
+bubble-paper paper.md --two-column
 ```
 
 See **[Academic papers (bubble-paper)](paper.md)** for YAML front matter, bibliography, two-column layout, and PDF previews.

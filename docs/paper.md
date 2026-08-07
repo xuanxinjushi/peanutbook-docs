@@ -8,25 +8,25 @@ This path uses the **`bubble-paper`** command. It does not use chapter folders, 
 
 The screenshots below come from the sample fixture `tests/fixtures/sample_paper.md` in the **peanutbook** source repository (author **Xuan Xin**). Regenerate them with `./scripts/test_sample_paper.sh`.
 
-=== "Single column (default)"
+### Single column (default)
 
-    ![Single-column paper — title, abstract, and introduction](img/paper-preview-single.png)
+![Single-column paper — title, abstract, and introduction](img/paper-preview-single.png)
 
-    Page 1: centered title block, abstract with keywords, numbered sections.
+Page 1: centered title block, abstract with keywords, numbered sections.
 
-    ![Single-column paper — algorithm, math, and code with line numbers](img/paper-preview-single-method.png)
+![Single-column paper — algorithm, math, and code with line numbers](img/paper-preview-single-method.png)
 
-    Page 2: display math, `algorithm` block, Python listing with line numbers, table, and references.
+Page 2: display math, `algorithm` block, Python listing with line numbers, table, and references.
 
-=== "Two column (`--two-column`)"
+### Two column (`--two-column`)
 
-    ![Two-column paper — title and abstract span full width; body in two columns](img/paper-preview-twocol.png)
+![Two-column paper — title and abstract span full width; body in two columns](img/paper-preview-twocol.png)
 
-    Page 1: same metadata as single-column; introduction and related work in two columns.
+Page 1: same metadata as single-column; introduction and related work in two columns.
 
-    ![Two-column paper — method section with wrapped math and code](img/paper-preview-twocol-method.png)
+![Two-column paper — method section with wrapped math and code](img/paper-preview-twocol-method.png)
 
-    Page 2: equations scaled or split for column width, floating table, numbered code blocks.
+Page 2: equations scaled or split for column width, floating table, numbered code blocks.
 
 ## Quick start
 
