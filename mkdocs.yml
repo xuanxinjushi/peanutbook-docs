@@ -1,8 +1,6 @@
 site_name: Peanutbook
-site_description: Peanutbook — a Markdown-based format for books, papers, business plans, and static websites; built with peanutbook
-site_url: !ENV [READTHEDOCS_CANONICAL_URL, 'https://peanutbook.com/']
-# RTD sets READTHEDOCS_CANONICAL_URL on build → readthedocs.io URLs.
-# Local ./build-site.sh uses the default → peanutbook.com URLs.
+site_description: Peanutbook — a Markdown-based format for writing books; built with bubble-book
+site_url: https://peanutbook.readthedocs.io/
 # Intentionally no repo_url / edit_uri — public docs repo has no Python source to link.
 
 docs_dir: docs
@@ -25,6 +23,7 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
   features:
+    - navigation.tabs
     - navigation.sections
     - navigation.expand
     - navigation.top
@@ -53,10 +52,6 @@ nav:
   - Theme: theme.md
   - Multi-language: multi-language.md
   - Covers & templates: covers-templates.md
-  - Cover rendering API: cover-api.md
-  - Business plans: bizplan.md
-  - Academic papers (bubble-paper): paper.md
-  - HTML generation: html-generation.md
   - Command reference:
       - Overview: commands/overview.md
       - Build & convert: commands/build-convert.md
@@ -72,10 +67,5 @@ nav:
       - PDF protection: pdf-protection.md
   - Troubleshooting:
       - Cross-references: cross-references-troubleshooting.md
-
-extra:
-  analytics:
-    provider: google
-    property: G-NPTR4NLLEQ
 
 # No GitHub "edit this page" or repo icon — avoids pointing readers at a source tree.

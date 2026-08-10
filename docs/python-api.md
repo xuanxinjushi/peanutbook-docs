@@ -12,7 +12,6 @@ converter = Converter(
     project_root=Path.cwd(),
     chapter_style=ChapterStyle.CIRCLE,
     mode=BuildMode.DEV,
-    # chapter_opener_size_cm=5.0,
     # main_font="EB Garamond",
     # body_font_pt="11",
 )
@@ -43,14 +42,13 @@ builder = BookBuilder(
     project_root=Path.cwd(),
     chapter_style=ChapterStyle.CIRCLE,
     max_chapters=21,
-    # chapter_opener_size_cm=5.0,
     # output_format="epub",  # or "docx"; default "pdf"
 )
 
 builder.build()
 ```
 
-CLI equivalent: `bubble-build`. PDF builds call `bubble.scripts.convert_parts_to_pdf.convert_parts()` before merge (same as `bubble-convert-parts`).
+CLI equivalent: `bubble-build`. PDF builds call `convert_parts()` before merge (`bubble-convert-parts`).
 
 ## Part divider PDFs — `convert_parts`
 
@@ -58,56 +56,11 @@ CLI equivalent: `bubble-build`. PDF builds call `bubble.scripts.convert_parts_to
 from pathlib import Path
 from bubble.scripts.convert_parts_to_pdf import convert_parts
 
-convert_parts(Path.cwd())       # all part*.md
-convert_parts(Path.cwd(), "1")  # Part I only
+convert_parts(Path.cwd())
+convert_parts(Path.cwd(), "1")
 ```
 
 CLI equivalent: `bubble-convert-parts`.
-
-## Business plans — `build_bizplan_pdf`
-
-```python
-from pathlib import Path
-from bubble.bizplan import build_bizplan_pdf, validate_markdown_sections, load_peanut_biz_config
-
-missing = validate_markdown_sections(Path("bizplan.md"))
-cfg = load_peanut_biz_config(Path.cwd())
-
-build_bizplan_pdf(
-    Path("bizplan.md"),
-    Path("bizplan.pdf"),
-    cover_name=cfg.get("cover_name"),
-    strict=cfg.get("strict", False),
-)
-```
-
-CLI equivalent: `bubble-bizplan`. See **[Business plans](bizplan.md)**.
-
-### `bubble.paper`
-
-```python
-from pathlib import Path
-from bubble.paper import build_paper_pdf
-
-build_paper_pdf(Path("paper.md"), Path("paper.pdf"), papersize="a4", two_column=False)
-```
-
-CLI equivalent: `bubble-paper`. See **[Academic papers](paper.md)**.
-
-## Print covers — `bubble.cover_*`
-
-Helpers for full-wrap cover scripts (PIL typography, bullets, vendor print sizes, spine layout). See **[Cover rendering API](cover-api.md)**.
-
-```python
-from bubble.cover_print import get_cover_spec, spread_pixels
-from bubble.cover_fonts import get_cover_font_path, load_font
-from bubble.cover_draw import draw_wrapped_bullets_pil
-from bubble.cover_export import save_small_jpeg
-from bubble.cover_background import render_low_poly_panel
-
-spec = get_cover_spec("en", provider="kdp/paperback")
-px = spread_pixels(spec)
-```
 
 ## Utilities
 

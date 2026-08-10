@@ -1,21 +1,19 @@
 # Command overview
 
-After `pip install -e .` (or `pip install peanutbook`), every tool is available as a **`bubble-*` console script**. Run any command with `--help` where supported.
+After installing the toolchain (e.g., `pip install peanutbook`), every tool is available as a **`bubble-*` console script**. Run any command with `--help` where supported.
 
 ## Primary workflows
 
 | Command | Module | Purpose |
 |---------|--------|---------|
-| `bubble-build` | `build_book.py` | Merge chapters → full book PDF/EPUB/DOCX/HTML |
-| `bubble-render-html` | `render_html.py` | Full book → static HTML site (`book_html/`) |
+| `bubble-build` | `build_book.py` | Merge chapters → full book PDF/EPUB/DOCX |
 | `bubble-convert` | `convert.py` | Single chapter (or all) → PDF/EPUB/DOCX |
 | `bubble-batch` | `batch_build.py` | Multi-lang release orchestration → `books/` |
 | `bubble-merge` | `merge_books.py` | Concatenate chapters → `book.md`, `book_zh.md`, … |
 | `bubble-scaffold` | `scaffold.py` | Create new bubble-compatible repo |
 | `bubble-monitor` | `monitor.py` | Watch Markdown and auto-rebuild |
 | `bubble-proposal` | `proposal.py` | One-off proposal / query letter PDF |
-| `bubble-paper` | `paper.py` | Academic / research paper PDF — see [Academic papers](../paper.md) |
-| `bubble-bizplan` | `bizplan.py` | Build structured business plan PDF — see [Business plans](../bizplan.md) |
+| `bubble-paper` | `paper.py` | Academic / research paper PDF |
 
 ## Build pipeline helpers
 
@@ -41,6 +39,7 @@ After `pip install -e .` (or `pip install peanutbook`), every tool is available 
 | `bubble-single-star` | Find/fix whole-line `*emphasis*` (→ `_underscore_`) |
 | `bubble-bold-headings` | Check headings for spurious bold |
 | `bubble-check` | Colon-list consistency check |
+| `bubble-label-check` | Markdown scan for labeled `$$` blocks missing blank lines (causes `labeleq` in PDF) |
 | `bubble-pdfcheck` | PDF text scan for `labeleq` / `WFHLABEL` / `??` |
 | `bubble-count-chars` | Character counts per chapter |
 | `bubble-index` | Add index terms |
@@ -83,7 +82,5 @@ python -m bubble.scripts.count_chars
 ## See also
 
 - [Build & convert](build-convert.md)
-- [Business plans](../bizplan.md)
-- [HTML generation](../html-generation.md)
 - [Batch release](batch-release.md)
 - [Editorial tools](editorial-tools.md)

@@ -1,14 +1,10 @@
 # Peanutbook
 
-**Peanutbook** is a **Markdown-based format for writing books, papers, business plans, and static websites** — a structured syntax and project layout for long-form, print-ready documents (textbooks, technical books, memoirs, research papers, business plans, and similar works).
-
-![Peanut the dog and Bubble the rabbit](peanut_bubble.jpg)
+**Peanutbook** is a **Markdown-based format for writing books** — a structured syntax and project layout for long-form, print-ready manuscripts (textbooks, technical books, memoirs, and similar works).
 
 It extends ordinary Markdown with chapter conventions, semantic blocks (`>NOTES:` … `>NOTEE`), figures, math, cross-references, multi-language editions, and print metadata. See [What is Peanutbook?](what-is-peanutbook.md) for the full definition.
 
-The **build toolchain** (`pip install peanutbook`) turns Peanutbook source files into PDF, EPUB, DOCX, and **static HTML book sites** via Pandoc, LaTeX, Lua filters (including [Mermaid diagram rendering](markdown-syntax-extensions.md#mermaid-diagrams)), and the built-in HTML renderer.
-
-Peanutbook uses bubble-build.
+The **build toolchain** (`pip install peanutbook`) turns Peanutbook source files into PDF, EPUB, and DOCX via Pandoc, LaTeX, and Lua filters.
 
 ## Format vs toolchain
 
@@ -30,9 +26,6 @@ bubble-build --style square
 - Semantic note / important / warning blocks and custom layouts
 - Figures, code listings, math, indexes, and cross-references
 - Print-on-demand covers and trim sizes (KDP, Lulu, Ingram, …)
-- Static HTML book sites (`book_html/`) for online reading
-- Business plans (`bubble-bizplan`, `peanut-biz.config`) — see [Business plans](bizplan.md)
-- Academic papers (`bubble-paper`) — see [Academic papers](paper.md) (single- and two-column PDF previews)
 - Optional watermarks and PDF protection on output
 
 ## Documentation map
@@ -49,9 +42,6 @@ bubble-build --style square
 | [Theme](theme.md) | Colors, chapter opener, quote style (no LaTeX) |
 | [Multi-language](multi-language.md) | `--lang`, file suffixes, fonts |
 | [Covers & templates](covers-templates.md) | Page sizes, cover folders |
-| [Business plans](bizplan.md) | Business-plan workflow (`bubble-bizplan`, `peanut-biz.config`) |
-| [Academic papers (bubble-paper)](paper.md) | Research-paper workflow, layout previews |
-| [HTML generation](html-generation.md) | Static book site (`bubble-render-html`) |
 | [Command reference](commands/overview.md) | All `bubble-*` CLI tools |
 | [Python API](python-api.md) | `Converter`, `BookBuilder` |
 | [System requirements](system-requirements.md) | Pandoc, LaTeX, Ghostscript, qpdf |
@@ -65,12 +55,8 @@ bubble-build --style square
 | Format | **Peanutbook** |
 | PyPI | `peanutbook` (`pip install peanutbook`) |
 | Python import | `bubble` |
-| CLI | `bubble-build`, `bubble-convert`, `bubble-convert-parts`, `bubble-render-html`, `bubble-batch`, … |
+| CLI | `bubble-build`, `bubble-convert`, `bubble-batch`, … |
 
 ## License
 
-This project is licensed under the Apache License, Version 2.0.
-
-## Contact
-
-Xuan Xin — xuanxinjushi [at] gmail [dot] com
+See the main repository license.

@@ -34,7 +34,7 @@ If both exist, keys in `peanut.config` → `theme` **override** the same keys in
 | 2 | `peanut.theme.json` |
 | 3 | `peanut.config` → `theme` block |
 | 4 | `peanut.config` top-level keys (e.g. `chapter_style`) |
-| 5 (highest) | CLI (`--style`, `--main-font`, `--chapter-opener-size`, …) |
+| 5 (highest) | CLI (`--style`, `--main-font`, …) |
 
 Top-level `chapter_style` in `peanut.config` overrides `theme.chapter_opener`. If you only set `chapter_opener` in theme, it replaces the packaged default `circle`.
 
@@ -55,38 +55,6 @@ Hex `#RGB` or `#RRGGBB`.
 Same as `--style` / `chapter_style`: `circle`, `square`, or `none`.
 
 Controls the chapter number decoration on the **chapter title page** (quarter-circle, blue square, or plain).
-
-### `chapter_opener_size_cm` (config) / `--chapter-opener-size` (CLI)
-
-Size of the opener badge in **centimeters**. One value drives geometry and the large chapter numeral together:
-
-| Style | What the size controls |
-|-------|------------------------|
-| `circle` | Quarter-circle radius and number inset |
-| `square` | Blue square side length |
-| `none` | Chapter numeral font only (no badge) |
-
-Default is **4 cm** (legacy layout). At 4 cm, the chapter numeral uses 60/72 pt (size/leading); at 5 cm it scales to 75/90 pt.
-
-Set in `peanut.config`:
-
-```json
-{
-  "chapter_opener_size_cm": 5
-}
-```
-
-Or per build:
-
-```bash
-bubble-build --style circle --chapter-opener-size 5
-bubble-convert 1 --chapter-opener-size 5
-bubble-batch --chapter-opener-size 5
-```
-
-The legacy config key `square_size_cm` is still accepted. CLI `--chapter-opener-size` overrides config.
-
-When `enable_peanut_font_settings` is true, `chapter_number_on_title_font_size_pt` and `chapter_number_on_title_font_baselineskip_pt` are the **reference sizes at 4 cm** and scale proportionally with `chapter_opener_size_cm`.
 
 ### Font sizes (no `enable_peanut_font_settings` required)
 
@@ -112,20 +80,6 @@ Epigraph decoration on the chapter opener (above the quote text):
 | `line_and_bubble` | Horizontal rule + circle (default) |
 | `line_only` | Rule only |
 | `minimal` / `none` | No decoration |
-
-### `chapter_titlepage_hbar` & `chapter_titlepage_quote_align`
-
-Configure the chapter titlepage opener quote divider ornament and text alignment in `peanut.config`:
-
-- **`chapter_titlepage_hbar`**: Replaces the titlepage quote horizontal divider with an HBAR graphic ornament. Defaults to `"circle"` (line with circle at the end). Accepts `"HBAR1_CLOUD"` (`"HBAR_CLOUD"`), `"HBAR_TOP"`, `"HBAR_BOT"`, `"HBAR_CENTER_CLOUD_RED"`, `"HBAR_CENTER_FLOWER_RED"`, `"HBAR_CENTER_DRAGONFLY_RED"`, `"HBAR_CENTER_LOTUS_RED"`, `"HBAR_RIGHT_CLOUD_RED"`, `"HBAR_RIGHT_CLOUD_BLUE"`, or an image filename.
-- **`chapter_titlepage_quote_align`**: Sets the alignment of the opening quote text on chapter titlepages. Defaults to `"right"` (right-aligned). Supported values: `"right"`, `"left"`, or `"center"`.
-
-```json
-{
-  "chapter_titlepage_hbar": "HBAR1_CLOUD",
-  "chapter_titlepage_quote_align": "right"
-}
-```
 
 ## Full example
 
