@@ -4,7 +4,7 @@ Bubble requires **Python 3.9+** (3.12 recommended). External tools (Pandoc, LaTe
 
 ## Install from PyPI (recommended)
 
-Wheels are published as **`peanutbook`**:
+Wheels are published as **`peanutbook`** (PyPI name `bubble` is taken):
 
 ```bash
 pip install peanutbook
@@ -22,15 +22,15 @@ pip install peanutbook
 
 Many book projects use a conda env for chapter figure scripts; set `"conda_env"` in `peanut.config` if your `img/*.py` generators need it.
 
-## macOS Homebrew Python
+## Linux: system Python and pip
 
-If you see **externally-managed-environment**, either use a virtualenv/conda env, or:
+On Debian/Ubuntu, system Python may report **externally-managed-environment** when installing with pip. Use a virtualenv or conda env (recommended), or:
 
 ```bash
 pip install peanutbook --user --break-system-packages
 ```
 
-Permanent pip user install (optional), in `~/.pip/pip.conf` or `~/.config/pip/pip.conf`:
+Optional pip user config (`~/.pip/pip.conf` or `~/.config/pip/pip.conf`):
 
 ```ini
 [global]

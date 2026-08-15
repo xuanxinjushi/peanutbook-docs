@@ -11,6 +11,7 @@ bubble-convert              # all chapters
 
 # Options
 bubble-convert 1 --style square --template lulu_7x10
+bubble-convert 1 --style circle --chapter-opener-size 5
 bubble-convert 1 --lang cn
 bubble-convert 1 --main-font "EB Garamond" --body-font-pt 11
 bubble-convert 1 --optimize-pdf --optimize-pdf-quality ebook
@@ -27,6 +28,15 @@ bubble-convert margins/poem.md --format docx
 | `square` | Blue square |
 | `none` | Plain chapter opening |
 
+### Chapter opener size
+
+`--chapter-opener-size CM` sets the opener badge size (square side or circle radius) and scales the chapter numeral font. Default: `chapter_opener_size_cm` in `peanut.config` (4 cm).
+
+```bash
+bubble-build --style square --chapter-opener-size 5
+bubble-convert 1 --chapter-opener-size 4.5
+```
+
 ### Output formats
 
 Default is PDF. Alternatives:
@@ -36,49 +46,60 @@ bubble-convert 1 --format epub
 bubble-convert 1 --format docx
 ```
 
-EPUB/DOCX use Pandoc without the full print Lua pipeline — layout may differ from PDF.
-
-### Rendering engine (experimental)
-
-```bash
-bubble-convert 1 --engine typst
-```
-
-Default is `--engine latex` (the full print pipeline: Lua filters, trim-size template, chapter
-headers, watermark/protect, PDF optimization). `--engine typst` is a **fast preview** path:
-Pandoc converts the chapter straight to [Typst](https://typst.app/) and `typst compile` produces
-the PDF in well under a second, skipping the LaTeX-only machinery entirely. Trade-offs:
-
-- No trim-size template, chapter headers/footers, watermark, or PDF optimization — output uses
-  Typst's default page setup, not the book's print layout.
-- The print Lua filter chain (note boxes, `@fig:`/`@tbl:`/`@code:` cross-references, equation
-  numbering, code line numbers, hbars, …) doesn't run — Pandoc's native Typst writer handles
-  headings/code/images/math/tables directly. Note boxes render as plain quoted text;
-  `@fig:foo` renders as literal `[fig:foo]` instead of a resolved reference; equation labels
-  (`\WFHLABEL:`) are dropped rather than numbered.
-- Requires the [`typst`](https://github.com/typst/typst) CLI on `PATH` (not installed by
-  `pip install peanutbook`).
-
-Use it to eyeball content/structure while drafting; use the default `--engine latex` for
-anything print-bound.
+EPUB and DOCX use Pandoc (no LaTeX). Mermaid diagrams are rendered to PNG in all export formats, including EPUB and DOCX. Layout may differ from PDF.
 
 ## `bubble-convert-parts`
 
-Build **part divider pages** (Part I, II, …) as standalone PDFs from `partN.md`.
+Build **part divider pages** (Part I, II, …) as standalone PDFs from `partN.md`. These are separate from chapter title pages and use a dedicated LaTeX/TikZ layout.
 
 ```bash
-bubble-convert-parts              # all part*.md
-bubble-convert-parts 1            # Part I only
+bubble-convert-parts              # all part*.md under the project
+bubble-convert-parts 1            # Part I only (finds chapter*/part1.md)
 bubble-convert-parts part2
 ```
 
-Place each `partN.md` in the **first chapter folder** of that part (e.g. `chapter1-topic/part1.md` → `part1.pdf`).
+Place each `partN.md` in the **first chapter folder** of that part (for example `chapter1-topic/part1.md`). Output is written beside it as `part1.pdf`.
 
-`bubble-build` and `bubble-batch` (PDF only) run this automatically before merging chapters. EPUB/DOCX skips part PDFs.
+### Part overview mindmap (page 2)
+
+Optional companion assets in the same chapter’s `img/` folder:
+
+| File | Role |
+|------|------|
+| `img/partN_mindmap.json` | Part-level mindmap layout |
+| `img/partN_mindmap.py` | `render_mindmap(__file__)` |
+| `img/partN_mindmap.png` | Generated overview figure |
+
+When present, `bubble-convert-parts` regenerates the PNG and appends it as **page 2** of `partN.pdf` (mindmap only; no separate overview title).
+
+### Part markdown format
+
+```markdown
+# Part I: Linear Spaces and Representations
+
+**Chapters 1–10**
+
+*Optional subtitle (italic lines)*
+
+> Featured quote
+
+Body paragraphs after the quote.
+```
+
+### When it runs
+
+| Command | Part PDFs |
+|---------|-----------|
+| `bubble-convert-parts` | Generates only (manual refresh) |
+| `bubble-build` (PDF) | Runs `bubble-convert-parts` automatically, then merges via `\includepdf` |
+| `bubble-batch` (PDF) | Same as `bubble-build` for each full-book variant |
+| `bubble-build --format epub/docx/html` | Skipped (print PDF only) |
+
+Typical workflow: edit `partN.md` → `bubble-convert-parts` (optional; full PDF builds do this for you) → `bubble-build`.
 
 ## `bubble-build`
 
-Assemble the full book from all chapters, preface, appendix, covers, and TOC. PDF builds regenerate part openers via `bubble-convert-parts` before merge.
+Assemble the full book from all chapters, preface, appendix, covers, and TOC. For PDF output, **part divider PDFs** are regenerated from `partN.md` via `bubble-convert-parts` before chapters are merged (see above).
 
 ```bash
 bubble-build
@@ -88,33 +109,30 @@ bubble-build --cover 7x10-packt
 bubble-build --no-cover --style none
 bubble-build --format epub
 bubble-build --format docx --lang cn    # book_zh.epub
+bubble-build --format html              # book_html/
+bubble-build --format html --lang cn    # book_html_zh/
 ```
+
+### EPUB Pipeline Features
+
+When exporting EPUB (`bubble-build --format epub`):
+- **1-to-1 Chapter File Naming**: Formal chapters map directly to matching file numbers (`ch001.xhtml` for Chapter 1, `ch019.xhtml` for Chapter 19).
+- **Semantic Frontmatter / Backmatter**: Named as `cover.xhtml`, `copyright.xhtml`, `preface.xhtml`, `foreword.xhtml`, `appendix.xhtml`, `about.xhtml`.
+- **Image Attributes**: `{width=...}`, `{height=...}`, `{alpha=...}`, `{rotate=...}`, and alignment classes are converted to clean HTML/CSS inline styles via `epub_image_attributes.lua`.
+- **Cross-References**: Powered by `scripts/epub_crossrefs.lua` and `i18n.json` for multilingual chapter jump links and unlinked figure numbers.
+
 
 ### Notable flags
 
 | Flag | Effect |
 |------|--------|
+| `--chapter-opener-size` | Opener badge size in cm (square/circle geometry + chapter numeral font); overrides `chapter_opener_size_cm` |
+| `--format html` | Static HTML site instead of PDF (see below) |
 | `--no-cover` | Interior-only; output name gets `_interior` suffix |
 | `--optimize-pdf` | Shrink PDF (GS for en/sp, qpdf for CJK) |
 | `--protect` | Anti-copy rasterization (large files) |
 | `--include-appendix` | `true`, `false`, or `auto` |
 | `--with-time` | Timestamp in output filename |
-| `--engine typst` | Preview mode — see below |
-
-### Typst preview mode (experimental)
-
-```bash
-bubble-build --engine typst
-```
-
-`bubble-build` normally merges every chapter into one Markdown file and does a single
-whole-book Pandoc → LaTeX → compile pass (cover, TOC, trim-size template included).
-`--engine typst` does **not** replicate that — there is no merged-book Typst pipeline yet. It
-short-circuits to a **per-chapter preview**: the same as running
-`bubble-convert <N> --engine typst` for every chapter, producing one `<chapter>.pdf` next to
-each chapter's Markdown. No merge, cover, TOC, or template is produced. See
-[`bubble-convert` — Rendering engine](#rendering-engine-experimental) for what the Typst path
-does and doesn't preserve.
 
 ### Output naming
 
@@ -146,6 +164,33 @@ plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='white')
 ```
 
 Peanutbook itself ships no such helper — this is a plain matplotlib pattern, not a `bubble` API. If your project has a shared plotting package, wrap it in a one-liner instead, e.g. `save_figure_to_script_dir('output.png', dpi=300, bbox_inches='tight', caller_file=__file__)`.
+
+## `bubble-render-html`
+
+Build a static HTML book site (same sources as PDF, no LaTeX):
+
+```bash
+bubble-render-html
+bubble-render-html --lang cn
+bubble-render-html -o dist/html
+bubble-render-html --theme dark --no-mathjax
+bubble-render-html --max-chapters 21
+bubble-render-html --cover 7x10
+```
+
+| Flag | Effect |
+|------|--------|
+| `--lang` | Locale (`en`, `cn`, `tc`, `jp`, `sp`) |
+| `-o`, `--output` | Output directory |
+| `-t`, `--title` | Site title (default: `book_title` from config) |
+| `--theme` | `default`, `dark`, or `minimal` |
+| `--css` | Custom CSS → `assets/custom.css` |
+| `--no-mathjax` | Disable MathJax |
+| `--max-chapters` | Limit chapter count |
+| `--include-appendix` | `true`, `false`, or `auto` |
+| `--cover` | Cover folder under `cover/` |
+
+Default output: `book_html/` or `book_html_{tag}/`. Full details: **[HTML generation](../html-generation.md)**.
 
 ## `bubble-merge`
 
@@ -183,7 +228,21 @@ bubble-paper paper.md --two-column --optimize-pdf
 
 YAML front matter: `title`, `author`, `affiliation`, `abstract`, `keywords`, `bibliography` (path to `.bib` for `--citeproc`). Uses `templates/paper_style.tex`.
 
-Sample fixture: `tests/fixtures/sample_paper.md` (author Xuan Xin; math, algorithm, table, citations). Build single- and two-column PDFs plus doc preview PNGs with `./scripts/test_sample_paper.sh`.
+![Two-column sample paper PDF preview](../img/paper-preview-twocol.png)
+
+Full guide with layout screenshots: **[Academic papers (bubble-paper)](../paper.md)**.
+
+## `bubble-bizplan`
+
+Single Markdown → business plan PDF (Pandoc + LuaLaTeX). Uses **`peanut-biz.config`**, not `peanut.config`.
+
+```bash
+bubble-bizplan --init bizplan.md
+bubble-bizplan bizplan.md --cover-name tech-white --strict
+bubble-bizplan bizplan.md --check-only
+```
+
+Full guide: **[Business plans](../bizplan.md)** (required sections, cover styles, config keys, Python API).
 
 ## `bubble-monitor`
 
@@ -204,9 +263,11 @@ Interactive project bootstrap:
 bubble-scaffold
 bubble-scaffold --chapters 10 --lang both --yes
 bubble-scaffold --lang zh --yes
+bubble-scaffold --bizplan
+bubble-scaffold --paper
 ```
 
-Creates chapter stubs, `peanut.config`, and `cover/7x10/` placeholders.
+Creates chapter stubs, `peanut.config`, and `cover/7x10/` placeholders. With `--bizplan`, scaffolds `bizplan.md`. With `--paper`, scaffolds `paper.md`.
 
 ## `bubble-split-pdf`
 

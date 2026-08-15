@@ -54,6 +54,8 @@ bubble-batch all --cover-provider ingram/hardcover --cover-version v2
 
 Aliases include `kdp_paperback`, `ingram_hardcover`, `lulu_paperback`, `lulu_hardcover`.
 
+Print dimensions and Python helpers (`bubble.cover_print`, `bubble.cover_draw`, …) are documented in **[Cover rendering API](cover-api.md)**.
+
 ## Chapter styles
 
 | Style | Appearance |
@@ -64,8 +66,11 @@ Aliases include `kdp_paperback`, `ingram_hardcover`, `lulu_paperback`, `lulu_har
 
 ```bash
 bubble-build --style square
+bubble-build --style circle --chapter-opener-size 5
 bubble-build --no-cover --style none    # interior-only PDF
 ```
+
+`chapter_opener_size_cm` in `peanut.config` (default `4`) sets the badge size when CLI omits `--chapter-opener-size`. The numeral font scales with badge size.
 
 ## PDF size optimization
 
@@ -87,3 +92,7 @@ bubble-build --optimize-pdf --optimize-pdf-quality prepress   # English: less ag
 ```bash
 bubble-proposal querytracker/proposal.md --lang en --optimize-pdf
 ```
+
+For business plans (`bubble-bizplan`, `peanut-biz.config`), see **[Business plans](bizplan.md)**.
+
+For academic papers (`bubble-paper`, `templates/paper_style.tex`), see **[Academic papers](paper.md)**.

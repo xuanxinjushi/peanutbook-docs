@@ -1,6 +1,6 @@
 # Peanutbook syntax reference
 
-This page documents **Peanutbook** — the Markdown-based book format. Standard CommonMark applies unless noted below. The build toolchain (`bubble-book`) applies these rules via Pandoc and Lua filters when you run `bubble-convert` or `bubble-build`.
+This page documents **Peanutbook** — the Markdown-based book format. Standard CommonMark applies unless noted below. The build toolchain (`peanutbook`) applies these rules via Pandoc and Lua filters when you run `bubble-convert` or `bubble-build`.
 
 See also [What is Peanutbook?](what-is-peanutbook.md) and [Chapter format](chapter-format.md).
 
@@ -83,359 +83,6 @@ Additional paragraphs in the warning section.
 - The markers will be removed from the output
 - Content between markers will be wrapped in a `warnsection` LaTeX environment
 - Warning sections are rendered with an orange background and orange border to draw attention to common mistakes
-
-
-## Syntax for AI/ML Sections: AIMLS-AIMLE format
-
-Use blockquote syntax with `>AIMLS:` and `>AIMLE` markers for AI/ML application asides (algorithms, model tricks, optimizer connections). Prefer this over generic `>NOTES:` when the digression is specifically about AI/ML practice.
-
-**Editorial split:** Keep pure math in the body (or in `NOTES` if it needs emphasis). Put only the AI/ML application sentence(s) inside `AIMLS`/`AIMLE`. **Anything not about AI/ML belongs outside the AIMLS box** — move it to the preceding body paragraph (preferred) or to `NOTES` if it is a math point that needs emphasis. Do **not** leave orphan ML-framing one-liners in the body (e.g. “The Kronecker product is fundamental in many areas of machine learning…”) — those belong **inside** `AIMLS`, as the opening of the aside. Do not stack `NOTES` and `AIMLS` tightly against each other.
-
-**Format:**
-```markdown
->AIMLS: Your AI/ML aside here. This can span multiple lines.
-
-Additional paragraphs in the AI/ML section.
-
->AIMLE
-```
-
-**Example (math in body, ML aside in AIMLS):**
-```markdown
-The outer-product view $AB = \sum_i \mathbf a_i \mathbf b_i^\top$ shows each term is rank-1.
-
->AIMLS: In deep learning, this perspective helps understand how linear layers decompose into rank-1 components used by low-rank approximations.
-
->AIMLE
-```
-
-**Notes:**
-- `>AIMLS:` marks the start of an AI/ML section (AI/ML start)
-- `>AIMLE` marks the end of an AI/ML section (AI/ML end): put an empty line **before** it and an empty line **after** it (before the next heading or paragraph). Without the trailing blank line, Pandoc may merge the next `##` heading into the `>AIMLE` blockquote and the section will not close.
-- The markers will be removed from the output
-- Content between markers will be wrapped in an `aimlsection` LaTeX environment
-- AI/ML sections are rendered with a cyan-tinted background and a robot icon (not the music-note icon used for notes)
-- Do not put floats (`algorithm`, `figure`, `table`) inside an AIMLS block — they must stay in the outer paragraph mode
-- Do **not** place an `AIMLS` block immediately after a `NOTES` block (or vice versa); leave body text between them
-
-
-## Blank page: `BLANKPAGE`
-
-A lone `\newpage\newpage` does **not** create a blank page in TeX (empty pages are discarded). Use the marker below; the `blank_page.lua` filter expands it to a real empty leaf (`\newpage` + `\null` + empty page style + `\newpage`).
-
-**Format (any one):**
-
-```markdown
-BLANKPAGE
-```
-
-```markdown
->BLANKPAGE
-```
-
-```markdown
-::: blankpage
-:::
-```
-
-**Example (pad before Foreword so it can open on a chosen side):**
-
-```markdown
-Spring of 2026
-
-BLANKPAGE
-
-# Foreword
-```
-
-## No header/footer on this page: `NO_HEAD_FOOT`
-
-Standalone marker (same idea as `BLANKPAGE`) that clears running header and footer on the **current** page. Expands to `\thispagestyle{fullpageempty}` (fancyhdr-safe; prefer this over raw `\thispagestyle{empty}`).
-
-**Format (any one):**
-
-```markdown
-NO_HEAD_FOOT
-```
-
-```markdown
->NO_HEAD_FOOT
-```
-
-```markdown
-::: no-head-foot
-:::
-```
-
-**Example (decorative half-title after `\newpage`):**
-
-```markdown
-\newpage
-
-NO_HEAD_FOOT
-
-HBAR_TOP
-
-__Math for AI__
-
-HBAR_BOT
-
-\newpage
-```
-
-Place it near the start of the page (typically right after `\newpage`). It does **not** start a new page by itself.
-
-## Decorative horizontal bar: `HBAR1_CLOUD`
-
-A standalone marker (same idea as `BLANKPAGE`) that inserts a full-width cloud ornament divider (bundled `book_assets/img/div_cloud.png`; override with project `img/div_cloud.png`).
-
-**Format:**
-```markdown
-HBAR1_CLOUD
-```
-
-or:
-
-```markdown
->HBAR1_CLOUD
-```
-
-or:
-
-```markdown
-::: hbar1-cloud
-:::
-```
-
-**Example (after a preface title):**
-```markdown
-# 前言 {.center}
-
-HBAR1_CLOUD
-
-我对“我”的最早记忆，
-```
-
-Alias: `HBAR_CLOUD` (same image).
-
-## Decorative horizontal bars: `HBAR_TOP` / `HBAR_BOT`
-
-Standalone markers (same idea as `HBAR1_CLOUD`) that insert full-width ornamental dividers for the top or bottom of a section.
-
-| Marker | Bundled image | Override |
-|--------|---------------|----------|
-| `HBAR_TOP` | `book_assets/img/HBAR_top.png` | project `img/HBAR_top.png` |
-| `HBAR_BOT` | `book_assets/img/HBAR_bot.png` | project `img/HBAR_bot.png` |
-
-**Format (any one per marker):**
-
-```markdown
-HBAR_TOP
-```
-
-```markdown
->HBAR_BOT
-```
-
-```markdown
-::: hbar-top
-:::
-
-::: hbar-bot
-:::
-```
-
-**Example:**
-
-```markdown
-HBAR_TOP
-
-# Chapter title {.center}
-
-Body text …
-
-HBAR_BOT
-```
-
-## Decorative horizontal bar: `HBAR_CENTER_CLOUD_RED`
-
-Standalone marker that inserts a full-width red centered-cloud ornament divider (bundled `book_assets/img/HBAR_CENTER_CLOUD_RED.png`; override with project `img/HBAR_CENTER_CLOUD_RED.png`).
-
-**Format (any one):**
-
-```markdown
-HBAR_CENTER_CLOUD_RED
-```
-
-```markdown
->HBAR_CENTER_CLOUD_RED
-```
-
-```markdown
-::: hbar-center-cloud-red
-:::
-```
-
-## Decorative horizontal bar: `HBAR_CENTER_FLOWER_RED`
-
-Standalone marker that inserts a full-width red centered-flower ornament divider (bundled `book_assets/img/HBAR_CENTER_FLOWER_RED.png`; override with project `img/HBAR_CENTER_FLOWER_RED.png`).
-
-**Format (any one):**
-
-```markdown
-HBAR_CENTER_FLOWER_RED
-```
-
-```markdown
->HBAR_CENTER_FLOWER_RED
-```
-
-```markdown
-::: hbar-center-flower-red
-:::
-```
-
-## Decorative horizontal bar: `HBAR_CENTER_DRAGONFLY_RED`
-
-Standalone marker that inserts a full-width red centered-dragonfly ornament divider (bundled `book_assets/img/HBAR_CENTER_DRAGONFLY_RED.png`; override with project `img/HBAR_CENTER_DRAGONFLY_RED.png`).
-
-**Format (any one):**
-
-```markdown
-HBAR_CENTER_DRAGONFLY_RED
-```
-
-```markdown
->HBAR_CENTER_DRAGONFLY_RED
-```
-
-```markdown
-::: hbar-center-dragonfly-red
-:::
-```
-
-## Decorative horizontal bar: `HBAR_CENTER_LOTUS_RED`
-
-Standalone marker that inserts a full-width red centered-lotus ornament divider (bundled `book_assets/img/HBAR_CENTER_LOTUS_RED.png`; override with project `img/HBAR_CENTER_LOTUS_RED.png`).
-
-**Format (any one):**
-
-```markdown
-HBAR_CENTER_LOTUS_RED
-```
-
-```markdown
->HBAR_CENTER_LOTUS_RED
-```
-
-```markdown
-::: hbar-center-lotus-red
-:::
-```
-
-## Decorative horizontal bar: `HBAR_RIGHT_CLOUD_RED`
-
-Standalone marker that inserts a full-width red right-cloud ornament divider (bundled `book_assets/img/HBAR_RIGHT_CLOUD_RED.png`; override with project `img/HBAR_RIGHT_CLOUD_RED.png`).
-
-**Format (any one):**
-
-```markdown
-HBAR_RIGHT_CLOUD_RED
-```
-
-```markdown
->HBAR_RIGHT_CLOUD_RED
-```
-
-```markdown
-::: hbar-right-cloud-red
-:::
-```
-
-## Decorative horizontal bar: `HBAR_RIGHT_CLOUD_BLUE`
-
-Standalone marker that inserts a full-width blue right-cloud ornament divider (bundled `book_assets/img/HBAR_RIGHT_CLOUD_BLUE.png`; override with project `img/HBAR_RIGHT_CLOUD_BLUE.png`).
-
-**Format (any one):**
-
-```markdown
-HBAR_RIGHT_CLOUD_BLUE
-```
-
-```markdown
->HBAR_RIGHT_CLOUD_BLUE
-```
-
-```markdown
-::: hbar-right-cloud-blue
-:::
-```
-
-## Decorative horizontal bar: `HBAR_SMALL_CENTER`
-
-Standalone marker that inserts a full-width small centered ornament divider (bundled `book_assets/img/HBAR_SMALL_CENTER.png`; override with project `img/HBAR_SMALL_CENTER.png`).
-
-**Format (any one):**
-
-```markdown
-HBAR_SMALL_CENTER
-```
-
-```markdown
->HBAR_SMALL_CENTER
-```
-
-```markdown
-::: hbar-small-center
-:::
-```
-
-## Syntax for centered headings: `{.center}`
-
-Use the Pandoc class `{.center}` on a `#` or `##` heading to center the title horizontally (PDF / LaTeX). Combines with `{.unnumbered}` / `{-}`.
-
-**Format:**
-```markdown
-# Foreword {.center}
-
-# 前言 {.center .unnumbered}
-```
-
-**Notes:**
-- Preface `#` titles are emitted by the book builder as `\chapter*{\centering ...}` when `{.center}` is present
-- Body chapters/sections use the `centered_heading.lua` filter (`\chapter` / `\section` with `\centering`)
-- This is **not** the same as `>CENTERS:` … `>CENTERE` (those center a whole block vertically on the page)
-
-## Syntax for horizontally centered body text
-
-Two equivalent forms for centering **paragraphs** (not a full-page dedication):
-
-### 1. Fenced div (Pandoc-native)
-
-```markdown
-::: {.center}
-我对“我”的最早记忆，
-
-大约在两岁。
-:::
-```
-
-### 2. Blockquote markers (same family as NOTES / CENTERS)
-
-```markdown
->HCENTER:
-
-我对“我”的最早记忆，
-
-大约在两岁。
-
->HCENTERE
-```
-
-**Notes:**
-- Both emit `\begin{center}…\end{center}` in PDF (horizontal only; no forced page break)
-- `# Title {.center}` centers a **heading**; these forms center **body text**
-- `>CENTERS:` … `>CENTERE` still means page-centered (vertical + horizontal, dedication-style)
 
 ## Syntax for page-centered blocks: CENTERS-CENTERE format
 
@@ -616,17 +263,6 @@ Control image size, alignment, and placement using Pandoc attribute syntax.
    - `alpha` (0–1) sets background opacity (default 0.35 so text stays readable)
    - Uses LaTeX `eso-pic` + TikZ; requires the template that loads these packages
 
-4b. **Chapter title-page background** (`**tp_bg**` — full-page bg *on the chapter opener*):
-   ```markdown
-   **tp_bg**
-
-   ![](img/tp-bg.png){alpha=0.1}
-   ```
-   - Placed near the chapter header (with `**tp_image**`, quote, etc.); consumed when generating `chaptertitlepage`
-   - Stretches to `\paperwidth` × `\paperheight` behind title/quote/`**tp_image**` art
-   - `alpha` / `opacity` (0–1); default **0.1** if omitted
-   - Distinct from body `.background` (which applies to a later content page) and from `**tp_image**` (bottom-right inset art)
-
 5. **Full Page Placement** (occupies entire page, can be rotated, can have custom size):
 
    ```markdown
@@ -662,6 +298,297 @@ Control image size, alignment, and placement using Pandoc attribute syntax.
 ```markdown
 ![Vector Projection](img/vec_projection.png){.wrap width=50% align=right}
 ```
+
+## No header/footer on this page: `NO_HEAD_FOOT`
+
+Standalone marker that clears running header and footer on the **current** page. Expands to `\thispagestyle{fullpageempty}` (fancyhdr-safe).
+
+**Format (any one):**
+
+```markdown
+NO_HEAD_FOOT
+```
+
+```markdown
+>NO_HEAD_FOOT
+```
+
+```markdown
+::: no-head-foot
+:::
+```
+
+**Example:**
+
+```markdown
+\newpage
+
+NO_HEAD_FOOT
+
+HBAR_TOP
+
+__Math for AI__
+
+HBAR_BOT
+```
+
+Place it near the start of the page (typically right after `\newpage`). It does **not** start a new page by itself.
+
+## Decorative horizontal bar: `HBAR1_CLOUD`
+
+A standalone marker that inserts a full-width cloud ornament divider. Peanutbook ships a default image (`div_cloud.png`); you can override it by placing your own file at `img/div_cloud.png` in the project.
+
+Demo:
+
+![HBAR1_CLOUD decorative cloud divider](img/hbar1-cloud-preview.png)
+
+**Format (any one):**
+
+```markdown
+HBAR1_CLOUD
+```
+
+```markdown
+>HBAR1_CLOUD
+```
+
+```markdown
+::: hbar1-cloud
+:::
+```
+
+**Example (after a preface title):**
+
+```markdown
+# 前言 {.center}
+
+HBAR1_CLOUD
+
+我对“我”的最早记忆，
+```
+
+**Notes:**
+
+- Alias: `HBAR_CLOUD` (same image)
+- **Chapter Opener Titlepages**: You can configure `HBAR1_CLOUD` or any `HBAR_*` ornament as the chapter titlepage quote divider via `"chapter_titlepage_hbar": "HBAR1_CLOUD"` in `peanut.config`. See [Configuration](configuration.md#chapter-titlepage-options).
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put the marker on its own line (optionally as a blockquote)
+
+## Decorative horizontal bars: `HBAR_TOP` / `HBAR_BOT`
+
+Standalone markers (same idea as `HBAR1_CLOUD`) that insert full-width ornamental dividers for the top or bottom of a section. Peanutbook ships defaults (`HBAR_top.png`, `HBAR_bot.png`); override with the same filenames under project `img/`.
+
+**Demo (`HBAR_TOP`):**
+
+![HBAR_TOP decorative top divider](img/hbar-top-preview.png)
+
+**Demo (`HBAR_BOT`):**
+
+![HBAR_BOT decorative bottom divider](img/hbar-bot-preview.png)
+
+**Format (any one per marker):**
+
+```markdown
+HBAR_TOP
+```
+
+```markdown
+>HBAR_BOT
+```
+
+```markdown
+::: hbar-top
+:::
+
+::: hbar-bot
+:::
+```
+
+**Example:**
+
+```markdown
+HBAR_TOP
+
+# Chapter title {.center}
+
+Body text …
+
+HBAR_BOT
+```
+
+**Notes:**
+
+- `HBAR_TOP` uses `HBAR_top.png`; `HBAR_BOT` uses `HBAR_bot.png`
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put each marker on its own line (optionally as a blockquote)
+
+## Decorative horizontal bar: `HBAR_CENTER_CLOUD_RED`
+
+Standalone marker that inserts a full-width red centered-cloud ornament divider. Peanutbook ships `HBAR_CENTER_CLOUD_RED.png`; override with the same filename under project `img/`.
+
+Demo:
+
+![HBAR_CENTER_CLOUD_RED decorative divider](img/hbar-center-cloud-red-preview.png)
+
+**Format (any one):**
+
+```markdown
+HBAR_CENTER_CLOUD_RED
+```
+
+```markdown
+>HBAR_CENTER_CLOUD_RED
+```
+
+```markdown
+::: hbar-center-cloud-red
+:::
+```
+
+**Notes:**
+
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put the marker on its own line (optionally as a blockquote)
+
+## Decorative horizontal bar: `HBAR_CENTER_FLOWER_RED`
+
+Standalone marker that inserts a full-width red centered-flower ornament divider. Peanutbook ships `HBAR_CENTER_FLOWER_RED.png`; override with the same filename under project `img/`.
+
+Demo:
+
+![HBAR_CENTER_FLOWER_RED decorative divider](img/hbar-center-flower-red-preview.png)
+
+**Format (any one):**
+
+```markdown
+HBAR_CENTER_FLOWER_RED
+```
+
+```markdown
+>HBAR_CENTER_FLOWER_RED
+```
+
+```markdown
+::: hbar-center-flower-red
+:::
+```
+
+**Notes:**
+
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put the marker on its own line (optionally as a blockquote)
+
+## Decorative horizontal bar: `HBAR_CENTER_DRAGONFLY_RED`
+
+Standalone marker that inserts a full-width red centered-dragonfly ornament divider. Peanutbook ships `HBAR_CENTER_DRAGONFLY_RED.png`; override with the same filename under project `img/`.
+
+Demo:
+
+![HBAR_CENTER_DRAGONFLY_RED decorative divider](img/hbar-center-dragonfly-red-preview.png)
+
+**Format (any one):**
+
+```markdown
+HBAR_CENTER_DRAGONFLY_RED
+```
+
+```markdown
+>HBAR_CENTER_DRAGONFLY_RED
+```
+
+```markdown
+::: hbar-center-dragonfly-red
+:::
+```
+
+**Notes:**
+
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put the marker on its own line (optionally as a blockquote)
+
+## Decorative horizontal bar: `HBAR_CENTER_LOTUS_RED`
+
+Standalone marker that inserts a full-width red centered-lotus ornament divider. Peanutbook ships `HBAR_CENTER_LOTUS_RED.png`; override with the same filename under project `img/`.
+
+Demo:
+
+![HBAR_CENTER_LOTUS_RED decorative divider](img/hbar-center-lotus-red-preview.png)
+
+**Format (any one):**
+
+```markdown
+HBAR_CENTER_LOTUS_RED
+```
+
+```markdown
+>HBAR_CENTER_LOTUS_RED
+```
+
+```markdown
+::: hbar-center-lotus-red
+:::
+```
+
+**Notes:**
+
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put the marker on its own line (optionally as a blockquote)
+
+## Decorative horizontal bar: `HBAR_RIGHT_CLOUD_RED`
+
+Standalone marker that inserts a full-width red right-cloud ornament divider. Peanutbook ships `HBAR_RIGHT_CLOUD_RED.png`; override with the same filename under project `img/`.
+
+Demo:
+
+![HBAR_RIGHT_CLOUD_RED decorative divider](img/hbar-right-cloud-red-preview.png)
+
+**Format (any one):**
+
+```markdown
+HBAR_RIGHT_CLOUD_RED
+```
+
+```markdown
+>HBAR_RIGHT_CLOUD_RED
+```
+
+```markdown
+::: hbar-right-cloud-red
+:::
+```
+
+**Notes:**
+
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put the marker on its own line (optionally as a blockquote)
+
+## Decorative horizontal bar: `HBAR_RIGHT_CLOUD_BLUE`
+
+Standalone marker that inserts a full-width blue right-cloud ornament divider. Peanutbook ships `HBAR_RIGHT_CLOUD_BLUE.png`; override with the same filename under project `img/`.
+
+Demo:
+
+![HBAR_RIGHT_CLOUD_BLUE decorative divider](img/hbar-right-cloud-blue-preview.png)
+
+**Format (any one):**
+
+```markdown
+HBAR_RIGHT_CLOUD_BLUE
+```
+
+```markdown
+>HBAR_RIGHT_CLOUD_BLUE
+```
+
+```markdown
+::: hbar-right-cloud-blue
+:::
+```
+
+**Notes:**
+
+- Works in PDF, HTML, and other book formats that apply the divider filters
+- Put the marker on its own line (optionally as a blockquote)
 
 ## Syntax for Fancy Divider
 
@@ -703,7 +630,7 @@ Text after red divider with Python icon.
 
 ## Code Block Styles
 
-Peanutbook applies different code box styles by language and optional first-line markers inside the fence. PDF output is shown below; HTML uses matching light/dark classes for bash and terminal blocks.
+Peanutbook applies different code box styles by language and optional first-line markers inside the fence. PDF output is shown below; HTML uses matching CSS classes for bash and terminal blocks (light gray background, black text, black border).
 
 ![Code block styles in PDF: Python, bash, C++, Java, overrides, and terminal](img/codeblock-styles-preview.png)
 
@@ -797,7 +724,40 @@ Combine with line-number markers: `#BKG:red!20;#LINENUM` or `#BKG:red!20;#LINENU
 
 ### Terminal style (default for `bash`, `sh`, `shell`)
 
-`bash`, `sh`, and `shell` fences use the terminal look by default — light gray background with black text, a black border, and a left accent bar, uniform text (no bash syntax lexer, so digits, hyphens, and flags stay readable). Long single-line commands are auto-wrapped **only at spaces** with a trailing `\` on continued lines when `bash_wrap_columns` is set in merged `peanut.config` (default in `peanut.config.default`; set `null` or `0` to disable). Continuation lines are indented two spaces. In multi-line scripts, each long non-`#` line is wrapped independently; `#` comment lines are left unchanged; separate commands without `\` are not joined. Add `#NOWRAP` as the first line to keep a long line unwrapped. Useful for shell sessions, cluster commands, or log snippets.
+`bash`, `sh`, and `shell` fences use the terminal look by default — light gray background with black text, a black border, and a left accent bar. Text is uniform (no bash syntax lexer, so digits, hyphens, and flags stay readable on the light background).
+
+#### Bash line wrapping
+
+Long lines are auto-wrapped **only at spaces** with a trailing `\` on continued lines when `bash_wrap_columns` is set in merged `peanut.config` (default `76` in `peanut.config.default`; set `null` or `0` to disable). Continuation lines are indented two spaces.
+
+| Case | Behavior |
+|------|----------|
+| Single long command | Wrapped at spaces with `\` |
+| Multi-line script (`#SBATCH`, `export`, …) | Each long non-`#` line wrapped independently; `#` comment lines unchanged; separate commands are **not** joined with `\` |
+| Lines already continued with `\` | Treated as one logical command, then wrapped if still too long |
+
+Add `#NOWRAP` as the **first line** inside the fence to skip auto-wrap for that block.
+
+````markdown
+```bash
+torchrun --nnodes=2 --nproc_per_node=8 --node_rank=0 \
+  --master_addr=<master_ip> --master_port=29500 train.py
+```
+
+```bash
+#!/bin/bash
+#SBATCH --nodes=4
+srun torchrun --nnodes=$SLURM_NNODES --nproc_per_node=8 \
+  --node_rank=$SLURM_NODEID --master_addr=$MASTER_ADDR train.py
+```
+
+```bash
+#NOWRAP
+torchrun --nnodes=2 --very-long-flags ...
+```
+````
+
+Useful for shell sessions, cluster commands, SLURM scripts, or log snippets.
 
 ````markdown
 ```bash
@@ -866,30 +826,63 @@ Output: `test_codeblock_styles.pdf` and `tests/output/codeblock_styles-*.png`.
 
 ## Mermaid diagrams
 
-Use a **` ```mermaid `** fenced block (or ` ```{.mermaid width=90%} `**). **`mermaid_blocks.lua`** renders the diagram to `img/.mermaid/<hash>.png` via `mmdc` / `npx` for **PDF, DOCX, and EPUB** (`bubble-build --format epub`). **HTML** uses `htmlbook/mermaid_blocks.py`.
+Fenced blocks tagged `mermaid` are **rendered to PNG figures** when you build — not shown as code listings. The same diagram source is used for PDF, DOCX, EPUB, and HTML output formats.
+
+### Basic usage
+
+![Mermaid flowchart example in PDF](img/mermaid-diagram-preview.png)
 
 ````markdown
-```{.mermaid width=90%}
-flowchart TB
+```mermaid
+flowchart LR
   A[Master] --> B[Worker]
+```
+
+```{.mermaid width=50%}
+flowchart TB
+  subgraph cluster["SLURM cluster"]
+    M["MASTER_ADDR / MASTER_PORT"]
+    W1["Node 0"]
+    W2["Node 1"]
+    M --> W1
+    M --> W2
+  end
+  W1 --> T["torchrun train_fsdp2.py"]
+  W2 --> T
 ```
 ````
 
-Requires **mmdc** on `PATH` or **Node.js** with `npx`. Rendered PNGs are cached by content hash under `img/.mermaid/`.
+- Language tag: `mermaid` (or class `.{.mermaid}`).
+- Optional attributes on the fence: `width=50%`, `width=5cm`, `align=center` (same as [image attributes](#syntax-for-image-attributes)).
+- Default width when omitted: **90%** of line width.
 
-Optional: keep standalone `img/*.mmd` sources and run `python3 scripts/render_mermaid_fixture.py` for batch export.
+### Building
 
-Fixture:
+Use the same Markdown in your chapter files as for PDF:
 
 ```bash
-bubble-convert tests/fixtures/mermaid.md
-./scripts/test_mermaid_fixture.sh
-./scripts/test_mermaid_html_fixture.sh
-./scripts/test_mermaid_docx_fixture.sh
-./scripts/test_mermaid_epub_fixture.sh
+bubble-convert 1                    # chapter PDF
+bubble-convert chapter.md --format docx
+bubble-build                        # full book PDF
+bubble-build --format epub
+bubble-build --format docx
+bubble-render-html                  # static HTML site
+bubble-build --format html
 ```
 
-For SVG exports via manual `mmdc`, templates support `\includesvg`; run `bubble-convert-svg-text` if PDF text layout needs fixing.
+Rendered PNGs are cached under each chapter’s `img/.mermaid/` (content-hash filenames). Unchanged diagrams are not re-rendered.
+
+**Requirements:** [mermaid-cli](https://github.com/mermaid-js/mermaid-cli) (`mmdc` on `PATH`) or **Node.js** with `npx`. See [System requirements — Mermaid](system-requirements.md#mermaid-diagrams-optional). No extra `peanut.config` keys.
+
+If Mermaid is not installed, PDF/DOCX/EPUB may leave the fence as a code block; HTML build logs an error and keeps the fence text.
+
+### Standalone diagram files (optional)
+
+You can maintain diagrams as `img/*.mmd` and reference the exported PNG with ordinary Markdown images (`![](img/diagram.png)`), instead of or in addition to fenced blocks.
+
+### SVG (manual)
+
+For vector figures in PDF, export SVG with `mmdc` and use `![](img/diagram.svg)` where your template supports it. If PDF text misaligns, run `bubble-convert-svg-text` on the SVG.
 
 ## Code Line Annotations
 
@@ -922,7 +915,7 @@ CODE_EXPLAIN_END
 
 **Explicitly Enable Line Numbers:**
 
-To explicitly enable line numbers for a code block, add `#LINENUM` at the beginning:
+1. **Locally (per code block)**: Add `#LINENUM` at the beginning of the code block:
 
 ````markdown
 ```python
@@ -931,6 +924,14 @@ print("Hello")
 print("World")
 ```
 ````
+
+2. **Globally (for all code blocks)**: Add `"code_line_numbers": true` to `peanut.config`:
+
+```json
+"code_line_numbers": true
+```
+
+When enabled globally, line numbers are added to all Python code blocks by default. You can still disable line numbers locally on specific blocks by writing `#NOLINENUM` at the start of the block.
 
 You can also combine it with background color specification:
 
@@ -963,7 +964,9 @@ CODE_EXPLAIN_END
 
 **Line Number Style (Bar Style):**
 
-By default, line numbers are displayed as circled numbers (①, ②, ③, etc.). To use a box style (e.g., `13` or ` 1` in a box), add `#LINEBAR` in the first line comment:
+By default, line numbers and explanations are displayed as circled numbers (①, ②, ③, etc.). To use a box style (e.g., `13` or ` 1` in a box), you can configure it:
+
+1. **Locally (per code block)**: Add `#LINEBAR` in the first line comment:
 
 ````markdown
 ```python
@@ -973,7 +976,16 @@ print("World")
 ```
 ````
 
-The box style shows line numbers as right-aligned numbers in a box, which is useful for code blocks with many lines.
+2. **Globally (for the entire book)**: Set the `"code_annotation_style"` key in `peanut.config` to `"bar"` (or `"box"`):
+
+```json
+"code_annotation_style": "bar"
+```
+
+Supported global values in `peanut.config`:
+- `"circle"`: Force circled annotations.
+- `"bar"` or `"box"`: Force boxed/bar annotations.
+- `null` (default): Determine style dynamically per-code-block (uses circle style unless `#LINEBAR` is specified in the code block).
 
 ## Equation Numbering
 
@@ -1014,6 +1026,7 @@ Some text after the formula.
 ```
 
 **Common Mistakes:**
+
 - ❌ **No empty line before:** Formula won't be detected
   ```markdown
   The formula is:
@@ -1027,13 +1040,13 @@ Some text after the formula.
   $$
   This text follows immediately.
   ```
-- ❌ **Comma before label:** Do not put a comma before `\label`
+- ⚠️ **Comma before label (style):** This is usually valid LaTeX, but not recommended in Peanutbook style. Prefer no punctuation before `\label` for cleaner reading.
   ```markdown
   $$
   A = U_k \Sigma_k V_k^\top, \label{eq:svd-thin}
   $$
   ```
-- ✅ **Correct format (empty lines required, no comma before label):**
+- ✅ **Preferred format (empty lines required, no comma before label):**
   ```markdown
   Some text before.
 
@@ -1115,7 +1128,7 @@ NOTE: If the equation is not labeled and it use `$$`, there must be no empty lin
 1. **Label names must start with `eq:`** (e.g., `eq:svd-full`, `eq:norm`)
 2. **Label names can only contain** letters, numbers, underscores, and hyphens
 3. **Empty lines are mandatory** before and after `$$...$$` blocks - this is the only requirement
-4. **No comma before label** - do not put a comma before `\label{eq:name}` or `\\WFHLABEL:eq:name`
+4. **Style recommendation: no comma before label** - a comma before `\label{eq:name}` or `\\WFHLABEL:eq:name` is usually valid, but Peanutbook recommends omitting it for cleaner formula typography
 5. **Two label formats are supported**:
    - `\label{eq:name}` - can be placed anywhere in the formula
    - `\\WFHLABEL:eq:name` - placed at the end of the equation line
@@ -1825,34 +1838,6 @@ More text with another footnote[^2].
 
 Footnotes will automatically appear at the bottom of each page in the PDF.
 
-### Chinese head terms in English footnotes
-
-English builds (`--lang en`) use LuaLaTeX with a **main-font fallback** that includes Noto Serif CJK SC, so Han characters in footnotes render correctly (alongside emoji).
-
-For bilingual books, English footnote definitions may include **Simplified Chinese for the entry term only**—the proper noun, title, or set phrase being glossed—not for every name in the explanatory sentence.
-
-**Do**
-
-```markdown
-[^men-yjk]: *Speech and Eloquence* (《演讲与口才》): a popular national magazine…
-[^men-qigong]: Qi Gong (启功, 1912—2005), calligrapher and scholar…
-[^huo-hdl]: *Haidilao* (海底捞; literally "fishing the bottom of the sea"): a Sichuan hot-pot…
-```
-
-**Don't** (too dense; hurts reading)
-
-```markdown
-[^men-yjk]: *Speech and Eloquence* (《演讲与口才》): founded by Shao Shouyi (邵守义), under Jilin Normal College (吉林师范学院)…
-```
-
-**Rules of thumb**
-
-1. Put Chinese in parentheses **immediately after** the English / italic head term (optionally with pinyin or a short gloss: `《…》; *pinyin*` or `literally "…"`).
-2. One primary head per note; a second Chinese mark is OK only if the same note defines two entry titles (e.g. film series + theme song).
-3. Skip pure Western names and terms that need no Chinese gloss (e.g. Michael Jordan, TOEFL may take 托福 when helpful; Bloomberg anchors usually not).
-4. Prefer the same characters as the matching `chapterN_zh.md` footnote when one exists.
-5. First occurrence of a term in the book may carry the footnote; later chapters that reuse the term generally should not repeat the same definition footnote.
-
 ## Lists After Colons
 
 **CRITICAL REQUIREMENT:** When introducing a list with a colon (`:`) followed by a newline, **you must have an empty line between the colon and the list**. This ensures proper Markdown parsing and consistent formatting in the PDF output.
@@ -1881,6 +1866,7 @@ where:
 ```
 
 **Common Mistakes:**
+
 - ❌ **No empty line after colon:** List may not be properly formatted
   ```markdown
   where:

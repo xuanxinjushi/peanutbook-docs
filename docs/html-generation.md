@@ -1,88 +1,156 @@
-# HTML generation
+# HTML book generation
 
-Build an online-readable HTML edition of the book alongside the print PDF.
+Peanutbook can export the same chapter Markdown as a **static HTML book site** — a local or hostable mini-website with a home page, per-chapter pages, MathJax, and in-chapter navigation. No Pandoc or LaTeX is required for HTML output.
+
+## Commands
+
+### `bubble-render-html`
+
+Dedicated HTML build (recommended during development):
 
 ```bash
 bubble-render-html
-# or
-bubble-build --format html
+bubble-render-html --lang cn
+bubble-render-html --lang cn -t "云层之上"
+bubble-render-html -o dist/html
+bubble-render-html --theme default --no-mathjax
+bubble-render-html --max-chapters 21
+bubble-render-html --cover 7x10
 ```
 
-## `bubble-render-html` flags
+### `bubble-build --format html`
 
-| Flag | Default | Notes |
-|------|---------|-------|
-| `--lang` | `peanut.config` `lang`, else `en` | `en`, `cn`, `tc`, `jp`, `sp`, or `all` |
-| `-o, --output` | `book_html/` (`book_html_{tag}/` for non-`en`) | Or `html_output_dir` |
-| `-t, --title` | `book_title` from config | Site/index title |
-| `--theme` | `default` | `default`, `dark`, or `minimal` — unknown names fall back to `default` |
-| `--css` | none | Custom CSS, copied to `assets/custom.css` |
-| `--no-mathjax` | MathJax on | Disables MathJax |
-| `--max-chapters` | auto-detect | Ceiling on chapter number to include |
-| `--include-appendix` | `auto` | `true`/`false`/`auto` — `auto` includes `chapterx*.md` files if present |
-| `--cover` | from config or template default | Cover folder name under `cover/` |
-| `--root` | walk up from CWD | Project root override |
+Same pipeline, integrated with the main build command:
 
-`bubble-build --format html` shares `--lang`, `--max-chapters`, `--include-appendix`, and `--cover` with the rest of `bubble-build`, but takes `theme`/`custom_css`/`mathjax` only from `peanut.config` (no dedicated `--theme`/`--css` flags on that command). PDF-only flags (`--optimize-pdf`, `--protect`, watermark options, `--no-cover`) are ignored with a warning when `--format html` is used.
+```bash
+bubble-build --format html
+bubble-build --format html --lang cn
+bubble-build --format html --max-chapters 21
+```
 
-## `peanut.config` keys
+Print-only flags (`--optimize-pdf`, `--protect`, watermarks, `--no-cover`) are ignored for HTML builds.
 
-None of these ship in `peanut.config.default` — they're optional, code-defaulted keys you add yourself.
+## Output layout
 
-| Key | Default | Purpose |
-|-----|---------|---------|
-| `html_output_dir` | `book_html/` | Output directory override |
-| `html_theme` | `default` | Same values as `--theme`; only applied if `--theme` was left at its default |
-| `html_custom_css` | none | Path to custom CSS, resolved relative to CWD then project root |
-| `html_mathjax` | `true` | Set `false` to disable MathJax |
-| `html_site_logo` (falls back to `site_logo`) | empty | Logo shown in the site header |
-| `html_purchase_url` (falls back to `purchase_url`) | empty | Purchase button link (e.g. an Amazon page) |
-| `html_purchase_label` | `"Buy on Amazon"` | Purchase button text |
-| `html_cover_image` | none | Explicit cover image path, bypassing auto-discovery |
-| `cover` | derived from `template` | Reused as the HTML cover source when no `--cover`/`html_cover_image` is set |
-| `book_title` / `title` / `book_title_en` / `book_title_{tag}` | `"Book"` | Site title per locale — locale-specific keys are checked first |
-| `lang` | `en` | Default locale when `--lang` is omitted |
+| Locale | Default output directory |
+|--------|--------------------------|
+| `en` | `book_html/` |
+| `cn` | `book_html_zh/` |
+| `tc` | `book_html_tc/` |
+| `jp` | `book_html_jp/` |
+| `sp` | `book_html_sp/` |
 
-Cover auto-discovery checks, in order, inside the resolved cover folder (and its `out/` subfolder): `3d_front_view.png/.jpg`, `cover_front_v2.png/.jpg`, `cover_front.png/.jpg`, `cover.png/.jpg`.
+Override with `-o` / `--output` or `html_output_dir` in `peanut.config`.
 
-## Output structure
-
-Single-language build:
+Typical contents:
 
 ```
 book_html/
-├── index.html                       # book index / TOC, with cover + chapter list
-├── preface*.html
-├── chapter01.html … chapterNN.html  # one page per chapter markdown file
-├── chapterx*.html                   # appendix, if included
+├── index.html              # home page (cover, TOC, Start reading)
+├── preface.html
+├── chapter01.html
+├── chapter02.html
+├── …
+├── chapterx.html           # appendix (when included)
 └── assets/
     ├── theme.css
     ├── page-reader.js
-    ├── cover.<ext>                  # if a cover image was found
-    ├── custom.css                   # only if a custom CSS was given
-    └── themes/                      # default.css, dark.css, minimal.css, for in-page theme switching
+    ├── cover.png           # from cover/7x10/ (prefers 3d_front_view.png)
+    └── custom.css          # optional, from html_custom_css
 ```
 
-Multilingual build (`--lang all`):
+Open `index.html` in a browser, or serve the folder with any static file server.
 
+## Configuration
+
+Add optional keys to `peanut.config`:
+
+```json
+{
+  "book_title": "Mathematics for AI and Machine Learning",
+  "html_output_dir": null,
+  "html_theme": "default",
+  "html_custom_css": null,
+  "html_mathjax": true,
+  "html_site_logo": "https://example.org/logo.png",
+  "html_purchase_url": "https://www.amazon.com/dp/XXXXXXXXXX",
+  "html_purchase_label": "Buy on Amazon",
+  "html_cover_image": null
+}
 ```
-book_html/
-├── index.html          # language picker
-├── assets/              # shared theme CSS, cover, JS
-├── en/
-│   ├── index.html, chapter01.html, …
-├── zh/                   # "cn" locale maps to a "zh" output directory
-│   └── …
-└── compare/zh-en/index.html   # bilingual reader, built separately by bubble-compare-html
-```
 
-Each per-language page gets a switcher linking to the same chapter in the other available languages, falling back to that language's index if the chapter doesn't exist there yet.
+| Key | Role |
+|-----|------|
+| `html_output_dir` | Custom output path (relative to project root or absolute) |
+| `html_theme` | CSS theme: `default`, `dark`, or `minimal` |
+| `html_custom_css` | Extra stylesheet copied to `assets/custom.css` |
+| `html_mathjax` | Set `false` to disable MathJax |
+| `html_site_logo` | Logo URL or path for the site header |
+| `html_purchase_url` | External purchase link (shown as a highlighted button in the header) |
+| `html_purchase_label` | Button text (default: `Buy on Amazon`) |
+| `html_cover_image` | Override cover image for the home page |
+| `cover` | Cover folder under `cover/` (e.g. `7x10`); used when resolving the home-page cover |
 
-Each chapter is optionally paginated client-side, with prev/next chapter navigation on every page.
+Cover image resolution order (when `html_cover_image` is not set):
+
+1. `cover/{folder}/3d_front_view.png`
+2. `cover/{folder}/cover_front_v2.png`, `cover_front.png`, …
+3. Same names under `cover/{folder}/out/`
+
+The active cover folder follows `cover` in config or the print `template` (e.g. `amazon_7x10.tpl` → `7x10`).
+
+## What the HTML site includes
+
+- **Home page** — 3D or flat cover image, book title, chapter count (numbered chapters only), **Start reading**, table of contents
+- **Chapter pages** — sticky header (logo, title, purchase link), prev/next chapter navigation, paginated reader for `\newpage` breaks
+- **MathJax** — inline and display math from `$…$` / `$$…$$`
+- **Cross-references** — `@fig:…`, `@eq:…`, `\eqref{eq:…}`, `Chapter~\ref{chap:…}`, index markers `{.idx}`
+- **Semantic blocks** — `>NOTES:`, `>IMPORS:`, `>WARNS:`, `>CENTERS:` / `>CENTERE`, algorithm blocks, fancy dividers, galleries
+- **Mermaid diagrams** — ` ```mermaid ` fences rendered to PNG (same cache as PDF; requires `mmdc` or `npx`)
+- **Section sidebar** — foldable in-chapter H2 navigation; collapsed/expanded state persists across chapters (via `localStorage`)
+- **Front matter** — preface pagination (cover art, copyright, dedication on its own page, about the author, preface body) without editing source `\newpage` before Dedication (inserted at HTML build time)
 
 ## Themes
 
-Themes are plain CSS files: `default` (light, indigo accent, sans-serif), `dark` (dark background, indigo-ish accent), and `minimal` (light, narrow, serif-forward, amber accent). All three are copied into `assets/themes/` regardless of the active theme.
+Built-in themes live in the package under `htmlbook/static/themes/`:
 
-!!! note "Chapter page limitations"
-    The HTML renderer shares markdown parsing with the PDF pipeline but is a separate code path. Equation cross-reference numbering and some LaTeX-specific macros may not render identically to the PDF/EPUB output — check chapters with heavy math or custom LaTeX blocks after an HTML build.
+| Theme | Description |
+|-------|-------------|
+| `default` | Light, indigo accents |
+| `dark` | Dark background |
+| `minimal` | Reduced chrome |
+
+Select with `--theme` or `html_theme` in config.
+
+Mermaid diagrams in chapter Markdown are converted to PNG figures during HTML export (same `img/.mermaid/` cache as PDF). Install **mmdc** or use **npx** — see [System requirements — Mermaid](system-requirements.md#mermaid-diagrams-optional). Pandoc and LaTeX are not required for HTML.
+
+## Viewing locally
+
+```bash
+bubble-render-html --lang en
+xdg-open book_html/index.html
+```
+
+For full pagination and chapter-to-chapter navigation, use a browser with JavaScript enabled. Math rendering requires network access (MathJax CDN) unless you customize the template.
+
+## Differences from PDF
+
+| Feature | PDF | HTML |
+|---------|-----|------|
+| Engine | Pandoc + LuaLaTeX + Lua filters | Markdown → HTML processor |
+| Mermaid ` ```mermaid ` | Rendered to PNG | Rendered to PNG (same cache) |
+| Page size / margins | Template-driven | Responsive CSS |
+| Index | LaTeX index generation | Not generated in HTML v1 |
+| Cover | PDF cover pages | Home page image only |
+| `\newpage` | Print page break | Screen pagination (`page-reader.js`) |
+
+Use PDF for print; use HTML for online reading, review, and companion websites.
+
+## See also
+
+- [Mermaid diagrams](markdown-syntax-extensions.md#mermaid-diagrams) — syntax and supported output formats
+- [System requirements — Mermaid](system-requirements.md#mermaid-diagrams-optional) — install `mmdc` / Node.js
+- [Build & convert](commands/build-convert.md) — all build commands
+- [Configuration](configuration.md) — full `peanut.config` reference
+- [Multi-language](multi-language.md) — localized chapter files
+- [Covers & templates](covers-templates.md) — cover folders shared with print builds

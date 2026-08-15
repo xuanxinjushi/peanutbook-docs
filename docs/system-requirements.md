@@ -1,5 +1,9 @@
 # System requirements
 
+## Platform
+
+The **`peanutbook` toolchain is supported on Linux only** (Debian/Ubuntu and similar distributions). Examples below use `apt`; adapt package names for your distro.
+
 ## Python
 
 - **Python 3.9+** (3.12 recommended)
@@ -14,10 +18,12 @@
 | **XeLaTeX** | Chinese, Traditional Chinese, Japanese PDF |
 | **makeindex** | Keyword index (`bubble-index`) |
 
-Install a full TeX distribution:
+Install TeX on Debian/Ubuntu:
 
-- Debian/Ubuntu: `texlive-full` or minimal `texlive-luatex`, `texlive-xetex`, `texlive-latex-extra`
-- macOS: MacTeX
+```bash
+sudo apt install texlive-full
+# or a smaller set: texlive-luatex texlive-xetex texlive-latex-extra
+```
 
 ## Fonts
 
@@ -40,11 +46,57 @@ Debian/Ubuntu: `fonts-noto-cjk`
 | **pdftotext** (poppler-utils) | `bubble-pdfcheck` — scan built PDFs for `??` and leaked labels |
 | **matplotlib**, **numpy** | `bubble-gen-cover-bg` |
 | Conda env named in config | Running figure scripts in `chapter*/img/` |
-| [**typst**](https://github.com/typst/typst) CLI | `--engine typst` fast preview mode (`bubble-convert`, `bubble-build`, `bubble-batch`) — not installed by `pip install peanutbook` |
+| **mmdc** or **Node.js** (`npx`) | [Mermaid diagrams](markdown-syntax-extensions.md#mermaid-diagrams) in PDF, DOCX, EPUB, and HTML |
+
+### Mermaid diagrams (optional)
+
+Mermaid is **optional** — only needed when your book uses ` ```mermaid ` fenced blocks. PDF, DOCX, EPUB, and HTML render diagrams to PNG at build time via **mermaid-cli** (`mmdc`).
+
+#### Install Node.js (if you do not have `mmdc`)
+
+Debian/Ubuntu:
+
+```bash
+sudo apt install nodejs npm
+# Node 18+ recommended; use NodeSource if the distro package is too old:
+# https://github.com/nodesource/distributions
+node --version
+```
+
+#### Option A — global `mmdc` (recommended for frequent builds)
+
+```bash
+npm install -g @mermaid-js/mermaid-cli
+mmdc --version
+which mmdc
+```
+
+#### Option B — `npx` (no global install)
+
+If `mmdc` is not on `PATH` but `npx` is available, Peanutbook runs:
+
+```bash
+npx -y @mermaid-js/mermaid-cli …
+```
+
+The first diagram render may download the CLI package (network required).
+
+#### What Peanutbook needs
+
+| Output | Peanutbook | Mermaid CLI | Pandoc / LaTeX |
+|--------|------------|-------------|----------------|
+| HTML (`bubble-render-html`) | `pip install peanutbook` | **Yes** (`mmdc` or `npx`) | No |
+| DOCX (`bubble-convert --format docx`, `bubble-build --format docx`) | `pip install peanutbook` | **Yes** | Pandoc only |
+| EPUB (`bubble-build --format epub`) | `pip install peanutbook` | **Yes** | Pandoc only |
+| PDF | `pip install peanutbook` | **Yes** | Yes |
+
+Rendered PNGs are cached under `img/.mermaid/` next to each chapter (content-hash filenames). No extra `peanut.config` keys are required.
+
+If Mermaid is not installed, builds may leave the fence as a code block instead of a figure.
 
 ## EPUB / DOCX
 
-EPUB and DOCX exports use Pandoc only (no print Lua filter chain). Math and layout may differ from PDF. For Word, optionally provide `reference.docx` in the project root.
+EPUB and DOCX exports use Pandoc (no LaTeX). ` ```mermaid ` fences are rendered to embedded PNG figures, same as PDF. Math and layout may differ from print PDF. For Word, optionally provide `reference.docx` in the project root.
 
 ## Documentation site
 

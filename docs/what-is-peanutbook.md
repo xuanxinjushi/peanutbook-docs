@@ -1,6 +1,6 @@
 # What is Peanutbook?
 
-**Peanutbook** is a **book-writing format** built on Markdown. It is not a generic Markdown dialect for web pages or notes — it is a structured way to author **long-form, print-ready books** (technical manuals, textbooks, memoirs, and similar projects).
+**Peanutbook** is a **writing format** built on Markdown — for **books, papers, business plans, and static websites**, not casual notes or one-off web pages. It is a structured way to author **long-form, print-ready documents** (technical manuals, textbooks, memoirs, research papers, business plans, and similar projects).
 
 Peanutbook extends CommonMark-style Markdown with conventions and markers for:
 
@@ -18,7 +18,7 @@ Authors write **Peanutbook source** as plain `.md` files in a standard project l
 | Name | What it is |
 |------|------------|
 | **Peanutbook** | The **format** — Markdown files, syntax markers, folder layout, `peanut.config` |
-| **`peanutbook`** (PyPI) | The **toolchain** — `bubble-build`, `bubble-convert`, Lua filters, LaTeX templates |
+| **`peanutbook`** (PyPI) | The **toolchain** — `bubble-build`, `bubble-convert`, `bubble-render-html`, Lua filters, LaTeX templates, HTML renderer |
 
 You do not “run Peanutbook” as a program. You **write** Peanutbook and **build** it with the toolchain:
 
@@ -26,6 +26,9 @@ You do not “run Peanutbook” as a program. You **write** Peanutbook and **bui
 pip install peanutbook
 bubble-convert 1          # one chapter → PDF
 bubble-build --style square   # full book → PDF
+bubble-render-html            # full book → HTML site
+bubble-bizplan bizplan.md     # business plan → PDF
+bubble-paper paper.md         # academic paper → PDF
 ```
 
 The Python package import name remains `bubble` for historical reasons; the public name for the format is **Peanutbook**.

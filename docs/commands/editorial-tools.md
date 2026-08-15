@@ -28,11 +28,7 @@ bubble-bold-headings
 # Colon-separated list consistency
 bubble-check
 
-# Labeled $$ blocks: blank lines before/after (prevents labeleq in PDF)
-bubble-label-check
-bubble-label-check --fix
-
-# Built PDF: leaked equation labels (labeleq / WFHLABEL) and unresolved cross-references
+# Built PDF: leaked equation labels and unresolved cross-references
 bubble-pdfcheck
 bubble-pdfcheck book_square.pdf
 bubble-pdfcheck --labels-only

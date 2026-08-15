@@ -8,10 +8,13 @@ Orchestrates a **release build**: full book variants per language, optional per-
 bubble-batch
 bubble-batch --chapters
 bubble-batch --chapters-only
+bubble-batch --chapters-only --chapter 1
 bubble-batch --chapter 1-3
-bubble-batch --lang en --cover 7x10 --cover-provider kdp/paperback
-bubble-batch --lang en,cn,tc --style none
-bubble-batch --lang all --cover 7x10 --cover-provider ingram/hardcover --cover-version v2
+bubble-batch --chapter 1,9
+bubble-batch en --cover 7x10 --cover-provider kdp/paperback
+bubble-batch en,cn,tc --style none
+bubble-batch en,cn,tc --style square --chapter-opener-size 2
+bubble-batch all --cover 7x10 --cover-provider ingram/hardcover --cover-version v2
 bubble-batch --lang all --optimize-pdf
 ```
 
@@ -44,8 +47,12 @@ With `--style none` (or `square` / `circle`), only that style is built:
 - Matching interior (`*_interior.pdf`)
 
 Optional: per-chapter PDFs when `--chapters` is set (also uses `--style` when given).
-Use `--chapters-only` to skip full-book builds, and `--chapter SPEC` to select chapters
-(`1`, `1-3`, `1,9`).
+Use `--chapters-only` to skip full-book builds, optionally filtered with `--chapter SPEC`:
+
+- `--chapter 1` → chapter 1
+- `--chapter 1-3` → chapters 1, 2, 3
+- `--chapter 1,9` → chapters 1 and 9
+- `--chapter` alone (without `--chapters`) also skips the full book
 
 Files are copied or linked into `books/` (or `batch_output_dir`).
 
@@ -117,29 +124,13 @@ PDF optimization follows locale rules (Ghostscript vs qpdf). Controlled by:
 
 ## Protected chapter PDFs
 
-Per-chapter builds rasterize PDFs by default. `--no-optimize-pdf` also skips protect
-(unless `--protect`); `--no-protect` skips protect only. Ads footer text is independent.
+When building per-chapter PDFs, pages are rasterized (anti-copy/OCR) **by default**.
+`--no-optimize-pdf` also skips that protect/rasterize step (keeps the vector LaTeX PDF),
+unless you pass `--protect`. Use `--no-protect` to skip protect while still allowing
+`--optimize-pdf`. Ads footer text (`--book-ads` / `batch_book_ads`) is independent of protect.
 
 ## Config reference
 
 See [Configuration — Batch release keys](../configuration.md#batch-release-keys-bubble-batch).
 
-Per-chapter builds (`--chapters`) use the highest chapter number found under `chapter*/chapter*.md`.
-
-## Rendering engine (experimental)
-
-```bash
-bubble-batch --engine typst --chapters-only
-bubble-batch --engine typst --chapters-only --lang en,cn --chapter 1-3
-```
-
-`--engine typst` (default `latex`) switches every chapter/full-book build this invocation
-triggers to the fast Typst preview path — see
-[Build & convert — Rendering engine](build-convert.md#rendering-engine-experimental) for what it
-does and doesn't preserve (no trim-size template, no print Lua filter chain, requires the
-`typst` CLI). Full-book steps (no `--chapters-only`) fall back to `bubble-build`'s per-chapter
-preview mode too — they will **not** produce a merged `book*.pdf`.
-
-Incompatible with `--chapters-from-book`: that mode slices page ranges out of a full
-LaTeX-compiled book PDF via `qpdf` bookmarks, which the Typst preview path never produces.
-`bubble-batch` rejects the combination.
+Per-chapter builds (`--chapters` / `--chapters-only`) use the highest chapter number found under `chapter*/chapter*.md`, unless `--chapter SPEC` selects a subset.
