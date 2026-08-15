@@ -522,6 +522,22 @@ __To my parents, Chuntao He and Zongyuan Wu.__
 - Do not use bare `\` lines for vertical spacing; use this block instead
 - EPUB/DOCX: centered horizontally; vertical centering may differ from print PDF
 
+## Syntax for the end-of-preface marker: `% END_OF_PREFACE`
+
+Every `chapterx/preface.md` (and `preface_zh.md`) **must** end with a raw-LaTeX fenced block containing the `% END_OF_PREFACE` comment marker:
+
+````markdown
+```{=latex}
+% END_OF_PREFACE
+```
+````
+
+**Notes:**
+- Scaffolded automatically by `peanut new` / `scaffold.py` — new `preface.md` / `preface_zh.md` files already end with this block; don't remove it
+- Used by `bubble-reorder-cover-preface` (`reorder_cover_preface.py`) to locate the end of the preface in the merged book `.tex`, when reordering cover/preface pages for PDF builds
+- PDF-only: the ` ```{=latex}` fence is Pandoc raw LaTeX, so it renders as a real `%` comment in the PDF's `.tex` source but is stripped entirely from HTML/EPUB output (no visible artifact)
+- Must be the **last** content in the preface file — the reorder script scans forward from the preface start for this marker to find `preface_end`; if it's missing, the script falls back to searching for `\mainmatter` / `chaptertitlepage`, which is less reliable
+
 ## Syntax for IMAGE Attributes
 
 Control image size, alignment, and placement using Pandoc attribute syntax.

@@ -17,7 +17,7 @@ project_root/
 │   ├── chapter1_tc.md
 │   ├── chapter1_jp.md
 │   ├── chapter1_sp.md
-│   └── img/                      # figures; may contain *.py generators
+│   └── img/                      # figures; *.py generators, see build-convert.md#chapter-figure-generation-imgpy
 ├── chapter2-topic/
 │   └── chapter2.md
 ├── …

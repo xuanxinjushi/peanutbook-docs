@@ -124,6 +124,29 @@ does and doesn't preserve.
 | `cn` | square | `book_zh_square.pdf` |
 | `en` | none, no cover | `book_none_interior.pdf` |
 
+### Chapter figure generation (`img/*.py`)
+
+Before merging chapters, `bubble-build` scans every `chapterN-topic/img/` folder for `*.py` files and runs each one to generate its figure.
+
+- **Naming convention**: a script `foo.py` must save its output as `foo.png` in the same `img/` directory (same stem as the script). The build looks for `<script_stem>.png` next to the script.
+- **Caching**: if `<script_stem>.png` already exists, the script is **skipped** — regeneration only happens when the PNG is missing. Delete the PNG to force that figure to rebuild.
+- **Exception**: `gram_matrix.py` is hardcoded to produce two images, `gram_matrix1.png` and `gram_matrix2.png`; both must exist to be skipped.
+- Each script runs with its `img/` directory as the working directory, using the `conda_env` interpreter (see [Configuration](../configuration.md)) if set, else system `python3`.
+- Only `bubble-build` (whole-book merge) runs this step; `bubble-convert` (single chapter) does not — figures for a chapter previewed on its own must already exist as PNGs.
+
+**Recommended script pattern** (mirrors the required naming convention):
+
+```python
+import os
+# ... build the figure ...
+script_dir = os.path.dirname(os.path.abspath(__file__))
+script_name = os.path.splitext(os.path.basename(__file__))[0]
+output_path = os.path.join(script_dir, f'{script_name}.png')
+plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='white')
+```
+
+Peanutbook itself ships no such helper — this is a plain matplotlib pattern, not a `bubble` API. If your project has a shared plotting package, wrap it in a one-liner instead, e.g. `save_figure_to_script_dir('output.png', dpi=300, bbox_inches='tight', caller_file=__file__)`.
+
 ## `bubble-merge`
 
 Merge chapter Markdown into review-friendly single files:
