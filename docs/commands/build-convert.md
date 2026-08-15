@@ -48,6 +48,16 @@ bubble-convert 1 --format docx
 
 EPUB and DOCX use Pandoc (no LaTeX). Mermaid diagrams are rendered to PNG in all export formats, including EPUB and DOCX. Layout may differ from PDF.
 
+### Child process timeouts
+
+Every Pandoc/LaTeX/Typst subprocess `bubble-convert` shells out to is bounded by a timeout so a stuck engine can't hang the build forever. Set `PEANUTBOOK_CHILD_TIMEOUT_SECONDS` (or `BUBBLE_CHILD_TIMEOUT_SECONDS`) to override the default of 240 seconds; use `0` to disable it while debugging a genuinely long compile. On timeout, the whole process tree for that step is killed and the LaTeX engine loop does not fall back to a direct Pandoc retry (which would just repeat the same hang).
+
+```bash
+PEANUTBOOK_CHILD_TIMEOUT_SECONDS=600 bubble-convert 1
+```
+
+This is the CLI's own per-step timeout. The [VS Code extension](../vscode-extension.md) additionally bounds the whole `bubble-convert` invocation with its own `peanutbook.buildTimeoutSeconds` setting.
+
 ## `bubble-convert-parts`
 
 Build **part divider pages** (Part I, II, …) as standalone PDFs from `partN.md`. These are separate from chapter title pages and use a dedicated LaTeX/TikZ layout.

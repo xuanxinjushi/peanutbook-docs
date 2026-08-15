@@ -52,6 +52,7 @@ bubble-build --style square
 | [Business plans](bizplan.md) | Business-plan workflow (`bubble-bizplan`, `peanut-biz.config`) |
 | [Academic papers (bubble-paper)](paper.md) | Research-paper workflow, layout previews |
 | [HTML generation](html-generation.md) | Static book site (`bubble-render-html`) |
+| [VS Code extension](vscode-extension.md) | In-editor PDF preview with rebuild-on-save |
 | [Command reference](commands/overview.md) | All `bubble-*` CLI tools |
 | [Python API](python-api.md) | `Converter`, `BookBuilder` |
 | [System requirements](system-requirements.md) | Pandoc, LaTeX, Ghostscript, qpdf |
