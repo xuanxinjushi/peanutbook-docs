@@ -57,6 +57,9 @@ nav:
       - Build & convert: commands/build-convert.md
       - Batch release: commands/batch-release.md
       - Editorial tools: commands/editorial-tools.md
+  - HTML generation: html-generation.md
+  - Business plans: bizplan.md
+  - Academic papers: paper.md
   - Python API: python-api.md
   - System requirements: system-requirements.md
   - Authoring:
