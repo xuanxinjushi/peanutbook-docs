@@ -29,6 +29,9 @@ Project values override defaults; unset keys keep default behavior.
 | `chapter_opener_size_cm` | number (cm) | Opener badge size: square side or circle radius; chapter numeral font scales with it (default `4`). CLI `--chapter-opener-size` overrides. Legacy key: `square_size_cm` |
 | `template` | e.g. `amazon_7x10.tpl` | Pandoc/LaTeX page template |
 | `book_title` | string | Title in headers, TOC, covers |
+| `author` | string | Global book author name; CLI `--author` overrides |
+| `author_cn` / `author_en` | string | Locale-specific author name fallback |
+| `variables` | object | Custom key-value map for `@@pb:key@@` placeholder substitution |
 | `conda_env` | string | Conda env for running `img/*.py` scripts |
 | `include_math` | bool | Math packages in LaTeX header |
 | `include_numpy` | bool | NumPy icon in code blocks |

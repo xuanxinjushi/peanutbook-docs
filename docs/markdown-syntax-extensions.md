@@ -2134,3 +2134,46 @@ Included files can themselves contain include directives:
 - Preserves line numbers for better error messages
 
 For more detailed information, see `docs/conditional_includes.md`.
+
+---
+
+## Global Variable Substitution: `@@pb:var_name@@`
+
+Peanutbook supports global variable placeholders in Markdown files (chapters, preface, dedication, copyright page, about page):
+
+```markdown
+# Copyright
+- Author: @@pb:author@@
+- Publisher: @@pb:publisher@@
+
+Copyright © 2026 @@pb:author@@. All rights reserved.
+```
+
+### Safety and Protection
+
+1. **Code block protection**: Placeholders inside multi-line fenced code blocks (```` ```...``` ````) and inline code (`` `...` ``) are **never** substituted.
+2. **Escaping**: `\@@pb:author@@` renders as literal `@@pb:author@@`.
+3. **Unregistered variables**: Placeholders without a matching variable definition are preserved as-is.
+
+### Defining Variables
+
+**In `peanut.config`:**
+```json
+{
+  "author": "Fuheng Wu",
+  "author_cn": "玄心",
+  "variables": {
+    "publisher": "Peanut Press",
+    "edition": "First Edition"
+  }
+}
+```
+
+**Via Command Line (CLI overrides):**
+```bash
+# Override author directly
+bubble-build --author "Fuheng Wu"
+
+# Pass custom variables
+bubble-build --var publisher="Peanut Press" --var edition="2nd"
+```
