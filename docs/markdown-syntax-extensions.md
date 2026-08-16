@@ -2149,11 +2149,23 @@ Peanutbook supports global variable placeholders in Markdown files (chapters, pr
 Copyright © 2026 @@pb:author@@. All rights reserved.
 ```
 
+### Inline Default Values
+
+You can provide an optional fallback default value directly inside the placeholder using `|` or `:-`:
+
+```markdown
+作者：@@pb:author|玄心@@
+出版社：@@pb:publisher:-Peanut Press@@
+```
+
+- If `--author "Fuheng Wu"` is provided via CLI or configured in `peanut.config`, it evaluates to **`Fuheng Wu`**.
+- If `author` is not set anywhere, it automatically falls back to **`玄心`**.
+
 ### Safety and Protection
 
 1. **Code block protection**: Placeholders inside multi-line fenced code blocks (```` ```...``` ````) and inline code (`` `...` ``) are **never** substituted.
 2. **Escaping**: `\@@pb:author@@` renders as literal `@@pb:author@@`.
-3. **Unregistered variables**: Placeholders without a matching variable definition are preserved as-is.
+3. **Unregistered variables**: Placeholders without a matching variable definition (and without an inline default) are preserved as-is.
 
 ### Defining Variables
 
