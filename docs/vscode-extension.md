@@ -53,6 +53,12 @@ Switch engines with the **Peanutbook: Select Engine (LaTeX / Typst)** command, o
 
 `peanutbook.buildTimeoutSeconds` bounds the extension's own subprocess (the whole `bubble-convert` call). Independently, `bubble-convert` itself times out and kills each individual Pandoc/LaTeX/Typst step it shells out to — see [`PEANUTBOOK_CHILD_TIMEOUT_SECONDS`](commands/build-convert.md#child-process-timeouts) for that inner timeout.
 
+## Built-in Markdown Preview Integration
+
+In addition to the PDF preview panel, the extension enhances VS Code's built-in Markdown preview (`Ctrl+Shift+V` / `Ctrl+K V`):
+- **Live Variable Substitution**: Resolves `@@pb:var_name@@` and `@@pb:author|default@@` placeholders on the fly using `peanut.config`.
+- **Peanut Callouts**: Renders `>NOTES:`, `>IMPORS:`, `>WARNS:`, and `>CENTERS:` as styled callout cards in the built-in preview pane.
+
 ## Troubleshooting
 
 **Output channel shows a nonzero exit and no clear error** — enable `peanutbook.logDiagnostics` (on by default) and check the **Peanutbook** output channel for the resolved converter/Pandoc paths and the underlying command.
