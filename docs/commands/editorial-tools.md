@@ -71,39 +71,40 @@ bubble-convert-svg-text         # SVG foreignObject → text for LaTeX
 bubble-fix-table-width          # wide table fixes
 ```
 
-### `bubble-merg-cover-to-poster`
+### `bubble-p2p` ("picture to picture")
 
-Pastes a shrunk, bordered copy of a book cover into a corner of a poster or
-chapter mindmap PNG — handy for turning a plain mindmap into a shareable
-promo graphic. If a companion `<name>_thumb.jpg` exists next to the poster
-(the convention used for chapter mindmaps), it's resized and overwritten to
-match, so the poster and its thumbnail never drift apart.
+Pastes a shrunk, bordered copy of one picture into a corner of another —
+e.g. a book cover badge onto a chapter mindmap PNG, handy for turning a
+plain mindmap into a shareable promo graphic. If a companion
+`<name>_thumb.jpg` exists next to the base image (the convention used for
+chapter mindmaps), it's resized and overwritten to match, so the image and
+its thumbnail never drift apart.
 
 ```bash
 # Paste the KDP cover into the top-left corner of a chapter mindmap,
 # overwriting mindmap.png in place and syncing mindmap_thumb.jpg
-bubble-merg-cover-to-poster \
+bubble-p2p \
     chapter1-introduction-to-modern-distributed-ai/img/mindmap.png \
     cover/7x10/amazon_cover.jpg \
     --width 430
 
 # Write to a new file instead of overwriting, top-right corner
-bubble-merg-cover-to-poster img/mindmap.png cover/7x10/amazon_cover.jpg \
+bubble-p2p img/mindmap.png cover/7x10/amazon_cover.jpg \
     --output img/mindmap_with_cover.png --corner top-right
 
 # Skip thumbnail syncing, custom margin and border color
-bubble-merg-cover-to-poster img/mindmap.png cover.jpg \
+bubble-p2p img/mindmap.png cover.jpg \
     --no-thumb --margin 60 --border-color "#c9d7ea"
 ```
 
 | Flag | Default | Purpose |
 |------|---------|---------|
-| `--output` | overwrite poster | Where to write the merged image |
-| `--width` / `--width-frac` | `0.16` × poster width | Cover badge size in px or as a fraction |
+| `--output` | overwrite base image | Where to write the merged image |
+| `--width` / `--width-frac` | `0.16` × base width | Overlay badge size in px or as a fraction |
 | `--corner` | `top-left` | `top-left`, `top-right`, `bottom-left`, `bottom-right` |
 | `--margin` | `40` | Margin from the corner, in px |
 | `--border-width` / `--border-color` | `4` / `#c9d7ea` | Badge border — keep it light, not black, so it doesn't look heavy |
-| `--thumb` / `--no-thumb` | auto-detect `<poster-stem>_thumb.jpg` | Companion thumbnail to keep in sync |
+| `--thumb` / `--no-thumb` | auto-detect `<base-stem>_thumb.jpg` | Companion thumbnail to keep in sync |
 
 ## PDF post-processing
 
