@@ -2167,6 +2167,58 @@ You can provide an optional fallback default value directly inside the placehold
 2. **Escaping**: `\@@pb:author@@` renders as literal `@@pb:author@@`.
 3. **Unregistered variables**: Placeholders without a matching variable definition (and without an inline default) are preserved as-is.
 
+### Known Limitation: Raw Pandoc Blocks (`` ```{=latex} ``)
+
+Rule 1 above also applies to Pandoc raw blocks, since they use the same triple-backtick
+fence syntax — `` ```{=latex} ``, `` ```{=html} ``, etc. are fenced code blocks as far as the
+substitution engine is concerned, even though their content is passthrough markup rather
+than a code sample. A placeholder placed inside one is silently left as the literal
+`@@pb:...@@` string in the final output — it will **not** raise an error, and it will
+**not** be substituted.
+
+````markdown
+```{=latex}
+{\large @@pb:author|Xuan Xin@@}
+```
+````
+
+Building this with `--author "Fuheng Wu"` still renders the literal text
+`{\large @@pb:author|Xuan Xin@@}` in the PDF — the override is silently ignored.
+
+**This is not fixable by splitting the fence** to sandwich a plain-markdown placeholder
+between two raw blocks:
+
+````markdown
+```{=latex}
+{\large
+```
+@@pb:author|Xuan Xin@@
+```{=latex}
+}
+```
+````
+
+The sandwiched text becomes its own Markdown paragraph, so Pandoc emits it wrapped in
+blank lines inside the `{\large ... }` group:
+
+```latex
+{\large
+
+Fuheng Wu
+
+}
+```
+
+— which is not equivalent to the single-line `{\large Fuheng Wu}` the author intended, and
+can introduce unwanted spacing or a stray paragraph break inside the LaTeX group.
+
+**Workaround:** don't rely on `@@pb:...@@` substitution inside a raw block. Either hardcode
+the value directly (acceptable when the surrounding context already fixes the value — e.g.
+a title-page flourish sitting a few lines below a copyright block that's always the same
+name), or restructure the layout so the variable text lives in plain Markdown outside the
+raw block, with sizing applied a different way (e.g. a CSS/template class instead of an
+inline `{\large ...}` LaTeX group).
+
 ### Defining Variables
 
 **In `peanut.config`:**

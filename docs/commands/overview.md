@@ -64,6 +64,7 @@ After `pip install -e .` (or `pip install peanutbook`), every tool is available 
 | `bubble-convert-svg-text` | SVG foreignObject → text |
 | `bubble-fix-table-width` | Table width fixes |
 | `bubble-gen-cover-bg` | Generate cover background (matplotlib) |
+| `bubble-merg-cover-to-poster` | Paste a shrunk, bordered book cover into a corner of a poster/mindmap image (syncs companion `_thumb.jpg`) |
 
 ## Export extras
 
