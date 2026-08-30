@@ -28,9 +28,11 @@ Project values override defaults; unset keys keep default behavior.
 | `chapter_style` / `style` | `circle`, `square`, `none` | Chapter decoration; CLI `--style` overrides |
 | `chapter_opener_size_cm` | number (cm) | Opener badge size: square side or circle radius; chapter numeral font scales with it (default `4`). CLI `--chapter-opener-size` overrides. Legacy key: `square_size_cm` |
 | `template` | e.g. `amazon_7x10.tpl` | Pandoc/LaTeX page template |
-| `book_title` | string | Title in headers, TOC, covers |
-| `author` | string | Global book author name; CLI `--author` overrides |
-| `author_cn` / `author_en` | string | Locale-specific author name fallback |
+| `book_title` | string | Title in headers, TOC, covers, and PDF **Title** metadata (`pdftitle`); locale key `book_title_<lang>` |
+| `author` | string | Global book author name; CLI `--author` overrides. Also sets the PDF **Author** metadata (`pdfauthor`) |
+| `author_cn` / `author_en` | string | Locale-specific author name fallback (also used for PDF Author per locale) |
+| `subject` / `subject_<lang>` | string | PDF document **Subject** metadata (`pdfsubject`); locale-specific override e.g. `subject_zh` |
+| `keywords` / `keywords_<lang>` | string \| list | PDF document **Keywords** metadata (`pdfkeywords`); comma-separated string or a JSON list |
 | `variables` | object | Custom key-value map for `@@pb:key@@` placeholder substitution |
 | `conda_env` | string | Conda env for running `img/*.py` scripts |
 | `include_math` | bool | Math packages in LaTeX header |

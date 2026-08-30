@@ -1895,8 +1895,16 @@ The [Singular Value Decomposition]{.index} is a key tool in ML.
 
 ### Features
 - **Normalization**: All index entries are automatically normalized to lowercase in the index to ensure terms like "Vector" and "vector" are merged into a single entry with multiple page numbers.
+- **Singular/plural merging (multi-word phrases)**: Multi-word phrases are also folded to a canonical singular so that, for example, `Treasury future` and `Treasury futures` become one entry. The rules applied to the lowercased phrase are:
+    - `-ies` → `-y` (e.g. *maturities* → *maturity*)
+    - `-sses` → `-ss` (e.g. *processes* → *process*)
+    - a plain trailing `-s` is dropped (e.g. *futures* → *future*)
+    - words ending in `-is` are left unchanged, because they are Greek-derived singulars whose plural is `-es`, not `-s` (*analysis*, *basis*, *hypothesis*, *survival analysis*). Without this exception a phrase like *scenario analysis* would be truncated to *scenario analysi*.
+- **Single-word and CJK entries**: Single-word entries are only lowercased, **not** singular/plural-merged — mark them with a consistent singular form yourself if you want *cohort* and *cohorts* to share an entry. Chinese/CJK entries are left as-is, so a trailing Latin acronym (e.g. `机构 MBS`) is not mistaken for an English plural.
 - **Placement**: The index is automatically generated and placed at the very end of the book (before the back cover).
 - **Case Sensitivity**: While the index listing is lowercase for better grouping, the text in your chapters remains exactly as you typed it.
+
+The canonical (lowercased, singularized) form is the key printed in the index and the key on which page numbers are merged. Normalization is implemented in `index_keywords.lua` and applied automatically by `bubble-index` / `bubble-build`.
 
 ## Semantic Chapter References
 
