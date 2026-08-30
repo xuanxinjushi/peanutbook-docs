@@ -34,6 +34,9 @@ Project values override defaults; unset keys keep default behavior.
 | `subject` / `subject_<lang>` | string | PDF document **Subject** metadata (`pdfsubject`); locale-specific override e.g. `subject_zh` |
 | `keywords` / `keywords_<lang>` | string \| list | PDF document **Keywords** metadata (`pdfkeywords`); comma-separated string or a JSON list |
 | `variables` | object | Custom key-value map for `@@pb:key@@` placeholder substitution |
+| `part_starts` | list of ints | Chapter numbers that open each Part (e.g. `[1, 5, 9]`); defaults to `[1, 11, 13, 17]` |
+| `enable_tagged_pdf` | bool | Opt in to accessible tagged PDF generation (PDF/UA standard, default `false`) |
+| `tagged_pdf_standard` | string | PDF accessibility standard (default `"ua-2"`) |
 | `conda_env` | string | Conda env for running `img/*.py` scripts |
 | `include_math` | bool | Math packages in LaTeX header |
 | `include_numpy` | bool | NumPy icon in code blocks |
@@ -103,6 +106,43 @@ Defaults in `peanut.config.default` favor **legacy / piggy-like** Amazon 7×10 b
 |-----|---------|------|
 | `chapter_titlepage_hbar` | `"circle"` | Decorative horizontal divider above the chapter opener quote. Set `"circle"` for default line with end circle, or specify an HBAR marker (`"HBAR1_CLOUD"`, `"HBAR_TOP"`, `"HBAR_CENTER_CLOUD_RED"`, `"HBAR_RIGHT_CLOUD_RED"`, etc.) or image filename. |
 | `chapter_titlepage_quote_align` | `"right"` | Text alignment for chapter titlepage epigraph quotes. Supported values: `"right"` (default, right-aligned via `\raggedleft`), `"left"` (left-aligned via `\raggedright`), `"center"` (centered via `\centering`). |
+
+### Multi-Part Book Structure (`part_starts`)
+
+For books divided into multiple Parts (e.g. Part I, Part II, Part III), configure `part_starts` to specify which chapter number opens each part:
+
+```json
+{
+  "part_starts": [1, 5, 9, 13]
+}
+```
+
+In this example:
+- **Part I** starts at Chapter 1.
+- **Part II** starts at Chapter 5.
+- **Part III** starts at Chapter 9.
+- **Part IV** starts at Chapter 13.
+
+When `bubble-build` compiles the whole book, it inserts the corresponding part divider PDF before each starting chapter. If `part_starts` is omitted, the default is `[1, 11, 13, 17]`.
+
+### Accessible Tagged PDF (`enable_tagged_pdf`)
+
+To generate accessible PDFs conforming to the PDF/UA standard for screen readers:
+
+```json
+{
+  "enable_tagged_pdf": true,
+  "tagged_pdf_standard": "ua-2"
+}
+```
+
+- **Standards**: `tagged_pdf_standard` defaults to `"ua-2"`.
+- **Automatic Tagging**: LaTeX structure tags (`\DocumentMetadata`) are spliced at the very top of generated `.tex` files.
+- **Artifacts vs Figures**: Decorative background images and chapter ornaments are automatically marked as PDF artifacts (omitted from screen readers), while content figures receive `alt` text from their captions.
+- **PDF Optimization**: On tagged builds, `--optimize-pdf` automatically routes through `qpdf --optimize-images` instead of Ghostscript (which would strip the structure tree).
+- **CLI Flag**: Override with `--tagged-pdf` or `--no-tagged-pdf`.
+- **Note**: Tagging is automatically skipped for CJK builds (`xelatex`), where `tagpdf` cannot mark interword spacing cleanly.
+
 
 ### Font size keys (when `enable_peanut_font_settings` is true)
 

@@ -15,6 +15,7 @@ bubble-convert 1 --style circle --chapter-opener-size 5
 bubble-convert 1 --lang cn
 bubble-convert 1 --main-font "EB Garamond" --body-font-pt 11
 bubble-convert 1 --optimize-pdf --optimize-pdf-quality ebook
+bubble-convert 1 --tagged-pdf                   # accessible PDF/UA build
 
 # Non-chapter Markdown
 bubble-convert margins/poem.md --format docx
@@ -137,9 +138,10 @@ When exporting EPUB (`bubble-build --format epub`):
 | Flag | Effect |
 |------|--------|
 | `--chapter-opener-size` | Opener badge size in cm (square/circle geometry + chapter numeral font); overrides `chapter_opener_size_cm` |
+| `--tagged-pdf` / `--no-tagged-pdf` | Enable/disable accessible tagged PDF output (PDF/UA-2); overrides `enable_tagged_pdf` |
 | `--format html` | Static HTML site instead of PDF (see below) |
 | `--no-cover` | Interior-only; output name gets `_interior` suffix |
-| `--optimize-pdf` | Shrink PDF (GS for en/sp, qpdf for CJK) |
+| `--optimize-pdf` | Shrink PDF (GS for en/sp, qpdf for CJK and tagged builds) |
 | `--protect` | Anti-copy rasterization (large files) |
 | `--include-appendix` | `true`, `false`, or `auto` |
 | `--with-time` | Timestamp in output filename |
@@ -157,10 +159,11 @@ When exporting EPUB (`bubble-build --format epub`):
 Before merging chapters, `bubble-build` scans every `chapterN-topic/img/` folder for `*.py` files and runs each one to generate its figure.
 
 - **Naming convention**: a script `foo.py` must save its output as `foo.png` in the same `img/` directory (same stem as the script). The build looks for `<script_stem>.png` next to the script.
+- **Shared Helpers (`_figstyle.py`)**: `bubble-scaffold` installs a shared `_figstyle.py` into every chapter's `img/` folder. It provides consistent dimensions, color palettes, LaTeX-safe fonts, and styling helpers (`setup_plot()`, `save_figure()`). Scripts prefixed with an underscore `_` (like `_figstyle.py`) are ignored by the runner.
 - **Caching**: if `<script_stem>.png` already exists, the script is **skipped** — regeneration only happens when the PNG is missing. Delete the PNG to force that figure to rebuild.
 - **Exception**: `gram_matrix.py` is hardcoded to produce two images, `gram_matrix1.png` and `gram_matrix2.png`; both must exist to be skipped.
 - Each script runs with its `img/` directory as the working directory, using the `conda_env` interpreter (see [Configuration](../configuration.md)) if set, else system `python3`.
-- Only `bubble-build` (whole-book merge) runs this step; `bubble-convert` (single chapter) does not — figures for a chapter previewed on its own must already exist as PNGs.
+- Only `bubble-build` (whole-book merge) runs this step; `bubble-convert` (single chapter) does not — figures for a chapter previewed on its own must already exist as PNGs (Chapter 1 includes a pre-rendered `example_figure.png` out of the box).
 
 **Recommended script pattern** (mirrors the required naming convention):
 

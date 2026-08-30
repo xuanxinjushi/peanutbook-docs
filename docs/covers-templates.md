@@ -56,6 +56,17 @@ Aliases include `kdp_paperback`, `ingram_hardcover`, `lulu_paperback`, `lulu_har
 
 Print dimensions and Python helpers (`bubble.cover_print`, `bubble.cover_draw`, …) are documented in **[Cover rendering API](cover-api.md)**.
 
+### Locale-Aware Covers
+
+For multi-language books, localized cover scripts can be placed alongside default covers:
+
+- `cover/7x10/cover_front_zh.py` → generates `cover_front_zh.pdf`
+- `cover/7x10/cover_back_zh.py` → generates `cover_back_zh.pdf`
+
+When building a localized book (e.g. `bubble-build --lang cn`), Peanutbook looks for `cover_front_zh.pdf` (or `cover_front_cn.pdf`) and falls back to `cover_front.pdf` if not found.
+
+Cover scripts use a font stack that leads with universal CJK/Latin families and falls back gracefully to system fonts, avoiding missing-glyph tofu boxes on both English and Chinese builds.
+
 ## Chapter styles
 
 | Style | Appearance |

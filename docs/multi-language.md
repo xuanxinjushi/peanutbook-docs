@@ -29,6 +29,12 @@ chapter1-vector-space/chapter1_sp.md   # sp
 
 Shared figures live under `img/` and are reused across languages.
 
+Localized covers live under `cover/7x10/`:
+- `cover_front_zh.py` / `cover_front_zh.pdf` (for `cn`/`zh`)
+- `cover_back_zh.py` / `cover_back_zh.pdf`
+
+When building with `--lang <locale>`, Peanutbook resolves localized cover files first before falling back to default English covers.
+
 ## Commands
 
 ```bash

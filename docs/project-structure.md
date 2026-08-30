@@ -7,6 +7,8 @@ A **Peanutbook** project is a directory of chapter Markdown files, optional loca
 ```
 project_root/
 ├── peanut.config                 # project overrides (optional)
+├── HOW-TO-WRITE.md               # writing guide, conventions, and pre-publication checklist
+├── .claude/skills/peanutbook-figures/ # AI agent skills for figures and diagram generation
 ├── book.md                       # merged English (from bubble-merge)
 ├── book_zh.md                    # merged cn, etc.
 ├── chapter1-topic/
@@ -17,12 +19,17 @@ project_root/
 │   ├── chapter1_tc.md
 │   ├── chapter1_jp.md
 │   ├── chapter1_sp.md
-│   └── img/                      # figures; *.py generators, see build-convert.md#chapter-figure-generation-imgpy
+│   └── img/                      # figures; *.py generators
+│       ├── _figstyle.py          # shared styling, fonts, and plot helpers
+│       ├── example_figure.py     # runnable example figure (chapter 1)
+│       ├── example_figure.png    # rendered figure referenced in chapter1.md
 │       ├── part1_mindmap.json    # optional part overview mindmap
 │       ├── part1_mindmap.py
 │       └── part1_mindmap.png
 ├── chapter2-topic/
-│   └── chapter2.md
+│   ├── chapter2.md
+│   └── img/
+│       └── _figstyle.py
 ├── …
 ├── chapterx/
 │   ├── preface.md
@@ -35,7 +42,9 @@ project_root/
 │   │   ├── cover_front_zh.pdf    # optional per locale
 │   │   ├── cover_back.pdf
 │   │   ├── cover_front.py        # regenerated before build
-│   │   └── cover_back.py
+│   │   ├── cover_front_zh.py     # locale-aware wrapper (if lang=zh/both)
+│   │   ├── cover_back.py
+│   │   └── cover_back_zh.py
 │   ├── 7x10-packt/
 │   └── 8.5x11/
 ├── img/                          # shared images (optional)
@@ -85,4 +94,12 @@ bubble-scaffold
 bubble-scaffold --chapters 10 --lang both --yes
 ```
 
-Creates chapter stubs, `peanut.config`, and placeholder covers under `cover/7x10/`.
+Creates:
+- Chapter folder stubs (`chapter1-topic/`, …) with starter markdown.
+- Chapter 1 working demo figure (`img/example_figure.py` and pre-rendered `example_figure.png`).
+- Per-chapter `img/_figstyle.py` with shared layout styling and LaTeX fonts.
+- Project-level `HOW-TO-WRITE.md` containing authoring guidelines and pre-publication checks.
+- Agent skill under `.claude/skills/peanutbook-figures/` for automated diagram generation.
+- Placeholder cover scripts under `cover/7x10/` (including `cover_front_zh.py` / `cover_back_zh.py` for Chinese/bilingual projects).
+- Starter `peanut.config`.
+
