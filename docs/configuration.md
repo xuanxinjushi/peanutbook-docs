@@ -289,11 +289,10 @@ Example:
   useful for keeping a preface or sample chapter open while the rest of the
   book is locked.
 
-**This is a casual gate, not real access control.** The password is checked
-client-side (hashed and compared in the browser); the chapter text itself is
-still shipped in the page, just hidden until unlocked. It stops search
-engines and casual link-clicking, not someone who opens devtools. Don't rely
-on it for content that must never be read by a specific person.
+This provides light-weight access control — enough to keep casual visitors
+and search engines out of a chapter. It is not designed to withstand a
+determined attacker, so don't rely on it for content that must never be
+read by a specific person.
 
 ## Batch release keys (`bubble-batch`)
 
