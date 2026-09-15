@@ -248,6 +248,8 @@ Place **`reference.docx`** in the project root (or `margins/reference_submission
 | `html_purchase_url` | Purchase link (e.g. Amazon product page) |
 | `html_purchase_label` | Header button text (default `Buy on Amazon`) |
 | `html_cover_image` | Override home-page cover image |
+| `html_password` | Book-wide password; every chapter is gated until this is entered |
+| `html_chapter_passwords` | Object mapping a chapter to its own password, overriding `html_password` for just that chapter |
 
 See **[HTML generation](html-generation.md)** for the full guide (`bubble-render-html`, `bubble-build --format html`, output layout, themes).
 
@@ -260,6 +262,38 @@ Example:
   "html_purchase_label": "Buy on Amazon"
 }
 ```
+
+### Password-protected chapters
+
+```json
+{
+  "html_password": "wholebook-secret",
+  "html_chapter_passwords": {
+    "chapter3": "chapter3-only-secret",
+    "8": "chapter8-only-secret",
+    "preface": ""
+  }
+}
+```
+
+- `html_password` locks every chapter page behind the same password. Enter it
+  once in the browser and every other book-level-locked chapter unlocks too,
+  for the rest of that browser session (no re-prompting per page).
+- `html_chapter_passwords` keys accept `"3"`, `"chapter3"`, or `"chapter03"`
+  interchangeably (all normalize to the same chapter), plus `"preface"` /
+  `"chapterx"`. A chapter listed here gets **its own** password, independent
+  from `html_password` — entering the book-wide password does *not* unlock
+  it, and vice versa.
+- An entry present with an **empty string** value (like `"preface": ""`
+  above) makes that one chapter public even though `html_password` is set —
+  useful for keeping a preface or sample chapter open while the rest of the
+  book is locked.
+
+**This is a casual gate, not real access control.** The password is checked
+client-side (hashed and compared in the browser); the chapter text itself is
+still shipped in the page, just hidden until unlocked. It stops search
+engines and casual link-clicking, not someone who opens devtools. Don't rely
+on it for content that must never be read by a specific person.
 
 ## Batch release keys (`bubble-batch`)
 
