@@ -289,11 +289,6 @@ Example:
   useful for keeping a preface or sample chapter open while the rest of the
   book is locked.
 
-This provides light-weight access control — enough to keep casual visitors
-and search engines out of a chapter. It is not designed to withstand a
-determined attacker, so don't rely on it for content that must never be
-read by a specific person.
-
 ## Batch release keys (`bubble-batch`)
 
 | Key | Role |
