@@ -56,7 +56,8 @@ book_html/
     ├── theme.css
     ├── page-reader.js
     ├── cover.png           # from cover/7x10/ (prefers 3d_front_view.png)
-    └── custom.css          # optional, from html_custom_css
+    ├── custom.css          # optional, from html_custom_css
+    └── favicon.png         # optional, from html_favicon
 ```
 
 Open `index.html` in a browser, or serve the folder with any static file server.
@@ -71,11 +72,16 @@ Add optional keys to `peanut.config`:
   "html_output_dir": null,
   "html_theme": "default",
   "html_custom_css": null,
+  "html_favicon": null,
   "html_mathjax": true,
   "html_site_logo": "https://example.org/logo.png",
   "html_purchase_url": "https://www.amazon.com/dp/XXXXXXXXXX",
   "html_purchase_label": "Buy on Amazon",
-  "html_cover_image": null
+  "html_cover_image": null,
+  "html_footer_logo": null,
+  "html_footer_text": null,
+  "html_footer_link": null,
+  "html_google_analytics_id": null
 }
 ```
 
@@ -84,12 +90,15 @@ Add optional keys to `peanut.config`:
 | `html_output_dir` | Custom output path (relative to project root or absolute) |
 | `html_theme` | CSS theme: `default`, `dark`, or `minimal` |
 | `html_custom_css` | Extra stylesheet copied to `assets/custom.css` |
+| `html_favicon` | Path to an icon image (e.g. `img/logo.png`), relative to the project root — copied to `assets/favicon.<ext>` and linked from every page's `<head>`. Blank = no favicon. |
 | `html_mathjax` | Set `false` to disable MathJax |
 | `html_site_logo` | Logo URL or path for the site header |
 | `html_purchase_url` | External purchase link (shown as a highlighted button in the header) |
 | `html_purchase_label` | Button text (default: `Buy on Amazon`) |
 | `html_cover_image` | Override cover image for the home page |
 | `cover` | Cover folder under `cover/` (e.g. `7x10`); used when resolving the home-page cover |
+| `html_footer_logo`, `html_footer_text`, `html_footer_link` | Replace the default "Built with peanutbook" footer with your own publisher branding (logo path relative to `assets/`, text, and an optional link wrapping both). All three blank = the default footer is kept unchanged. |
+| `html_google_analytics_id` | A GA4 measurement ID (e.g. `G-XXXXXXXXXX`) — when set, injects the standard `gtag.js` snippet into every page's `<head>`. Blank = no analytics tag at all. |
 
 Cover image resolution order (when `html_cover_image` is not set):
 
