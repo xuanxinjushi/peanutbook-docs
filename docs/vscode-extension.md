@@ -57,7 +57,7 @@ Switch engines with the **Peanutbook: Select Engine (LaTeX / Typst)** command, o
 
 In addition to the PDF preview panel, the extension enhances VS Code's built-in Markdown preview (`Ctrl+Shift+V` / `Ctrl+K V`):
 - **Live Variable Substitution**: Resolves `@@pb:var_name@@` and `@@pb:author|default@@` placeholders on the fly using `peanut.config`.
-- **Peanut Callouts**: Renders `>NOTES:`, `>IMPORS:`, `>WARNS:`, and `>CENTERS:` as styled callout cards in the built-in preview pane.
+- **Peanut Callouts**: Renders `>NOTES:`, `>IMPORS:`, `>WARNS:`, and `>CENTERS:` as styled callout cards in the built-in preview pane. (`>AIMLS:` blocks are not styled yet — they show as plain blockquotes in the preview, but still build as AI/ML boxes in PDF, HTML, and EPUB.)
 
 ## Troubleshooting
 

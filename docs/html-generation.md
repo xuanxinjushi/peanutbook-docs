@@ -114,7 +114,7 @@ The active cover folder follows `cover` in config or the print `template` (e.g. 
 - **Chapter pages** — sticky header (logo, title, purchase link), prev/next chapter navigation, paginated reader for `\newpage` breaks
 - **MathJax** — inline and display math from `$…$` / `$$…$$`
 - **Cross-references** — `@fig:…`, `@eq:…`, `\eqref{eq:…}`, `Chapter~\ref{chap:…}`, index markers `{.idx}`
-- **Semantic blocks** — `>NOTES:`, `>IMPORS:`, `>WARNS:`, `>CENTERS:` / `>CENTERE`, algorithm blocks, fancy dividers, galleries
+- **Semantic blocks** — `>NOTES:`, `>IMPORS:`, `>WARNS:`, `>AIMLS:`, `>CENTERS:` / `>CENTERE`, algorithm blocks, fancy dividers, galleries
 - **Mermaid diagrams** — ` ```mermaid ` fences rendered to PNG (same cache as PDF; requires `mmdc` or `npx`)
 - **Section sidebar** — foldable in-chapter H2 navigation; collapsed/expanded state persists across chapters (via `localStorage`)
 - **Front matter** — preface pagination (cover art, copyright, dedication on its own page, about the author, preface body) without editing source `\newpage` before Dedication (inserted at HTML build time)

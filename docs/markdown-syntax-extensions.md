@@ -84,6 +84,44 @@ Additional paragraphs in the warning section.
 - Content between markers will be wrapped in a `warnsection` LaTeX environment
 - Warning sections are rendered with an orange background and orange border to draw attention to common mistakes
 
+## Syntax for AI/ML Sections: AIMLS-AIMLE format
+
+Use blockquote syntax with `>AIMLS:` and `>AIMLE` markers to create AI/ML application asides — the place for the machine-learning angle on a piece of math or theory (algorithms, model tricks, optimizer connections). Prefer this over a generic `>NOTES:` block when the digression is specifically about AI/ML practice.
+
+**Format:**
+```markdown
+>AIMLS: Your AI/ML aside here. This can span multiple lines.
+
+Additional paragraphs in the AI/ML section.
+
+>AIMLE
+```
+
+**Example:**
+```markdown
+The singular value decomposition writes $A = U \Sigma V^\top$, so any matrix is a sum of rank-1 terms $\sigma_i \mathbf u_i \mathbf v_i^\top$.
+
+>AIMLS: In deep learning, this perspective explains how a linear layer decomposes into rank-1 components — the basis for low-rank approximation and for LoRA-style adapters that train only a small rank-$r$ correction.
+
+>AIMLE
+```
+
+**Notes:**
+- `>AIMLS:` marks the start of an AI/ML section (AI/ML start)
+- `>AIMLE` marks the end of an AI/ML section (AI/ML end); put an empty line **before** it, and an empty line **after** it (before the next heading or paragraph). Without the trailing blank line, Pandoc may merge the following `##` heading into the `>AIMLE` blockquote and the section will not close.
+- The markers will be removed from the output
+- Content between markers will be wrapped in an `aimlsection` LaTeX environment
+- AI/ML sections are rendered with a light cyan background, a chapter-blue border, and a small AI icon in the top-left corner (`img/aiml32x32.pdf`, bundled with peanutbook — you do not need to add it to your project)
+- In HTML and EPUB output the block becomes `<aside class="xuanxin-aimlsection">`; the HTML theme marks it with a 🤖 badge, and the EPUB stylesheet gives it a blue-tinted card
+
+**Editorial guidance:**
+
+Keep pure math or general theory in the body (or in `>NOTES:` if it needs emphasis), and put only the AI/ML application sentences inside `AIMLS`/`AIMLE`. Anything that is not about AI/ML belongs outside the box — move it into the preceding body paragraph, or into a `NOTES` block if it is a math point that needs emphasis. Conversely, do not leave orphan ML-framing one-liners in the body (for example "The Kronecker product is fundamental in many areas of machine learning…") — those belong **inside** the `AIMLS` block, as its opening sentence.
+
+**Limitations:**
+- Do not put floats (`algorithm`, `figure`, `table`) inside an `AIMLS` block — they must stay in the outer paragraph mode
+- Do not place an `AIMLS` block immediately after a `NOTES` block (or vice versa); leave body text between them so the two boxes do not collide on the page
+
 ## Syntax for page-centered blocks: CENTERS-CENTERE format
 
 Use blockquote syntax with `>CENTERS:` and `>CENTERE` markers to center a block horizontally and vertically on the page (typical for **Dedication**, epigraph, or short front-matter text in `chapterx/preface.md`).

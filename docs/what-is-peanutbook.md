@@ -6,7 +6,7 @@ Peanutbook extends CommonMark-style Markdown with conventions and markers for:
 
 - **Book structure** — numbered chapters, preface, appendix, multi-language editions
 - **Chapter front matter** — title, subtitle, epigraph, code summary (see [Chapter format](chapter-format.md))
-- **Semantic blocks** — NOTE, IMPORTANT, WARNING, centered dedication pages, and more (see [Syntax reference](markdown-syntax-extensions.md))
+- **Semantic blocks** — NOTE, IMPORTANT, WARNING, AI/ML asides, centered dedication pages, and more (see [Syntax reference](markdown-syntax-extensions.md))
 - **Figures, code, math, cross-references, and indexes** — labels and filters tuned for PDF, not HTML
 - **Conditional includes** — audience-specific fragments via `peanut.config`
 - **Print metadata** — covers, trim sizes, running headers, TOC strings per locale
