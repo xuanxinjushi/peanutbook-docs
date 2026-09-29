@@ -229,6 +229,8 @@ bubble-proposal notes/sample.md --lang cn --optimize-pdf
 
 YAML front matter (`title`, `author`, `runtitle`, …) enables full U.S. proposal title page layout. Without `title`, output uses compact article style.
 
+Start a new one with `bubble-scaffold --proposal`. It writes `proposal.md`, a book-proposal outline (overview, audience, comparable titles, chapter outline, about the author, sample chapter). Its front matter lists every field `bubble-proposal` reads; the optional ones (`submitted_by`, `submission_date`, `word_count`, `genre`, `runtitle`, `runlastname`) are commented out until you fill them in.
+
 ## `bubble-paper`
 
 Single Markdown → academic paper PDF (Pandoc + LuaLaTeX):
@@ -278,9 +280,10 @@ bubble-scaffold --chapters 10 --lang both --yes
 bubble-scaffold --lang zh --yes
 bubble-scaffold --bizplan
 bubble-scaffold --paper
+bubble-scaffold --proposal
 ```
 
-Creates chapter stubs, `peanut.config`, and `cover/7x10/` placeholders. With `--bizplan`, scaffolds `bizplan.md`. With `--paper`, scaffolds `paper.md`.
+Creates chapter stubs, `peanut.config`, and `cover/7x10/` placeholders. With `--bizplan`, scaffolds `bizplan.md`. With `--paper`, scaffolds `paper.md`. With `--proposal`, scaffolds `proposal.md` for [`bubble-proposal`](#bubble-proposal).
 
 ## `bubble-split-pdf`
 
