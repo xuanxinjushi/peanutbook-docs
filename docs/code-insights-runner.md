@@ -21,33 +21,35 @@ flowchart LR
         GIT["🕒 Git History & LOC Metrics"]
     end
 
-    subgraph Hub ["5-Tab Code Insights Hub"]
+    subgraph Hub ["6-Tab Code Insights Hub"]
         T1["💻 1. Interactive Terminal"]
-        T2["📊 2. Dynamic Call Graph"]
-        T3["📐 3. Outline & API Signatures"]
-        T4["📖 4. Book Citations & Cross-Refs"]
-        T5["🕒 5. Git Log & Quality Metrics"]
+        T2["🐞 2. Interactive Debugger"]
+        T3["📊 3. Dynamic Call Graph"]
+        T4["📐 4. Outline & API Signatures"]
+        T5["📖 5. Book Citations & Cross-Refs"]
+        T6["🕒 6. Git Log & Quality Metrics"]
     end
 
     Input --> Engine
     Engine --> Hub
 ```
 
-### Why Technical Publishing Demands Integrated Code Insights
+### Why Technical Publishing Demands Integrated Code Insights & In-Browser Debugging
 
-| Dimension | Traditional Book Writing (Word / Static Markdown) | Peanutbook Code Insights & Runner |
+| Dimension | Traditional Book Writing (Word / Static Markdown) | Peanutbook Code Insights & Debugger |
 | :--- | :--- | :--- |
 | **Code Executability** | Copy-pasted dead code; prone to silent bitrot | **Live in-browser execution** with 1-click run (`Ctrl+Shift+Enter`) and sub-second feedback |
+| **Step-by-Step Debugging** | Requires external IDEs and complex path setups | **Built-in interactive debugger**: click gutters for breakpoints (`🔴`), step over/into/out, and live frame inspection |
 | **Environment Control** | Ambiguous external setups and library mismatches | **Multi-interpreter selector**: auto-detects Conda envs (e.g. `usao`), system Python, or book-specific venvs |
 | **Architectural Clarity** | Readers struggle to trace complex caller-callee trees | **Interactive Call Graph**: visualizes `__main__` entrypoints and inter-function calls via Mermaid |
 | **Text-Code Alignment** | Authors forget which chapters reference which functions | **Bidirectional Citation Tracker**: automatically finds all chapters referencing the script or functions |
-| **Pedagogical Navigation** | Endless scrolling through hundreds of lines of code | **One-click jump**: clicking any graph node, API card, or citation jumps directly to the source code line |
+| **Pedagogical Navigation** | Endless scrolling through hundreds of lines of code | **One-click jump**: clicking any graph node, API card, stack frame, or citation jumps directly to the source code line |
 
 ---
 
-## 🚀 The 5-Tab Code Insights Hub
+## 🚀 The 6-Tab Code Insights & Debugging Hub
 
-When any Python script (`.py`) is opened in the Peanutbook Workspace, the right preview pane automatically switches from standard PDF/Live view to the **Code Insights Hub**.
+When any Python script (`.py`) is opened in the Peanutbook Workspace, the right preview pane automatically switches from standard PDF/Live view to the **Code Insights & Debugger Hub**.
 
 ---
 
@@ -67,7 +69,34 @@ The interactive terminal provides zero-friction execution directly against the c
 
 ---
 
-### 2. 📊 Dynamic Call Graph (`Call Graph`)
+### 2. 🐞 In-Browser Interactive Debugger (`Debugger`)
+
+The Interactive Debugger brings a full-featured, zero-dependency, VS Code-style debugging experience directly inside the browser workspace. Authors can inspect algorithms step by step, verify calculations, and explore internal state without leaving the manuscript.
+
+| Paused at Breakpoint (Dark Theme) | Stepping Execution (Light Theme) |
+| :---: | :---: |
+| ![Python Debugger Paused at Breakpoint](img/code-debugger-paused-dark.png) | ![Python Debugger Stepping Execution](img/code-debugger-paused-light.png) |
+
+#### Highlights:
+* **Gutter Breakpoint Setting**: Click any line number in the editor gutter to toggle red dot breakpoints (`🔴`). Breakpoints are visually rendered, remembered across sessions, and dynamically synchronized with the runner.
+* **VS Code-Style Floating Debug Toolbar**:
+  * `▶ Continue` (`F5`): Resume execution until the next breakpoint or completion.
+  * `↷ Next / Step Over` (`F10`): Step over to the next source line in the current function.
+  * `⇊ Step / Step Into` (`F11`): Step into function calls.
+  * `⇈ Return / Step Out` (`Shift+F11`): Run until the current function returns.
+  * `⏹ Stop` (`Shift+F5`): Terminate the debug session cleanly.
+* **Active Line Pointer & Highlight**: The currently paused line is highlighted with an amber accent bar in the editor and marked with a bright yellow pointer (`▶`) in the gutter.
+* **4-Card Diagnostics Layout**:
+  1. **📦 Variables (Locals & Scope)**: Displays all variables in the active stack frame with type badges (e.g. `float`, `int`, `list`) and exact string representations.
+  2. **📚 Call Stack**: Visualizes stack frames (e.g. `mortgage_balance` &rarr; `<module>`). Clicking any frame jumps the editor directly to that execution point.
+  3. **🔴 Active Breakpoints**: Lists all registered breakpoints with file and line coordinates, 1-click editor jumping, and instant deletion (`✕`).
+  4. **💬 Interactive Debug Console & REPL**: Evaluate arbitrary Python expressions within the paused frame's live context (e.g. evaluate `balance * i` to inspect intermediate monthly interest).
+
+![Interactive Debug Console & REPL](img/code-debugger-repl-eval.png)
+
+---
+
+### 3. 📊 Dynamic Call Graph (`Call Graph`)
 
 The Call Graph tab employs Python's standard `ast` (Abstract Syntax Tree) module to statically extract the structure of the script: entrypoint blocks (`if __name__ == '__main__':`), function definitions, and caller-callee relationships.
 
@@ -89,7 +118,7 @@ The Call Graph tab employs Python's standard `ast` (Abstract Syntax Tree) module
 
 ---
 
-### 3. 📐 Outline & API Signatures (`Outline & API`)
+### 4. 📐 Outline & API Signatures (`Outline & API`)
 
 The Outline tab serves as an interactive table of contents for classes and functions within the script.
 
@@ -102,7 +131,7 @@ The Outline tab serves as an interactive table of contents for classes and funct
 
 ---
 
-### 4. 📖 Book Citations & Manuscript Cross-Referencing (`Book Citations`)
+### 5. 📖 Book Citations & Manuscript Cross-Referencing (`Book Citations`)
 
 Technical books often reference scripts and functions across multiple chapters. The Book Citations tab performs an indexed full-text scan of all Markdown chapters in the book repository to pinpoint every occurrence.
 
@@ -115,7 +144,7 @@ Technical books often reference scripts and functions across multiple chapters. 
 
 ---
 
-### 5. 🕒 Git History & Quality Metrics (`Git & Metrics`)
+### 6. 🕒 Git History & Quality Metrics (`Git & Metrics`)
 
 The Git & Metrics tab provides instant visibility into the script's software engineering health and revision history.
 
@@ -137,9 +166,16 @@ The Git & Metrics tab provides instant visibility into the script's software eng
 | Shortcut | Context | Action |
 | :--- | :--- | :--- |
 | `Ctrl+Shift+Enter` (or `Cmd+Shift+Enter`) | Python file open | **Run script** immediately in the interactive terminal |
+| `F5` | Python file open | **Start Debugger** / **Continue** to next breakpoint |
+| `F10` | Debugger paused | **Step Over (Next)** to next line in current function |
+| `F11` | Debugger paused | **Step Into** function call |
+| `Shift+F11` | Debugger paused | **Step Out (Return)** until current function returns |
+| `Shift+F5` | Debugger active | **Stop Debugging** session |
+| `Click on Gutter Line Number` | Python file open | **Toggle Breakpoint (`🔴`)** on clicked line |
 | `Ctrl+S` (or `Cmd+S`) | Workspace editor | Save file changes and refresh live diagnostics |
 | `Ctrl+F` (or `Cmd+F`) | Workspace editor | Open in-editor search bar |
 | `Click on Call Graph Node` | Call Graph tab | Navigate editor directly to function definition line |
+| `Click on Stack Frame` | Debugger tab | Navigate editor directly to paused frame line |
 | `Click on API Card Badge` | Outline tab | Navigate editor directly to function / class line |
 | `Click on Citation Card` | Citations tab | Open the citing chapter file in the workspace |
 
@@ -147,7 +183,7 @@ The Git & Metrics tab provides instant visibility into the script's software eng
 
 ## 🛠️ Backend API Endpoints
 
-For developers and plugin integrators, Peanutbook exposes dedicated JSON endpoints for Python analysis and execution:
+For developers and plugin integrators, Peanutbook exposes dedicated JSON endpoints for Python analysis, debugging, and execution:
 
 ### 1. Execute Script
 * **Endpoint**: `POST /books/<book>/python/run/`
@@ -193,3 +229,18 @@ For developers and plugin integrators, Peanutbook exposes dedicated JSON endpoin
     "git_log": [...]
   }
   ```
+
+### 3. Interactive Debugger Sessions
+* **Start Session**: `POST /books/<book>/python/debug/start/`
+  * **Payload**: `{"path": "chapter1/code/amortization.py", "breakpoints": [16], "stop_on_entry": 0}`
+  * **Response**: `{"ok": true, "session_id": "...", "state": {"event": "paused", "line": 16, "func": "mortgage_balance", "locals": {...}, "stack": [...]}}`
+* **Step / Action**: `POST /books/<book>/python/debug/step/`
+  * **Payload**: `{"session_id": "...", "action": "next"}` (Actions: `continue`, `next`, `step`, `return`, `stop`, `set_break`, `clear_break`)
+  * **Response**: `{"ok": true, "session_id": "...", "state": {"event": "paused", "line": 17, ...}}`
+* **REPL Evaluation**: `POST /books/<book>/python/debug/eval/`
+  * **Payload**: `{"session_id": "...", "expr": "balance * i"}`
+  * **Response**: `{"ok": true, "result": {"event": "eval_result", "ok": true, "result": "2166.67", "type": "float"}}`
+* **Stop Session**: `POST /books/<book>/python/debug/stop/`
+  * **Payload**: `{"session_id": "..."}`
+  * **Response**: `{"ok": true}`
+
