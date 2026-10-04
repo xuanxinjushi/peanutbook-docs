@@ -61,6 +61,7 @@ nav:
   - Book workspace: online-book-folder-design.md
   - AI Book Writing & Copilot: ai-book-writing.md
   - Python Runner & Code Insights: code-insights-runner.md
+  - Book Overview & Editorial Dashboard: book-overview-dashboard.md
   - Command reference:
       - Overview: commands/overview.md
       - Build & convert: commands/build-convert.md
