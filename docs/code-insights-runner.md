@@ -138,7 +138,8 @@ Technical books often reference scripts and functions across multiple chapters. 
 ![Book Chapters Citing Code](img/code-insight-4-citations.png)
 
 #### Highlights:
-* **Multi-Chapter Indexing**: Tracks mentions of the script filename (e.g. `amortization.py`) as well as individual function and class names.
+* **Multi-Chapter Indexing**: Tracks mentions of the script filename (e.g. `amortization.py`) as well as individual function and class names across all book chapters.
+* **Automatic Exclusion of Merged Book Artifacts**: Intelligently ignores generated whole-book files matching `book*.md` (e.g. `book.md`, `book_zh.md` created by `bubble-merge`), ensuring citations accurately point to individual authoring chapters instead of duplicate monolithic build artifacts.
 * **Contextual Snippets**: Displays the exact line number in the target chapter and a contextual snippet of the surrounding paragraph or code block.
 * **Click-to-Traverse**: Clicking any citation card immediately opens that chapter in the editor, providing a seamless bidirectional link between code and theory.
 
