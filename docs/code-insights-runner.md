@@ -75,9 +75,16 @@ The Call Graph tab employs Python's standard `ast` (Abstract Syntax Tree) module
 | :---: | :---: |
 | ![Call Graph Dark Theme](img/code-insight-2-callgraph-dark.png) | ![Call Graph Light Theme](img/code-insight-2-callgraph-light.png) |
 
+![Call Graph Zoomed In View](img/code-insight-2-callgraph-zoomed.png)
+
 #### Highlights:
+* **Interactive Zoom & Pan Engine**:
+  * **Zoom In & Out (`+` / `−`)**: Magnify from 25% up to 400% with live percentage indicator.
+  * **Mouse Wheel Zoom**: Smooth cursor-centered zooming using the mouse wheel or trackpad pinch gesture.
+  * **Click & Drag Pan**: Freely pan the graph across the infinite canvas with grab/grabbing feedback.
+  * **Fit & 1:1 Reset**: Click `Fit` to auto-scale the entire call graph to the viewport, or `1:1` to reset to native 100% scale.
 * **Mermaid Vector Flowchart**: Automatically compiled and rendered as crisp, vector graphics with publication-grade node palettes.
-* **Interactive Code Jumping**: Every function node in the SVG diagram is interactive. Clicking on a node (such as `mortgage_balance`) instantly focuses CodeMirror and navigates the cursor to the exact line of the function definition.
+* **Interactive Code Jumping**: Every function node in the SVG diagram is interactive. Clicking on a node (such as `mortgage_balance`) instantly focuses CodeMirror and navigates the cursor to the exact line of the function definition (pan dragging is intelligently distinguished from clicks).
 * **Theme-Aware Styling**: Perfectly harmonized with both Dark and Light themes.
 
 ---
