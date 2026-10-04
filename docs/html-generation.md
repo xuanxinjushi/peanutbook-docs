@@ -56,8 +56,7 @@ book_html/
     ├── theme.css
     ├── page-reader.js
     ├── cover.png           # from cover/7x10/ (prefers 3d_front_view.png)
-    ├── custom.css          # optional, from html_custom_css
-    └── favicon.png         # optional, from html_favicon
+    └── custom.css          # optional, from html_custom_css
 ```
 
 Open `index.html` in a browser, or serve the folder with any static file server.
@@ -72,16 +71,11 @@ Add optional keys to `peanut.config`:
   "html_output_dir": null,
   "html_theme": "default",
   "html_custom_css": null,
-  "html_favicon": null,
   "html_mathjax": true,
   "html_site_logo": "https://example.org/logo.png",
   "html_purchase_url": "https://www.amazon.com/dp/XXXXXXXXXX",
   "html_purchase_label": "Buy on Amazon",
-  "html_cover_image": null,
-  "html_footer_logo": null,
-  "html_footer_text": null,
-  "html_footer_link": null,
-  "html_google_analytics_id": null
+  "html_cover_image": null
 }
 ```
 
@@ -90,15 +84,12 @@ Add optional keys to `peanut.config`:
 | `html_output_dir` | Custom output path (relative to project root or absolute) |
 | `html_theme` | CSS theme: `default`, `dark`, or `minimal` |
 | `html_custom_css` | Extra stylesheet copied to `assets/custom.css` |
-| `html_favicon` | Path to an icon image (e.g. `img/logo.png`), relative to the project root — copied to `assets/favicon.<ext>` and linked from every page's `<head>`. Blank = no favicon. |
 | `html_mathjax` | Set `false` to disable MathJax |
 | `html_site_logo` | Logo URL or path for the site header |
 | `html_purchase_url` | External purchase link (shown as a highlighted button in the header) |
 | `html_purchase_label` | Button text (default: `Buy on Amazon`) |
 | `html_cover_image` | Override cover image for the home page |
 | `cover` | Cover folder under `cover/` (e.g. `7x10`); used when resolving the home-page cover |
-| `html_footer_logo`, `html_footer_text`, `html_footer_link` | Replace the default "Built with peanutbook" footer with your own publisher branding (logo path relative to `assets/`, text, and an optional link wrapping both). All three blank = the default footer is kept unchanged. |
-| `html_google_analytics_id` | A GA4 measurement ID (e.g. `G-XXXXXXXXXX`) — when set, injects the standard `gtag.js` snippet into every page's `<head>`. Blank = no analytics tag at all. |
 
 Cover image resolution order (when `html_cover_image` is not set):
 
@@ -114,7 +105,7 @@ The active cover folder follows `cover` in config or the print `template` (e.g. 
 - **Chapter pages** — sticky header (logo, title, purchase link), prev/next chapter navigation, paginated reader for `\newpage` breaks
 - **MathJax** — inline and display math from `$…$` / `$$…$$`
 - **Cross-references** — `@fig:…`, `@eq:…`, `\eqref{eq:…}`, `Chapter~\ref{chap:…}`, index markers `{.idx}`
-- **Semantic blocks** — `>NOTES:`, `>IMPORS:`, `>WARNS:`, `>AIMLS:`, `>CENTERS:` / `>CENTERE`, algorithm blocks, fancy dividers, galleries
+- **Semantic blocks** — `>NOTES:`, `>IMPORS:`, `>WARNS:`, `>CENTERS:` / `>CENTERE`, algorithm blocks, fancy dividers, galleries
 - **Mermaid diagrams** — ` ```mermaid ` fences rendered to PNG (same cache as PDF; requires `mmdc` or `npx`)
 - **Section sidebar** — foldable in-chapter H2 navigation; collapsed/expanded state persists across chapters (via `localStorage`)
 - **Front matter** — preface pagination (cover art, copyright, dedication on its own page, about the author, preface body) without editing source `\newpage` before Dedication (inserted at HTML build time)

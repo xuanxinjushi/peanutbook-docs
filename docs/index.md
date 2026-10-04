@@ -49,15 +49,28 @@ bubble-build --style square
 | [Theme](theme.md) | Colors, chapter opener, quote style (no LaTeX) |
 | [Multi-language](multi-language.md) | `--lang`, file suffixes, fonts |
 | [Covers & templates](covers-templates.md) | Page sizes, cover folders |
+| [Bookshelf covers & multi-language](shelf-covers.md) | Cover discovery, resolution order, and multi-edition cards |
+| [Cover fonts](fonts.md) | Cover font choices, system-font limits, and expansion plan |
+| [Font selector implementation plan](fonts-plan.md) | Dynamic system-font discovery and fallback implementation |
 | [Business plans](bizplan.md) | Business-plan workflow (`bubble-bizplan`, `peanut-biz.config`) |
 | [Academic papers (bubble-paper)](paper.md) | Research-paper workflow, layout previews |
 | [HTML generation](html-generation.md) | Static book site (`bubble-render-html`) |
 | [VS Code extension](vscode-extension.md) | In-editor PDF preview with rebuild-on-save |
+| [Book workspace (Online Writer)](online-book-folder-design.md) | In-browser workspace: multi-tab editor, tree context menu, layout toggles, Live preview |
 | [Command reference](commands/overview.md) | All `bubble-*` CLI tools |
 | [Python API](python-api.md) | `Converter`, `BookBuilder` |
 | [System requirements](system-requirements.md) | Pandoc, LaTeX, Ghostscript, qpdf |
 | [Watermarks](watermark.md) · [PDF protection](pdf-protection.md) | Post-processing |
 | [Cross-references troubleshooting](cross-references-troubleshooting.md) | Fix `??` in PDF |
+
+## Internal / ops notes (not published)
+
+Private, not mirrored to `peanutbook-docs` -- deployment/runbook notes for
+this repo's own companion apps, not the Peanutbook format/toolchain itself.
+
+| Section | Contents |
+|---------|----------|
+| Launching a new book's website (`docs/new-book-website.md`) | `web/booksite` deployment runbook -- Docker (recommended) and non-Docker paths, `/admin/` setup, gotchas hit building it |
 
 ## Package names (toolchain)
 

@@ -54,11 +54,11 @@ nav:
   - Multi-language: multi-language.md
   - Covers & templates: covers-templates.md
   - Cover rendering API: cover-api.md
-  - Cover Designer (web app): cover-designer.md
   - Business plans: bizplan.md
   - Academic papers (bubble-paper): paper.md
   - HTML generation: html-generation.md
   - VS Code extension: vscode-extension.md
+  - Book workspace: online-book-folder-design.md
   - Command reference:
       - Overview: commands/overview.md
       - Build & convert: commands/build-convert.md

@@ -894,6 +894,14 @@ flowchart TB
 - Optional attributes on the fence: `width=50%`, `width=5cm`, `align=center` (same as [image attributes](#syntax-for-image-attributes)).
 - Default width when omitted: **90%** of line width.
 
+### Live Preview in Web Writer
+
+The online book workspace (`/books/<book>/`) features zero-latency client-side **Live Preview** for Mermaid diagrams:
+- **Realtime SVG Rendering**: Powered by embedded `mermaid.min.js`, diagrams are rendered into interactive SVG vector graphics in real-time as you type, without waiting for background LaTeX builds.
+- **Theme Synchronization**: Automatically adjusts diagram color themes to match dark mode (`🌙 Dark`) or light mode (`☀️ Light`).
+- **Flexible Fence Syntax**: Supports both standard ` ```mermaid ` and Pandoc attribute style ` ```{.mermaid width=60%} `.
+- **Typing Fault Tolerance**: Incomplete syntax while typing is handled gracefully without breaking page rendering.
+
 ### Building
 
 Use the same Markdown in your chapter files as for PDF:

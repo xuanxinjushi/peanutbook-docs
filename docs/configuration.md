@@ -31,6 +31,12 @@ Project values override defaults; unset keys keep default behavior.
 | `book_title` | string | Title in headers, TOC, covers, and PDF **Title** metadata (`pdftitle`); locale key `book_title_<lang>` |
 | `author` | string | Global book author name; CLI `--author` overrides. Also sets the PDF **Author** metadata (`pdfauthor`) |
 | `author_cn` / `author_en` | string | Locale-specific author name fallback (also used for PDF Author per locale) |
+| `book_description` | string | One-line blurb/tagline. Not used by the PDF/HTML build; read by `web/booksite`'s home page (and its `book_urls.json` buy-links, if present) as this book's single source of truth so the companion Django site doesn't need its own copy -- see `web/booksite/bookproject/book_identity.py` |
+| `book_subtitle` / `book_subtitle_<lang>` | string | Not used by the PDF/HTML build. `web/booksite`'s home page hero subtitle -- also the on/off switch for its fuller "landing page" layout (pitch-line bullets, an ISBN/Author/Language/Format/Genre meta-grid): leave unset and that page renders as before |
+| `isbn` / `isbn_<lang>` | string | Not used by the PDF/HTML build. Shown in `web/booksite`'s meta-grid, per language since a book's ISBN usually differs per translation/edition |
+| `genre` / `genre_<lang>` | string | Not used by the PDF/HTML build. Shown in `web/booksite`'s meta-grid, e.g. `"Literary memoir"` |
+| `format` / `format_<lang>` | string | Not used by the PDF/HTML build. Shown in `web/booksite`'s meta-grid, e.g. `"Paperback / eBook"` |
+| `pitch_lines` / `pitch_lines_<lang>` | list of strings | Not used by the PDF/HTML build. Short bullet points under `web/booksite`'s hero tagline |
 | `subject` / `subject_<lang>` | string | PDF document **Subject** metadata (`pdfsubject`); locale-specific override e.g. `subject_zh` |
 | `keywords` / `keywords_<lang>` | string \| list | PDF document **Keywords** metadata (`pdfkeywords`); comma-separated string or a JSON list |
 | `variables` | object | Custom key-value map for `@@pb:key@@` placeholder substitution |
@@ -263,31 +269,48 @@ Example:
 }
 ```
 
-### Password-protected chapters
+### Password-protected chapters — internal mechanism (dev notes, not public)
 
-```json
-{
-  "html_password": "wholebook-secret",
-  "html_chapter_passwords": {
-    "chapter3": "chapter3-only-secret",
-    "8": "chapter8-only-secret",
-    "preface": ""
-  }
-}
-```
+Implemented in `render_html.py` (`html_site_options`), `htmlbook/book_render.py`
+(`render_book`, `normalize_chapter_password_key`, `chapter_password_key`),
+`htmlbook/renderer.py` (`render_post`), and `htmlbook/templates/post.html`
+(the `entry_locked` block). Reuses xuanxin's vendored gate as-is, unmodified:
+`htmlbook/static/page-reader.js` (`setupPasswordLock`) and
+`.xuanxin-entry-lock` / `.xuanxin-gallery-unlock-*` in `_base.css`.
 
-- `html_password` locks every chapter page behind the same password. Enter it
-  once in the browser and every other book-level-locked chapter unlocks too,
-  for the rest of that browser session (no re-prompting per page).
-- `html_chapter_passwords` keys accept `"3"`, `"chapter3"`, or `"chapter03"`
-  interchangeably (all normalize to the same chapter), plus `"preface"` /
-  `"chapterx"`. A chapter listed here gets **its own** password, independent
-  from `html_password` — entering the book-wide password does *not* unlock
-  it, and vice versa.
-- An entry present with an **empty string** value (like `"preface": ""`
-  above) makes that one chapter public even though `html_password` is set —
-  useful for keeping a preface or sample chapter open while the rest of the
-  book is locked.
+**How it actually works, and why it's weak** (this is the part deliberately
+left out of the public docs — don't restate it there, it just hands readers
+the bypass):
+
+- The password is never sent anywhere. At build time, `render_book` computes
+  `hashlib.sha256(password).hexdigest()` per chapter and embeds it in
+  `data-entry-password-hash` on the chapter page.
+- The chapter's actual HTML content is rendered into the page as normal —
+  it sits in the DOM the whole time, just wrapped in
+  `<div data-entry-body hidden>`. There is no encryption; opening devtools
+  and toggling the `hidden` attribute (or just reading page source) defeats
+  it instantly. Unlike xuanxin's *media* encryption (AES-256-GCM,
+  `gallery_crypto.py` / `decryptAsset` in `page-reader.js`), this feature
+  does not use that path — chapter text was judged not worth the extra
+  complexity for a "keep casual readers and search engines out" feature.
+  If real protection is ever wanted, that's the mechanism to extend to text,
+  not this one.
+- Client JS hashes what the visitor types (`crypto.subtle.digest`) and
+  compares to the embedded hash. On match, it stores
+  `sessionStorage["xuanxin-gallery:" + hash] = "1"` — keyed by the **hash**,
+  not the page URL. That's why one `html_password` entry unlocks every
+  chapter sharing it without re-prompting: they all embed the same hash, so
+  they all read the same sessionStorage key. A chapter with its own
+  `html_chapter_passwords` override embeds a different hash → different
+  storage key → needs its own unlock, independent of the book-wide one.
+- `sessionStorage` clears when the tab/browser session ends — readers
+  re-enter the password each new session. This is vendored behavior, not
+  something this feature changed; swapping to `localStorage` for
+  longer-lived unlocks would be a one-line JS change if ever wanted.
+- Not gated by this feature: the "中英对照" compare reader
+  (`htmlbook/compare_render.py`) renders the same chapter text on a separate
+  page/module with no password check at all — a known bypass route for any
+  chapter that's supposedly locked, not yet closed.
 
 ## Batch release keys (`bubble-batch`)
 
