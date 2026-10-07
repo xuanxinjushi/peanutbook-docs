@@ -918,7 +918,23 @@ bubble-build --format html
 
 Rendered PNGs are cached under each chapter’s `img/.mermaid/` (content-hash filenames). Unchanged diagrams are not re-rendered.
 
-**Requirements:** [mermaid-cli](https://github.com/mermaid-js/mermaid-cli) (`mmdc` on `PATH`) or **Node.js** with `npx`. See [System requirements — Mermaid](system-requirements.md#mermaid-diagrams-optional). No extra `peanut.config` keys.
+**Requirements:** [mermaid-cli](https://github.com/mermaid-js/mermaid-cli) (`mmdc` on `PATH`) or **Node.js** with `npx`. See [System requirements — Mermaid](system-requirements.md#mermaid-diagrams-optional).
+
+### Print resolution and styling
+
+PNGs are rendered at **3× device scale** (about 400 dpi at text width; mmdc's default of 1× prints near 130 dpi and looks soft). Set `BUBBLE_MERMAID_SCALE` to change it.
+
+To style every diagram in a book, put a Mermaid config file named `mermaid-config.json` in the book root (or point `BUBBLE_MERMAID_CONFIG` at one). It is passed to `mmdc -c`. A config that matches a serif book and keeps `<br/>` line breaks in charge of wrapping:
+
+```json
+{
+  "theme": "default",
+  "themeVariables": {"fontFamily": "\"Times New Roman\", \"Noto Serif CJK SC\", serif", "fontSize": "16px"},
+  "flowchart": {"htmlLabels": true, "wrappingWidth": 400, "nodeSpacing": 30, "rankSpacing": 30, "useMaxWidth": false}
+}
+```
+
+The scale and the config are part of the cache key, so changing either re-renders cached diagrams. Diagram text prints smaller as a diagram gets wider: a tall top-to-bottom chart with long one-line labels can fall below a readable size at text width. Break labels with `<br/>`, prefer rounded nodes over diamonds for decisions, and set `width=` so the text lands at 7pt or more.
 
 If Mermaid is not installed, PDF/DOCX/EPUB may leave the fence as a code block; HTML build logs an error and keeps the fence text.
 
