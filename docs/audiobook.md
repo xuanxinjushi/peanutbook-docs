@@ -89,6 +89,20 @@ Each running chapter shows segments done, ETA, and the real-time factor. When a
 chapter finishes it is assembled and exported; **▶** plays it in the bottom
 player, which continues with the next chapter.
 
+### Slides and other single-file documents
+
+Slides, papers, business plans and proposals have one track: their main file
+(e.g. `slides.md`). For a Marp deck, choose **Slides: read**:
+
+- **Speaker notes** (default): each slide's `<!-- ... -->` notes. If a note
+  contains quoted lines, only the quotes are read (notes written as cues plus
+  "what to say"); otherwise the whole note minus `LABEL:` cues. Marp directives
+  such as `<!-- _class: lead -->` are ignored. A deck without notes is read as
+  slide text.
+- **Slide text**: headings, bullets and quotes on the slides.
+
+The segment view groups lines by slide, with a longer pause between slides.
+
 ### What is read aloud
 
 Headings (optional), paragraphs, verse lines and blockquotes. Images, code,
