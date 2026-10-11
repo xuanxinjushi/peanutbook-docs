@@ -60,6 +60,7 @@ nav:
   - VS Code extension: vscode-extension.md
   - Book workspace: online-book-folder-design.md
   - AI Book Writing & Copilot: ai-book-writing.md
+  - Audiobooks (text-to-speech): audiobook.md
   - Python Runner & Code Insights: code-insights-runner.md
   - Book Overview & Editorial Dashboard: book-overview-dashboard.md
   - Command reference:
