@@ -67,6 +67,50 @@ When building a localized book (e.g. `bubble-build --lang cn`), Peanutbook looks
 
 Cover scripts use a font stack that leads with universal CJK/Latin families and falls back gracefully to system fonts, avoiding missing-glyph tofu boxes on both English and Chinese builds.
 
+## POD & KDP Cover Sizing (Spine Width Calculator)
+
+When publishing print books on Amazon KDP, IngramSpark, or Lulu, platforms validate the uploaded full-spread cover PDF against the interior page count and paper type. If the interior page count changes or the paper stock differs, KDP reports a size mismatch error such as:
+
+> *"Your cover measures 14.986 x 10.250 in (380.65 x 260.35 mm). The required size is 15.152 x 10.25 in (384.86 x 260.35 mm). Resize your cover to that, then export a new PDF and upload it."*
+
+### Spine Width from Page Count (the normal way)
+
+Usually you don't need to calculate anything. In the Cover Designer, under **Basics**, enter the **Interior page count / 内页页数** and choose the **Paper / 纸张**. The spine width is then computed with the formula the print vendor publishes (for example, KDP paperback: pages × 0.002252 in on white paper, × 0.0025 in on cream; Lulu: pages ÷ PPI). The hint under the fields shows the formula and its source.
+
+Vendors that only offer a template generator, such as IngramSpark or KDP hardcover, have no published formula. For those, and whenever KDP still reports a size mismatch, enter the spine from the vendor's figures using the required-width converter below.
+
+### Wrap Size vs. Spine Width Formula
+
+KDP error messages report the **total wrap dimension** (front panel + back panel + spine + bleeds), whereas the design engine controls the **spine width**:
+
+- For a standard **7×10 in** paperback (`kdp/paperback`):
+    - Front panel width: `7.0 in`
+    - Back panel width: `7.0 in`
+    - Left and right bleeds: `0.125 in` each (`2 × 0.125 = 0.250 in` total horizontal bleed)
+    - **Fixed non-spine width**: `7.0 + 7.0 + 0.250 = 14.250 in`
+    - Total height: `10.0 in trim + 2 × 0.125 in bleed = 10.250 in` (fixed)
+
+To calculate the required spine width override:
+
+$$\text{Spine Width} = \text{Required Total Width} - \text{Non-Spine Width}$$
+
+$$\text{Spine Width} = 15.152 - 14.250 = \mathbf{0.902\text{ in}}$$
+
+### Interactive Auto-Converter in Web Cover Designer
+
+The Web Cover Designer (`http://localhost:1979/<id>/<slug>/edit/`) includes an interactive KDP Required Width auto-converter and live dimension indicator directly under **Basics**:
+
+![KDP Required Width Auto-Converter in Cover Designer](img/kdp-cover-size-calculator.png)
+
+1. **Enter Required Width**: In the **💡 KDP / 平台要求总宽换算 (Required Width)** input field, type or paste:
+    - Pure width in inches (e.g. `15.152`)
+    - Dimensions string (e.g. `15.152 x 10.25 in`)
+    - Metric dimensions (e.g. `384.86 mm` or `384.86 x 260.35 mm`)
+2. **Auto-Calculate**: Click **自动换算并填入书脊** (or press Enter). The tool automatically deducts the non-spine baseline (`14.250 in`) and fills `0.902` into **Spine width — manual override (in)**. A manual value wins over the page-count formula; click **清除手动值** to go back to the formula with visual confirmation.
+3. **Verify Total Spread**: The live indicator updates in real time:
+   `整封总尺寸: 15.152 × 10.250 in (384.86 × 260.35 mm)`
+4. **Render & Export**: Click the floating **Render** button to regenerate the full wrap, then click **⬇ PDF** under the preview pane to download the print-ready cover PDF for KDP upload.
+
 ## Chapter styles
 
 | Style | Appearance |
