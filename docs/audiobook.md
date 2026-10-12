@@ -110,8 +110,36 @@ tables, math, raw LaTeX, HTML comments, footnote bodies and peanutbook layout
 markers are skipped. `Chapter 3: Title` is read as "第三章，Title" in Chinese
 editions. Long paragraphs are split at sentence ends.
 
-Fix pronunciations with `<book>/audio/glossary.tsv` (one `written<TAB>spoken` per
-line).
+### Pronunciation (acronyms, product names, codes)
+
+TTS voices guess how to say terms like `SOFR`, `vLLM`, `DV01` or `PyTorch`, and
+often guess wrong. Open **🗣️ Pronunciation** on the Audio page:
+
+- It scans the edition and lists every acronym, mixed-case name and letter–digit
+  code, with how often it appears, an example sentence, and a suggested reading.
+  Suggestions come from a built-in tech/finance lexicon (`PyTorch` → "pie torch",
+  `SQL` → "sequel", `SOFR` → "sofer", `DV01` → "D V oh one", "Part II" → "Part
+  Two") or, for unknown terms, from rules (spell out short acronyms, split
+  `SGLang` → "S G Lang"); ordinary words in capitals (`NOT`, `OUTSIDE`) are left alone.
+- **▶** reads the example sentence with your reading, so you can try variants.
+- Tick the terms to apply and **Save**. Readings are stored per book in
+  `<book>/audio/glossary.tsv` (for the current edition), and only the lines that
+  contain a changed term need regenerating.
+
+Built-in suggestions never apply on their own, so existing audio never changes
+behind your back. You can also edit `glossary.tsv` directly:
+
+```
+# written<TAB>spoken[<TAB>lang]
+SOFR	sofer
+SOFR	索弗	zh
+vLLM	V L L M
+re:\bPart II\b	Part Two
+```
+
+Rules match whole words only (`AI` doesn't touch `AIG`), all-caps terms also
+cover their plural (`LLMs` → "L L Ms"), a third column limits a rule to the
+`en` or `zh` edition, and `re:` makes the left side a regular expression.
 
 ## Proofread and retake
 
