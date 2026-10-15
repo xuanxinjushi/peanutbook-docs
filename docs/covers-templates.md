@@ -73,12 +73,6 @@ When publishing print books on Amazon KDP, IngramSpark, or Lulu, platforms valid
 
 > *"Your cover measures 14.986 x 10.250 in (380.65 x 260.35 mm). The required size is 15.152 x 10.25 in (384.86 x 260.35 mm). Resize your cover to that, then export a new PDF and upload it."*
 
-### Spine Width from Page Count (the normal way)
-
-Usually you don't need to calculate anything. In the Cover Designer, under **Basics**, enter the **Interior page count / 内页页数** and choose the **Paper / 纸张**. The spine width is then computed with the formula the print vendor publishes (for example, KDP paperback: pages × 0.002252 in on white paper, × 0.0025 in on cream; Lulu: pages ÷ PPI). The hint under the fields shows the formula and its source.
-
-Vendors that only offer a template generator, such as IngramSpark or KDP hardcover, have no published formula. For those, and whenever KDP still reports a size mismatch, enter the spine from the vendor's figures using the required-width converter below.
-
 ### Wrap Size vs. Spine Width Formula
 
 KDP error messages report the **total wrap dimension** (front panel + back panel + spine + bleeds), whereas the design engine controls the **spine width**:
@@ -106,7 +100,7 @@ The Web Cover Designer (`http://localhost:1979/<id>/<slug>/edit/`) includes an i
     - Pure width in inches (e.g. `15.152`)
     - Dimensions string (e.g. `15.152 x 10.25 in`)
     - Metric dimensions (e.g. `384.86 mm` or `384.86 x 260.35 mm`)
-2. **Auto-Calculate**: Click **自动换算并填入书脊** (or press Enter). The tool automatically deducts the non-spine baseline (`14.250 in`) and fills `0.902` into **Spine width — manual override (in)**. A manual value wins over the page-count formula; click **清除手动值** to go back to the formula with visual confirmation.
+2. **Auto-Calculate**: Click **自动换算并填入书脊** (or press Enter). The tool automatically deducts the non-spine baseline (`14.250 in`) and fills `0.902` into **Spine width override (in)** with visual confirmation.
 3. **Verify Total Spread**: The live indicator updates in real time:
    `整封总尺寸: 15.152 × 10.250 in (384.86 × 260.35 mm)`
 4. **Render & Export**: Click the floating **Render** button to regenerate the full wrap, then click **⬇ PDF** under the preview pane to download the print-ready cover PDF for KDP upload.

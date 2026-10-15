@@ -56,11 +56,11 @@ nav:
   - Cover rendering API: cover-api.md
   - Business plans: bizplan.md
   - Academic papers (bubble-paper): paper.md
+  - Presentation Slides & Video: slides-and-video.md
   - HTML generation: html-generation.md
   - VS Code extension: vscode-extension.md
   - Book workspace: online-book-folder-design.md
   - AI Book Writing & Copilot: ai-book-writing.md
-  - Audiobooks (text-to-speech): audiobook.md
   - Python Runner & Code Insights: code-insights-runner.md
   - Book Overview & Editorial Dashboard: book-overview-dashboard.md
   - Command reference:

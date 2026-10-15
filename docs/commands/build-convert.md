@@ -282,13 +282,27 @@ bubble-scaffold --paper
 
 Creates chapter stubs, `peanut.config`, and `cover/7x10/` placeholders. With `--bizplan`, scaffolds `bizplan.md`. With `--paper`, scaffolds `paper.md`.
 
-## `bubble-split-pdf`
+Requires **qpdf**; page count from `pdfinfo` or PyPDF2.
 
-Split a built PDF into *N* parts (e.g. for platform upload limits):
+## `bubble-slides` & `bubble-slides-video`
+
+Build presentation slide decks and broadcast-quality YouTube videos from Markdown (Marp):
 
 ```bash
-bubble-split-pdf book_zh_square.pdf -n 5
-bubble-split-pdf --dry-run
+# Build vector PDF slides (default)
+bubble-slides slides.md
+
+# Build interactive HTML presentation
+bubble-slides slides.md --format html
+
+# Build editable PowerPoint (.pptx)
+bubble-slides slides.md --format pptx
+
+# Synthesize YouTube-ready 1080p MP4 video with narration, chapters & subtitles
+bubble-slides slides.md --format mp4
+
+# Advanced video synthesis with custom resolution, FPS, and parallel workers
+bubble-slides-video slides.md --scale 1.5 --fps 30 --workers 8 -o out/lecture.mp4
 ```
 
-Requires **qpdf**; page count from `pdfinfo` or PyPDF2.
+Full guide: **[Presentation Slides & Video](../slides-and-video.md)**.
