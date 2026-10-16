@@ -284,25 +284,31 @@ Creates chapter stubs, `peanut.config`, and `cover/7x10/` placeholders. With `--
 
 Requires **qpdf**; page count from `pdfinfo` or PyPDF2.
 
-## `bubble-slides` & `bubble-slides-video`
+## `bubble-slides-pipeline`, `bubble-slides-video` & `bubble-slides`
 
 Build presentation slide decks and broadcast-quality YouTube videos from Markdown (Marp):
 
 ```bash
-# Build vector PDF slides (default)
+# 1. Full-pipeline one-step synthesis (speaker notes -> TTS audio -> Marp -> 1080p MP4)
+bubble-slides-pipeline slides.md
+
+# Custom voice and 4K Ultra HD video
+bubble-slides-pipeline slides.md --voice spk:xuanxin_narrator --scale 3.0
+
+# 2. Standalone video synthesis from existing audio on disk
+bubble-slides-video slides.md --scale 1.5 --fps 30 --workers 8 -o out/lecture.mp4
+
+# Forward to pipeline to synthesize missing audio first
+bubble-slides-video slides.md --tts
+
+# 3. Vector PDF slides (default)
 bubble-slides slides.md
 
-# Build interactive HTML presentation
+# 4. Interactive HTML presentation
 bubble-slides slides.md --format html
 
-# Build editable PowerPoint (.pptx)
+# 5. Editable PowerPoint (.pptx)
 bubble-slides slides.md --format pptx
-
-# Synthesize YouTube-ready 1080p MP4 video with narration, chapters & subtitles
-bubble-slides slides.md --format mp4
-
-# Advanced video synthesis with custom resolution, FPS, and parallel workers
-bubble-slides-video slides.md --scale 1.5 --fps 30 --workers 8 -o out/lecture.mp4
 ```
 
 Full guide: **[Presentation Slides & Video](../slides-and-video.md)**.

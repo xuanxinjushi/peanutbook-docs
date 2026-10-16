@@ -17,6 +17,7 @@ After `pip install -e .` (or `pip install peanutbook`), every tool is available 
 | `bubble-paper` | `paper.py` | Academic / research paper PDF — see [Academic papers](../paper.md) |
 | `bubble-bizplan` | `bizplan.py` | Build structured business plan PDF — see [Business plans](../bizplan.md) |
 | `bubble-slides` | `slides.py` | Marp presentation slides → PDF/HTML/PPTX/MP4 — see [Slides & Video](../slides-and-video.md) |
+| `bubble-slides-pipeline` | `slides_pipeline.py` | End-to-end notes → TTS audio → Marp images → YouTube MP4 — see [Slides & Video](../slides-and-video.md) |
 | `bubble-slides-video` | `slides_video.py` | Synthesize YouTube lecture video (MP4 + chapters + subtitles) |
 
 ## Build pipeline helpers

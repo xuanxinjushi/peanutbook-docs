@@ -134,27 +134,121 @@ In addition to the MP4 video, the synthesis engine automatically generates:
 
 ### 3. From the Command Line (CLI)
 
-```bash
-# Standard slide build command (defaults to 1080p)
-bubble-slides slides.md --format mp4
+Peanutbook provides three command-line tools for presentation decks, ranging from single-command full-pipeline synthesis to fine-grained stage execution:
 
-# Dedicated high-performance video command with custom parameters
-bubble-slides-video slides.md --scale 1.5 --fps 30 --workers 8 -o out/lecture.mp4
+```
+[ slides.md + Speaker Notes ]
+             │
+             ▼
+   bubble-slides-pipeline ──────────┐
+   (TTS + Marp + Video in 1-step)   │
+             │                      │
+             ├── [ Stage 1: Preflight & Book Resolution ]
+             ├── [ Stage 2: TTS Narration Synthesis ]
+             └── [ Stage 3: Marp Export & MP4 Encoding ]
+                                    │
+                                    ▼
+                     [ out/slides.mp4 + .srt + chapters.txt ]
 ```
 
-#### CLI Options for `bubble-slides-video`
+#### A. All-in-One: `bubble-slides-pipeline` (Recommended)
+
+`bubble-slides-pipeline` executes the entire pipeline in a single command: preflight checks, book resolution, TTS narration synthesis (via the web app or direct worker), and in-process video encoding:
+
+```bash
+# 1. Standard one-step run (synthesizes missing narration + renders 1080p MP4)
+bubble-slides-pipeline slides.md
+
+# 2. Custom voice and 4K Ultra HD video
+bubble-slides-pipeline slides.md --voice spk:xuanxin_narrator --scale 3.0
+
+# 3. Audio only (synthesizes audio/tracks/slides/ without rendering video)
+bubble-slides-pipeline slides.md --skip-video
+
+# 4. Video only (render video using existing audio tracks on disk)
+bubble-slides-pipeline slides.md --skip-tts
+
+# 5. Force re-synthesis of all segments (fresh takes)
+bubble-slides-pipeline slides.md --mode all
+```
+
+> [!TIP]
+> If you have not yet run `pip install -e .` in your `usao` environment to install console entrypoints, you can invoke the pipeline module directly:
+> ```bash
+> python -m bubble.slides_pipeline slides.md
+> ```
+
+##### Pipeline Stages & Resiliency
+
+1. **Preflight Environment Validation**:
+   Checks that `slides.md` and `peanut.config` exist, and verifies that `ffmpeg` and `marp` are installed before making any network requests or synthesizing audio.
+2. **Automated Book Slug Resolution**:
+   Automatically detects the active shelf book slug from the mount registry (`shelf_mounts.json`, including `~/pb-try/data/`) and `~/shelf` symlinks.
+3. **Voice Settings & CSRF-Protected TTS**:
+   If `--voice` or `--reader` differs from the book's current configuration, the pipeline updates the book's audio settings and dispatches `POST /audio/generate/` with automatic CSRF token management.
+4. **Live Progress Reporting**:
+   Displays dynamic terminal progress with slide and segment counts and estimated completion time:
+   `[10/33 slides | 24/48 segments] Synthesizing audio... ETA: 45s`
+5. **Fault Tolerance & Resumability**:
+   - **Network Tolerant**: Automatically retries across brief network drops.
+   - **Resumable (`--mode missing`)**: Default mode only synthesizes segments missing from disk. If interrupted, re-running resumes where it left off.
+   - **Clean Cancellation**: Pressing `Ctrl-C` cancels the job cleanly while preserving all audio segments synthesized so far.
+   - **Worker Direct Fallback**: If the Django web application is offline or the deck is not mounted on the shelf, the pipeline constructs the job locally and submits directly to the TTS worker on port 1980 (probing both `127.0.0.1` and `172.17.0.1`).
+6. **Key-Based Audio Matching & Pronunciation Glossaries**:
+   Segments are matched by exact audio key rather than raw slide text, guaranteeing that words rewritten by pronunciation glossaries align with their voiceover clips without accidental slide muting.
+7. **Non-TTY Headless Safety**:
+   Marp image rendering runs with `stdin=DEVNULL`, preventing hangs in cron jobs, CI environments, or background subagents.
+
+##### CLI Options for `bubble-slides-pipeline`
 
 | Option | Default | Description |
 |---|---|---|
-| `markdown` | `slides.md` | Path to the presentation Markdown file |
-| `-o, --output` | `out/<name>.mp4` | Destination path for the master MP4 |
-| `--scale` | `1.5` | Image scale factor (`1.5` = 1080p Full HD, `3.0` = 4K Ultra HD) |
-| `--fps` | `30` | Video frame rate |
-| `--workers` | `4` | Number of parallel FFmpeg worker threads |
+| `markdown` | `slides.md` | Path to presentation Markdown file |
+| `--mode` | `missing` | `missing` (synthesize missing segments, resumable) or `all` (fresh takes) |
+| `--voice` | `peanut.config` | TTS speaker voice (e.g., `spk:xuanxin_narrator`) |
 | `--reader` | `notes` | Narration source: `notes` (speaker notes) or `slides` (slide text) |
-| `--silence` | `5.0` | Default duration (seconds) for slides without narration |
-| `--pad-start` | `0.3` | Visual pause (seconds) before voiceover begins |
-| `--pad-end` | `0.5` | Visual pause (seconds) after voiceover ends before transition |
+| `--scale` | `1.5` | Slide image scale: `1.5` = 1080p Full HD, `3.0` = 4K Ultra HD |
+| `-o, --output` | `out/<name>.mp4` | Destination path for the master MP4 |
+| `--skip-video` | `false` | Only synthesize voiceover audio (saved to `audio/tracks/`) |
+| `--skip-tts` | `false` | Skip TTS synthesis; render video from existing audio on disk |
+| `--book-slug` | `auto` | Override auto-detected shelf book slug |
+| `--web-url` | `http://localhost:1979` | Django web app URL (or via `$PEANUTBOOK_WEB_URL`) |
+| `--worker-url` | `auto` | Direct TTS worker URL (or via `$PEANUTBOOK_TTS_URL`) |
+| `--fps` | `30` | Video frame rate |
+| `--silence` | `5.0` | Display duration (seconds) for slides without narration |
+| `--workers` | `4` | Number of parallel FFmpeg encoding worker threads |
+| `-v, --verbose` | `false` | Enable verbose debug logging |
+
+---
+
+#### B. Standalone Video Renderer: `bubble-slides-video`
+
+If audio tracks are already synthesized under `audio/tracks/slides/`, you can run `bubble-slides-video` directly:
+
+```bash
+bubble-slides-video slides.md --scale 1.5 --fps 30 --workers 8 -o out/lecture.mp4
+```
+
+> [!NOTE]
+> `bubble-slides-video` also accepts the `--tts` flag, which transparently forwards execution to `bubble-slides-pipeline`:
+> ```bash
+> bubble-slides-video slides.md --tts --scale 1.5
+> ```
+
+#### C. Vector PDF & Document Formats: `bubble-slides`
+
+For standard document exports (PDF, HTML, PPTX):
+
+```bash
+# Standard slide build command (defaults to PDF)
+bubble-slides slides.md
+
+# Web presentation HTML
+bubble-slides slides.md --format html
+
+# PowerPoint PPTX
+bubble-slides slides.md --format pptx
+```
 
 ---
 
@@ -172,3 +266,4 @@ Peanutbook provides a synchronized dual-window presentation system built on brow
   - Audio playback controls with speech rate adjustment (0.75× to 2.0×).
   - Auto-advance toggle (`Auto-next`) to automatically switch slides upon narration completion.
   - Wall clock, presentation elapsed timer, and blackout toggle (`b`).
+
