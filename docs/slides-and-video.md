@@ -170,12 +170,20 @@ bubble-slides-pipeline slides.md --skip-tts
 
 # 5. Force re-synthesis of all segments (fresh takes)
 bubble-slides-pipeline slides.md --mode all
+
+# 6. Batch build all slide decks in a repository (e.g. inside ~/math4ai)
+bubble-slides-pipeline --all
+
+# 7. Batch build and export all MP4s to a single output folder
+bubble-slides-pipeline --all -o ~/videos/
 ```
 
 > [!TIP]
 > If you have not yet run `pip install -e .` in your `usao` environment to install console entrypoints, you can invoke the pipeline module directly:
 > ```bash
 > python -m bubble.slides_pipeline slides.md
+> # Or for batch builds:
+> python -m bubble.slides_pipeline --all
 > ```
 
 ##### Pipeline Stages & Resiliency
@@ -199,16 +207,28 @@ bubble-slides-pipeline slides.md --mode all
 7. **Non-TTY Headless Safety**:
    Marp image rendering runs with `stdin=DEVNULL`, preventing hangs in cron jobs, CI environments, or background subagents.
 
+##### Multi-Chapter Batch Builds (`--all`)
+
+When working in a multi-chapter book repository (such as `~/math4ai` with 21 chapters):
+
+- **Automatic Discovery**: Discovers all `slides.md` decks under the directory tree (e.g. `chapter1-*/ppt/slides.md` through `chapter21-*/ppt/slides.md`), skipping build artifacts, dotfiles, and cache folders.
+- **Natural Sorting**: Automatically sorts decks numerically (`chapter1` -> `chapter2` -> ... -> `chapter10` -> ... -> `chapter21`), avoiding alphabetical sorting pitfalls.
+- **Per-Chapter Slug Resolution**: Matches each deck to its respective shelf slug (e.g., `math4ai-1` through `math4ai-21`), ensuring chapter-specific audio settings and glossaries apply properly.
+- **Resilient Batch Execution**: By default, one deck failure does not stop the entire overnight batch. At completion, a summary report is printed with statuses and runtimes. Pass `--fail-fast` to halt immediately on any error.
+- **Centralized Output Option**: Passing `-o <dir>` exports all completed MP4s as `<slug_or_chapter>.mp4` into that folder.
+
 ##### CLI Options for `bubble-slides-pipeline`
 
 | Option | Default | Description |
 |---|---|---|
-| `markdown` | `slides.md` | Path to presentation Markdown file |
+| `markdown` | `slides.md` | Path to presentation Markdown file, or root directory when using `--all` |
+| `--all` | `false` | Discover and build all slide decks recursively in natural sort order |
+| `--fail-fast` | `false` | In batch mode, halt immediately on first deck error (default: continue and summarize) |
 | `--mode` | `missing` | `missing` (synthesize missing segments, resumable) or `all` (fresh takes) |
 | `--voice` | `peanut.config` | TTS speaker voice (e.g., `spk:xuanxin_narrator`) |
 | `--reader` | `notes` | Narration source: `notes` (speaker notes) or `slides` (slide text) |
 | `--scale` | `1.5` | Slide image scale: `1.5` = 1080p Full HD, `3.0` = 4K Ultra HD |
-| `-o, --output` | `out/<name>.mp4` | Destination path for the master MP4 |
+| `-o, --output` | `out/<name>.mp4` | Destination path for the master MP4 (or destination directory with `--all`) |
 | `--skip-video` | `false` | Only synthesize voiceover audio (saved to `audio/tracks/`) |
 | `--skip-tts` | `false` | Skip TTS synthesis; render video from existing audio on disk |
 | `--book-slug` | `auto` | Override auto-detected shelf book slug |

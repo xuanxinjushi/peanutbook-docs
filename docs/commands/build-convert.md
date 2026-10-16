@@ -295,6 +295,9 @@ bubble-slides-pipeline slides.md
 # Custom voice and 4K Ultra HD video
 bubble-slides-pipeline slides.md --voice spk:xuanxin_narrator --scale 3.0
 
+# Batch build all slide decks across all chapters (natural sort order)
+bubble-slides-pipeline --all
+
 # 2. Standalone video synthesis from existing audio on disk
 bubble-slides-video slides.md --scale 1.5 --fps 30 --workers 8 -o out/lecture.mp4
 
