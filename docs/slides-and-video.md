@@ -237,8 +237,6 @@ When working in a multi-chapter book repository (such as `~/math4ai` with 21 cha
 | `--fps` | `30` | Video frame rate |
 | `--silence` | `5.0` | Display duration (seconds) for slides without narration |
 | `--workers` | `4` | Number of parallel FFmpeg encoding worker threads |
-| `--transition` | `fade` | Transition between slides: an FFmpeg `xfade` name (`fade`, `dissolve`, `smoothleft`, `circleopen`, `fadeblack`, ...) or `none` for hard cuts |
-| `--transition-sec` | `0.5` | Length of the slide transition, in seconds |
 | `-v, --verbose` | `false` | Enable verbose debug logging |
 
 ---
@@ -250,14 +248,6 @@ If audio tracks are already synthesized under `audio/tracks/slides/`, you can ru
 ```bash
 bubble-slides-video slides.md --scale 1.5 --fps 30 --workers 8 -o out/lecture.mp4
 ```
-
-Slides change with a short cross-fade by default. Choose another style with `--transition` (any FFmpeg `xfade` name, such as `smoothleft`, `circleopen` or `fadeblack`), or use `--transition none` for hard cuts:
-
-```bash
-bubble-slides-video slides.md --transition smoothleft --transition-sec 0.6
-```
-
-The transition plays during the next slide's short lead-in pause, so narration timing, subtitles and chapter marks are unchanged.
 
 > [!NOTE]
 > `bubble-slides-video` also accepts the `--tts` flag, which transparently forwards execution to `bubble-slides-pipeline`:
