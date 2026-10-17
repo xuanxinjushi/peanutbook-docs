@@ -64,9 +64,71 @@ and a geometric arrow in Euclidean space.
 -->
 ```
 
-### Speaker Notes for Narration
+### Speaker Notes & Step-by-Step Reveals (`[show:]`)
 
-Speaker notes are written inside HTML comments `<!-- ... -->`. When generating audiobook tracks or lecture videos, Peanutbook's segmenter automatically extracts the speaker notes and sends them to the configured TTS engine (such as CosyVoice or Edge-TTS) to synthesize narration per slide.
+Speaker notes are written inside HTML comments `<!-- ... -->`. Beyond voiceover narration synthesis, speaker notes can drive **synchronized, step-by-step visual reveals** in both synthesized YouTube videos (`bubble-slides-video`) and the live in-browser presenter view.
+
+By tagging notes sections with `[show: ...]`, elements or specific lines of code appear in lockstep with the speaker's voice.
+
+#### 1. Code Lines Build Up Line-by-Line (`[show: code ...]`)
+
+On slides containing code blocks, you can reveal and highlight code lines step-by-step as they are described:
+
+```markdown
+---
+## Matrix Multiplication in Python
+
+```python
+A = np.array([[1, 2], [3, 4]])
+B = np.array([[5, 6], [7, 8]])
+C = A @ B
+print("Result matrix:", C)
+```
+
+<!--
+- STEP 1 [show: code 1-2]:
+  First, we initialize the input matrices A and B as two-dimensional arrays.
+- STEP 2 [show: code 3]:
+  Next, we compute their matrix product using Python's at-operator.
+- STEP 3 [show: code 4]:
+  Finally, we display the resulting matrix C to the console.
+-->
+```
+
+##### Supported Code Cue Formats
+- **Line ranges**: `[show: code 1-3]`, `[show: lines 4-6]`, `[show: code: 2-5]`
+- **Single line**: `[show: code 3]`, `[show: line 5]`
+- **Non-contiguous lines**: `[show: code 1-2, 5]`
+- **Mixed with slide elements**: `[show: img.diagram, code 3-5, .amber-box]`
+
+##### Visual Effects & Highlighting
+- **Seamless layout**: A custom engine (`marp_engine.js`) wraps each code line into `<span class="line line-N">` while maintaining syntax highlighting (`hljs-*` classes) and pixel alignment.
+- **Focus Highlighting (`--highlight`)**: When enabled via CLI flag (`--highlight`) or configuration (`video.highlight: true` in `peanut.config`):
+  - Previously revealed lines automatically dim to `0.45` opacity.
+  - The active line block glows with full opacity and a rounded amber outline (`border-radius: 4px; outline: 2px solid rgba(180, 83, 9, 0.6); box-shadow: 0 0 14px rgba(180, 83, 9, 0.45)`).
+- **Smooth transitions**: At the start of each notes section, FFmpeg cross-fades smoothly between the slide frames at the exact audio segment timestamp.
+
+#### 2. General Slide Element Reveals
+
+Any slide element can be revealed progressively using CSS selectors:
+
+```markdown
+---
+## Machine Learning Pipeline
+
+<div class="card card-data">Data Ingestion</div>
+<div class="card card-train">Model Training</div>
+<div class="card card-eval">Evaluation</div>
+
+<!--
+- [show: .card-data]:
+  We begin by collecting and sanitizing raw sensor data.
+- [show: .card-train]:
+  The training pipeline tunes model weights across GPU clusters.
+- [show: .card-eval]:
+  Finally, validation metrics determine whether the checkpoint is promoted.
+-->
+```
 
 ---
 
@@ -237,6 +299,11 @@ When working in a multi-chapter book repository (such as `~/math4ai` with 21 cha
 | `--fps` | `30` | Video frame rate |
 | `--silence` | `5.0` | Display duration (seconds) for slides without narration |
 | `--workers` | `4` | Number of parallel FFmpeg encoding worker threads |
+| `--transition` | `fade` | Transition between slides: an FFmpeg `xfade` name (`fade`, `dissolve`, `smoothleft`, `circleopen`, `fadeblack`, ...) or `none` for hard cuts |
+| `--transition-sec` | `0.5` | Length of the slide transition, in seconds |
+| `--highlight / --no-highlight` | `config` | Focus highlighting: dims earlier elements/lines to 0.45 opacity, outlines active element/code lines |
+| `--progress-bar` | `config` | Render a video progress bar along an edge (`bottom`, `top`, `left`, `right`, or `none`) |
+| `--card-cache / --no-card-cache` | `true` | Cache rendered intro/outro cards in `.build/cards` to speed up subsequent builds |
 | `-v, --verbose` | `false` | Enable verbose debug logging |
 
 ---
@@ -248,6 +315,38 @@ If audio tracks are already synthesized under `audio/tracks/slides/`, you can ru
 ```bash
 bubble-slides-video slides.md --scale 1.5 --fps 30 --workers 8 -o out/lecture.mp4
 ```
+
+Slides change with a short cross-fade by default. Choose another style with `--transition` (any FFmpeg `xfade` name, such as `smoothleft`, `circleopen` or `fadeblack`), or use `--transition none` for hard cuts:
+
+```bash
+bubble-slides-video slides.md --transition smoothleft --transition-sec 0.6
+```
+
+The transition plays during the next slide's short lead-in pause, so narration timing, subtitles and chapter marks are unchanged.
+
+##### Intro and outro cards
+
+Add a `video` block to the deck's `peanut.config` to open the video with an animated intro (logo, book cover, chapter title) and close it with an outro (cover, book title, a pulsing call-to-action button):
+
+```json
+"video": {
+    "intro": true,
+    "outro": true,
+    "cover": "../../cover/7x10/out/cover_front_v2_small.jpg",
+    "logo": "../../logo.png",
+    "book": "Mathematics for AI and Machine Learning",
+    "site": "math4ai.org",
+    "cta": "Get the book",
+    "music": ""
+}
+```
+
+- Paths are relative to the deck folder. Without a `cover`, both cards are skipped.
+- The chapter label comes from `book_title` ("Math4AI.ORG - Chapter 1: Vector Space and Inner Product" gives "Chapter 1" and the title).
+- `music` (optional) plays under the cards only, faded in and out.
+- The intro is 4.5 s and the outro 7 s (`INTRO_SEC`, `OUTRO_SEC` in `slides_cards.py`). Subtitles and chapter marks shift by the intro length; the first chapter stays at 00:00.
+- Override per run with `--intro/--no-intro` and `--outro/--no-outro`.
+- Cards are HTML pages animated with CSS (`slides_cards.py`), rendered frame by frame in headless Chrome with the puppeteer-core bundled in marp-cli, so `node` and Chrome must be available. They add about a minute to a build. If they cannot be rendered, the video is built without them and a warning is logged.
 
 > [!NOTE]
 > `bubble-slides-video` also accepts the `--tts` flag, which transparently forwards execution to `bubble-slides-pipeline`:
